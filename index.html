@@ -1181,17 +1181,78 @@
   }
 
   .chat-input button:hover { background: #000; }
+  .chat-input button:disabled { background: var(--ink-muted); cursor: not-allowed; }
 
-  .chat-mock-banner {
-    background: var(--bg-2);
-    padding: 8px 14px;
+  .chat-head-actions { display: flex; align-items: center; gap: 4px; }
+
+  .chat-signout {
+    border: none;
+    background: transparent;
+    color: var(--ink-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 999px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .chat-signout:hover { background: var(--bg-2); color: var(--ink); }
+
+  .chat-login-wrap {
+    padding: 20px;
+    border-top: 1px solid var(--border);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .chat-login {
+    width: 100%;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .chat-login:hover { background: #000; transform: translateY(-1px); }
+
+  .chat-login-note {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ink-muted);
     text-align: center;
-    border-bottom: 1px solid var(--border);
+  }
+
+  .chat-empty {
+    margin: auto;
+    color: var(--ink-muted);
+    font-size: 0.88rem;
+    text-align: center;
+  }
+
+  .msg-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+    margin-right: 6px;
   }
 
   @media (max-width: 520px) {
@@ -1892,63 +1953,164 @@
   <span class="badge">3</span>
 </button>
 
-<!-- CHAT DRAWER (mockup) -->
+<!-- CHAT DRAWER -->
 <div class="chat-drawer" id="chatDrawer">
   <div class="chat-head">
     <div>
       <div class="chat-head-title">Conversa do grupo</div>
-      <div class="chat-head-sub">6 pessoas · 3 online</div>
+      <div class="chat-head-sub" id="chatHeadSub">Entra com Google pra conversar</div>
     </div>
-    <button class="chat-close" onclick="toggleChat()" aria-label="Fechar">×</button>
-  </div>
-  <div class="chat-mock-banner">Mockup — sem backend ainda</div>
-  <div class="chat-body">
-    <div class="chat-day">14 abr · segunda</div>
-
-    <div class="msg">
-      <div class="msg-head"><strong>Bibi</strong><span>14:22</span></div>
-      <div class="msg-bubble">gente, reservei a patinação no Bryant Park pro dia 23. 4 da tarde 👍</div>
-    </div>
-
-    <div class="msg">
-      <div class="msg-head"><strong>Rodrigo</strong><span>14:25</span></div>
-      <div class="msg-bubble">top, anotei. Louise fica no carrinho ou alguém segura?</div>
-    </div>
-
-    <div class="msg self">
-      <div class="msg-head"><span>14:30</span><strong>Você</strong></div>
-      <div class="msg-bubble">eu seguro enquanto a Ana patina, a gente reveza</div>
-    </div>
-
-    <div class="chat-day">Hoje · 17 abr</div>
-
-    <div class="msg">
-      <div class="msg-head"><strong>Ana</strong><span>09:14</span></div>
-      <div class="msg-bubble">achei passagem DC→NYC de trem por $89 no Amtrak, vale a pena vs voar</div>
-    </div>
-
-    <div class="msg">
-      <div class="msg-head"><strong>Marcos</strong><span>10:02</span></div>
-      <div class="msg-bubble">melhor, Louise dorme no trem. Reserva pra todo mundo?</div>
-    </div>
-
-    <div class="msg">
-      <div class="msg-head"><strong>Bibi</strong><span>10:05</span></div>
-      <div class="msg-bubble">👍</div>
+    <div class="chat-head-actions">
+      <button class="chat-signout" id="chatSignout" style="display:none" aria-label="Sair">Sair</button>
+      <button class="chat-close" id="chatCloseBtn" aria-label="Fechar">×</button>
     </div>
   </div>
-  <form class="chat-input" onsubmit="event.preventDefault();">
-    <input type="text" placeholder="Escreve aí…" aria-label="Mensagem">
-    <button type="submit" aria-label="Enviar">→</button>
+  <div class="chat-body" id="chatBody">
+    <div class="chat-empty" id="chatEmpty">Carregando…</div>
+  </div>
+  <div class="chat-login-wrap" id="chatLoginWrap">
+    <button class="chat-login" id="chatLogin">
+      <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.3 6.3 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.3 6.3 29.4 4 24 4 16.3 4 9.6 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.3 0 10.1-2 13.7-5.3l-6.3-5.3c-2 1.5-4.5 2.4-7.4 2.4-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.3 5.3C41.5 36.1 44 30.5 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+      Entrar com Google
+    </button>
+    <div class="chat-login-note">só pra falar · ninguém vê quem não participa</div>
+  </div>
+  <form class="chat-input" id="chatForm" style="display:none">
+    <input type="text" id="chatText" placeholder="Escreve aí…" autocomplete="off" maxlength="2000" aria-label="Mensagem">
+    <button type="submit" id="chatSend" aria-label="Enviar">→</button>
   </form>
 </div>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDJQBeEHuQtDmqdAgeBuky20MoXV7nH4X8",
+    authDomain: "trip-usa-2026.firebaseapp.com",
+    projectId: "trip-usa-2026",
+    storageBucket: "trip-usa-2026.firebasestorage.app",
+    messagingSenderId: "965983631686",
+    appId: "1:965983631686:web:72cd2f11fa20ef17e8cd47"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  const fab = document.getElementById('chatFab');
+  const drawer = document.getElementById('chatDrawer');
+  const body = document.getElementById('chatBody');
+  const empty = document.getElementById('chatEmpty');
+  const headSub = document.getElementById('chatHeadSub');
+  const loginWrap = document.getElementById('chatLoginWrap');
+  const loginBtn = document.getElementById('chatLogin');
+  const signoutBtn = document.getElementById('chatSignout');
+  const form = document.getElementById('chatForm');
+  const input = document.getElementById('chatText');
+
+  let currentUser = null;
+
   function toggleChat() {
-    const d = document.getElementById('chatDrawer');
-    const f = document.getElementById('chatFab');
-    const open = d.classList.toggle('open');
-    f.style.display = open ? 'none' : 'inline-flex';
+    const open = drawer.classList.toggle('open');
+    fab.style.display = open ? 'none' : 'inline-flex';
+    if (open) setTimeout(() => body.scrollTop = body.scrollHeight, 50);
+  }
+  window.toggleChat = toggleChat;
+  document.getElementById('chatCloseBtn').addEventListener('click', toggleChat);
+
+  loginBtn.addEventListener('click', async () => {
+    try { await signInWithPopup(auth, provider); }
+    catch (e) { alert('Erro no login: ' + e.message); }
+  });
+
+  signoutBtn.addEventListener('click', () => signOut(auth));
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text || !currentUser) return;
+    input.value = '';
+    try {
+      await addDoc(collection(db, 'messages'), {
+        text,
+        uid: currentUser.uid,
+        name: currentUser.displayName || 'Anônimo',
+        photo: currentUser.photoURL || '',
+        email: currentUser.email || '',
+        createdAt: serverTimestamp()
+      });
+    } catch (err) {
+      alert('Erro ao enviar: ' + err.message);
+      input.value = text;
+    }
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    if (user) {
+      loginWrap.style.display = 'none';
+      form.style.display = 'flex';
+      signoutBtn.style.display = 'inline-flex';
+      headSub.textContent = user.displayName || user.email;
+      setTimeout(() => input.focus(), 100);
+    } else {
+      loginWrap.style.display = 'flex';
+      form.style.display = 'none';
+      signoutBtn.style.display = 'none';
+      headSub.textContent = 'Entra com Google pra conversar';
+    }
+  });
+
+  function fmtTime(ts) {
+    if (!ts || !ts.toDate) return '';
+    const d = ts.toDate();
+    return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function fmtDay(ts) {
+    if (!ts || !ts.toDate) return '';
+    const d = ts.toDate();
+    const today = new Date();
+    const isToday = d.toDateString() === today.toDateString();
+    if (isToday) return 'Hoje';
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', weekday: 'short' });
+  }
+
+  const q = query(collection(db, 'messages'), orderBy('createdAt', 'asc'), limit(500));
+  onSnapshot(q, (snap) => {
+    if (snap.empty) {
+      body.innerHTML = '<div class="chat-empty">Seja o primeiro a escrever 👋</div>';
+      return;
+    }
+    let html = '';
+    let lastDay = '';
+    snap.forEach((doc) => {
+      const m = doc.data();
+      const day = fmtDay(m.createdAt);
+      if (day && day !== lastDay) {
+        html += `<div class="chat-day">${day}</div>`;
+        lastDay = day;
+      }
+      const isSelf = currentUser && m.uid === currentUser.uid;
+      const time = fmtTime(m.createdAt);
+      const name = (m.name || 'Anônimo').split(' ')[0];
+      const avatar = m.photo ? `<img class="msg-avatar" src="${m.photo}" alt="" referrerpolicy="no-referrer">` : '';
+      const headHtml = isSelf
+        ? `<span>${time}</span><strong>Você</strong>`
+        : `${avatar}<strong>${escapeHtml(name)}</strong><span>${time}</span>`;
+      html += `<div class="msg${isSelf ? ' self' : ''}"><div class="msg-head">${headHtml}</div><div class="msg-bubble">${escapeHtml(m.text)}</div></div>`;
+    });
+    body.innerHTML = html;
+    body.scrollTop = body.scrollHeight;
+  }, (err) => {
+    body.innerHTML = `<div class="chat-empty">Erro ao carregar: ${escapeHtml(err.message)}</div>`;
+  });
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
   }
 </script>
 
