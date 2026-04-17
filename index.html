@@ -1255,6 +1255,103 @@
     margin-right: 6px;
   }
 
+  /* ——— AUTH GATE ——— */
+  .auth-gate {
+    position: fixed;
+    inset: 0;
+    background: var(--paper);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 24px;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  body.authed .auth-gate { display: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .auth-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .auth-tag::before,
+  .auth-tag::after {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--ink-muted);
+  }
+
+  .auth-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    max-width: 800px;
+  }
+
+  .auth-title .dot { color: var(--ink-muted); }
+
+  .auth-sub {
+    max-width: 440px;
+    margin: 24px auto 40px;
+    color: var(--ink-muted);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .auth-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: 999px;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .auth-btn:hover { background: #000; transform: translateY(-1px); }
+  .auth-btn:disabled { opacity: 0.6; cursor: wait; }
+
+  .auth-footer {
+    margin-top: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .auth-error {
+    margin-top: 16px;
+    color: #c0392b;
+    font-size: 0.82rem;
+    max-width: 360px;
+  }
+
   @media (max-width: 520px) {
     .chat-drawer {
       bottom: 0;
@@ -1306,6 +1403,19 @@
 </style>
 </head>
 <body>
+
+<!-- AUTH GATE -->
+<div class="auth-gate" id="authGate">
+  <div class="auth-tag">Roteiro privado</div>
+  <h1 class="auth-title">Norte América<span class="dot">.</span><br>2026 — 27<span class="dot">.</span></h1>
+  <p class="auth-sub">Acesso restrito aos participantes da viagem. Entra com Google pra continuar.</p>
+  <button class="auth-btn" id="authBtn">
+    <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.3 6.3 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.3 6.3 29.4 4 24 4 16.3 4 9.6 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.3 0 10.1-2 13.7-5.3l-6.3-5.3c-2 1.5-4.5 2.4-7.4 2.4-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.3 5.3C41.5 36.1 44 30.5 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+    Entrar com Google
+  </button>
+  <div class="auth-error" id="authError" style="display:none"></div>
+  <div class="auth-footer">Schulz · Horn · Pitz</div>
+</div>
 
 <!-- NAV -->
 <nav class="nav">
@@ -2048,19 +2158,36 @@
     }
   });
 
+  const authBtn = document.getElementById('authBtn');
+  const authError = document.getElementById('authError');
+
+  authBtn.addEventListener('click', async () => {
+    authBtn.disabled = true;
+    authError.style.display = 'none';
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (e) {
+      authError.textContent = 'Não foi possível entrar: ' + (e.code || e.message);
+      authError.style.display = 'block';
+      authBtn.disabled = false;
+    }
+  });
+
   onAuthStateChanged(auth, (user) => {
     currentUser = user;
     if (user) {
+      document.body.classList.add('authed');
       loginWrap.style.display = 'none';
       form.style.display = 'flex';
       signoutBtn.style.display = 'inline-flex';
       headSub.textContent = user.displayName || user.email;
-      setTimeout(() => input.focus(), 100);
     } else {
+      document.body.classList.remove('authed');
       loginWrap.style.display = 'flex';
       form.style.display = 'none';
       signoutBtn.style.display = 'none';
       headSub.textContent = 'Entra com Google pra conversar';
+      authBtn.disabled = false;
     }
   });
 
