@@ -2173,24 +2173,6 @@
     }
   });
 
-  onAuthStateChanged(auth, (user) => {
-    currentUser = user;
-    if (user) {
-      document.body.classList.add('authed');
-      loginWrap.style.display = 'none';
-      form.style.display = 'flex';
-      signoutBtn.style.display = 'inline-flex';
-      headSub.textContent = user.displayName || user.email;
-    } else {
-      document.body.classList.remove('authed');
-      loginWrap.style.display = 'flex';
-      form.style.display = 'none';
-      signoutBtn.style.display = 'none';
-      headSub.textContent = 'Entra com Google pra conversar';
-      authBtn.disabled = false;
-    }
-  });
-
   function fmtTime(ts) {
     if (!ts || !ts.toDate) return '';
     const d = ts.toDate();
@@ -2206,34 +2188,60 @@
     return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', weekday: 'short' });
   }
 
-  const q = query(collection(db, 'messages'), orderBy('createdAt', 'asc'), limit(500));
-  onSnapshot(q, (snap) => {
-    if (snap.empty) {
-      body.innerHTML = '<div class="chat-empty">Seja o primeiro a escrever 👋</div>';
-      return;
-    }
-    let html = '';
-    let lastDay = '';
-    snap.forEach((doc) => {
-      const m = doc.data();
-      const day = fmtDay(m.createdAt);
-      if (day && day !== lastDay) {
-        html += `<div class="chat-day">${day}</div>`;
-        lastDay = day;
+  let unsubscribeMessages = null;
+
+  function subscribeMessages() {
+    const q = query(collection(db, 'messages'), orderBy('createdAt', 'asc'), limit(500));
+    unsubscribeMessages = onSnapshot(q, (snap) => {
+      if (snap.empty) {
+        body.innerHTML = '<div class="chat-empty">Seja o primeiro a escrever 👋</div>';
+        return;
       }
-      const isSelf = currentUser && m.uid === currentUser.uid;
-      const time = fmtTime(m.createdAt);
-      const name = (m.name || 'Anônimo').split(' ')[0];
-      const avatar = m.photo ? `<img class="msg-avatar" src="${m.photo}" alt="" referrerpolicy="no-referrer">` : '';
-      const headHtml = isSelf
-        ? `<span>${time}</span><strong>Você</strong>`
-        : `${avatar}<strong>${escapeHtml(name)}</strong><span>${time}</span>`;
-      html += `<div class="msg${isSelf ? ' self' : ''}"><div class="msg-head">${headHtml}</div><div class="msg-bubble">${escapeHtml(m.text)}</div></div>`;
+      let html = '';
+      let lastDay = '';
+      snap.forEach((doc) => {
+        const m = doc.data();
+        const day = fmtDay(m.createdAt);
+        if (day && day !== lastDay) {
+          html += `<div class="chat-day">${day}</div>`;
+          lastDay = day;
+        }
+        const isSelf = currentUser && m.uid === currentUser.uid;
+        const time = fmtTime(m.createdAt);
+        const name = (m.name || 'Anônimo').split(' ')[0];
+        const avatar = m.photo ? `<img class="msg-avatar" src="${m.photo}" alt="" referrerpolicy="no-referrer">` : '';
+        const headHtml = isSelf
+          ? `<span>${time}</span><strong>Você</strong>`
+          : `${avatar}<strong>${escapeHtml(name)}</strong><span>${time}</span>`;
+        html += `<div class="msg${isSelf ? ' self' : ''}"><div class="msg-head">${headHtml}</div><div class="msg-bubble">${escapeHtml(m.text)}</div></div>`;
+      });
+      body.innerHTML = html;
+      body.scrollTop = body.scrollHeight;
+    }, (err) => {
+      body.innerHTML = `<div class="chat-empty">Erro ao carregar: ${escapeHtml(err.message)}</div>`;
     });
-    body.innerHTML = html;
-    body.scrollTop = body.scrollHeight;
-  }, (err) => {
-    body.innerHTML = `<div class="chat-empty">Erro ao carregar: ${escapeHtml(err.message)}</div>`;
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    if (user) {
+      document.body.classList.add('authed');
+      loginWrap.style.display = 'none';
+      form.style.display = 'flex';
+      signoutBtn.style.display = 'inline-flex';
+      headSub.textContent = user.displayName || user.email;
+      body.innerHTML = '<div class="chat-empty">Carregando…</div>';
+      if (!unsubscribeMessages) subscribeMessages();
+    } else {
+      document.body.classList.remove('authed');
+      loginWrap.style.display = 'flex';
+      form.style.display = 'none';
+      signoutBtn.style.display = 'none';
+      headSub.textContent = 'Entra com Google pra conversar';
+      authBtn.disabled = false;
+      if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
+      body.innerHTML = '<div class="chat-empty">Entra pra ver as mensagens</div>';
+    }
   });
 
   function escapeHtml(s) {
