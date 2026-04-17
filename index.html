@@ -975,6 +975,243 @@
     line-height: 1.8;
   }
 
+  /* ——— CHAT WIDGET (mockup) ——— */
+  .chat-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 14px 22px;
+    border-radius: 999px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .chat-fab:hover { background: #000; transform: translateY(-2px); }
+
+  .chat-fab .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #7ED957;
+    box-shadow: 0 0 0 0 rgba(126, 217, 87, 0.7);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0.7); }
+    50% { box-shadow: 0 0 0 6px rgba(126, 217, 87, 0); }
+  }
+
+  .chat-fab .badge {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
+
+  .chat-drawer {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 380px;
+    max-width: calc(100vw - 48px);
+    height: min(640px, calc(100vh - 120px));
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+    z-index: 101;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateY(12px);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .chat-drawer.open {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .chat-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chat-head-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .chat-head-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
+
+  .chat-close {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: var(--ink-muted);
+    cursor: pointer;
+    font-size: 1.2rem;
+    border-radius: 999px;
+    transition: background 0.2s ease;
+  }
+
+  .chat-close:hover { background: var(--bg-2); color: var(--ink); }
+
+  .chat-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: var(--bg);
+  }
+
+  .msg {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 88%;
+  }
+
+  .msg.self { align-self: flex-end; align-items: flex-end; }
+
+  .msg-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    display: flex;
+    gap: 10px;
+  }
+
+  .msg-bubble {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .msg.self .msg-bubble {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .chat-day {
+    align-self: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 6px 0;
+  }
+
+  .chat-input {
+    padding: 14px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: var(--paper);
+  }
+
+  .chat-input input {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    background: var(--paper);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .chat-input input:focus { border-color: var(--ink); }
+
+  .chat-input button {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+
+  .chat-input button:hover { background: #000; }
+
+  .chat-mock-banner {
+    background: var(--bg-2);
+    padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media (max-width: 520px) {
+    .chat-drawer {
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      max-width: 100%;
+      height: 85vh;
+      border-radius: 20px 20px 0 0;
+    }
+    .chat-fab span.label { display: none; }
+    .chat-fab { padding: 14px; }
+  }
+
+  @media print {
+    .chat-fab, .chat-drawer { display: none !important; }
+  }
+
   /* ——— Responsive ——— */
   @media (max-width: 900px) {
     .container { padding: 0 24px; }
@@ -1647,6 +1884,73 @@
     </div>
   </div>
 </footer>
+
+<!-- CHAT FAB -->
+<button class="chat-fab" id="chatFab" onclick="toggleChat()">
+  <span class="dot"></span>
+  <span class="label">Conversa</span>
+  <span class="badge">3</span>
+</button>
+
+<!-- CHAT DRAWER (mockup) -->
+<div class="chat-drawer" id="chatDrawer">
+  <div class="chat-head">
+    <div>
+      <div class="chat-head-title">Conversa do grupo</div>
+      <div class="chat-head-sub">6 pessoas · 3 online</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()" aria-label="Fechar">×</button>
+  </div>
+  <div class="chat-mock-banner">Mockup — sem backend ainda</div>
+  <div class="chat-body">
+    <div class="chat-day">14 abr · segunda</div>
+
+    <div class="msg">
+      <div class="msg-head"><strong>Bibi</strong><span>14:22</span></div>
+      <div class="msg-bubble">gente, reservei a patinação no Bryant Park pro dia 23. 4 da tarde 👍</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-head"><strong>Rodrigo</strong><span>14:25</span></div>
+      <div class="msg-bubble">top, anotei. Louise fica no carrinho ou alguém segura?</div>
+    </div>
+
+    <div class="msg self">
+      <div class="msg-head"><span>14:30</span><strong>Você</strong></div>
+      <div class="msg-bubble">eu seguro enquanto a Ana patina, a gente reveza</div>
+    </div>
+
+    <div class="chat-day">Hoje · 17 abr</div>
+
+    <div class="msg">
+      <div class="msg-head"><strong>Ana</strong><span>09:14</span></div>
+      <div class="msg-bubble">achei passagem DC→NYC de trem por $89 no Amtrak, vale a pena vs voar</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-head"><strong>Marcos</strong><span>10:02</span></div>
+      <div class="msg-bubble">melhor, Louise dorme no trem. Reserva pra todo mundo?</div>
+    </div>
+
+    <div class="msg">
+      <div class="msg-head"><strong>Bibi</strong><span>10:05</span></div>
+      <div class="msg-bubble">👍</div>
+    </div>
+  </div>
+  <form class="chat-input" onsubmit="event.preventDefault();">
+    <input type="text" placeholder="Escreve aí…" aria-label="Mensagem">
+    <button type="submit" aria-label="Enviar">→</button>
+  </form>
+</div>
+
+<script>
+  function toggleChat() {
+    const d = document.getElementById('chatDrawer');
+    const f = document.getElementById('chatFab');
+    const open = d.classList.toggle('open');
+    f.style.display = open ? 'none' : 'inline-flex';
+  }
+</script>
 
 </body>
 </html>
