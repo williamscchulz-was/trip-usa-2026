@@ -1780,6 +1780,136 @@
     margin-right: 6px;
   }
 
+  /* ——— TRIP SELECTOR ——— */
+  .trip-selector {
+    position: fixed;
+    inset: 0;
+    background: var(--paper);
+    z-index: 150;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 24px;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  body.authed:not([data-active-trip]) .trip-selector { display: flex; }
+  body[data-active-trip] .trip-body:not([data-trip]) { display: none; }
+  body[data-active-trip="usa"] .trip-body[data-trip="mexico-2026"] { display: none; }
+  body[data-active-trip="mexico-2026"] .trip-body[data-trip="usa"] { display: none; }
+  body:not([data-active-trip]) .trip-body,
+  body:not([data-active-trip]) .nav,
+  body:not([data-active-trip]) footer,
+  body:not([data-active-trip]) .chat-fab,
+  body:not([data-active-trip]) .chat-drawer { display: none !important; }
+
+  .trip-selector-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 32px;
+  }
+
+  .trip-selector-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 48px;
+    max-width: 620px;
+  }
+
+  .trip-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+    gap: 20px;
+    justify-content: center;
+    max-width: 720px;
+    width: 100%;
+  }
+
+  .trip-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 28px;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: inherit;
+    color: inherit;
+  }
+
+  .trip-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  }
+
+  body.dark .trip-card:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.4); }
+
+  .trip-card-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .trip-card-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    line-height: 1.05;
+  }
+
+  .trip-card-meta {
+    font-size: 0.88rem;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  .trip-card-footer {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .trip-switch-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--ink-muted);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+  }
+
+  .trip-switch-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+  @media (max-width: 600px) {
+    .trip-cards { grid-template-columns: 1fr; }
+  }
+
   /* ——— AUTH GATE ——— */
   .auth-gate {
     position: fixed;
@@ -1945,6 +2075,26 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </script>
 <style>html.pre-dark body { background: #15171C; color: #E9EBEF; }</style>
 
+<!-- TRIP SELECTOR -->
+<div class="trip-selector" id="tripSelector">
+  <div class="trip-selector-head">— Qual viagem —</div>
+  <h1 class="trip-selector-title">Você participa<br>de qual viagem?</h1>
+  <div class="trip-cards">
+    <button class="trip-card" type="button" data-choose="usa">
+      <div class="trip-card-date">20.12.26 → 06.01.27</div>
+      <div class="trip-card-title">North America</div>
+      <div class="trip-card-meta">Schulz · Horn · Pitz<br>17 dias · 6 paradas</div>
+      <div class="trip-card-footer">Natal em NYC · Réveillon em Utah</div>
+    </button>
+    <button class="trip-card" type="button" data-choose="mexico-2026">
+      <div class="trip-card-date">30.10.26 → 08.11.26</div>
+      <div class="trip-card-title">México</div>
+      <div class="trip-card-meta">Schulz · Depiné · Polidoro · Litz<br>10 dias · 4 paradas</div>
+      <div class="trip-card-footer">Dia dos Mortos · CDMX + Yucatán</div>
+    </button>
+  </div>
+</div>
+
 <!-- AUTH GATE -->
 <div class="auth-gate" id="authGate">
   <div class="auth-tag">Roteiro privado</div>
@@ -1962,14 +2112,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <nav class="nav">
   <div class="container nav-inner">
     <div class="nav-brand">SCHULZ <span>·</span> HORN <span>·</span> PITZ</div>
-    <div class="nav-links">
-      <a href="#itinerario">Roteiro</a>
-      <a href="#dc">Cidades</a>
-      <a href="#louise">Louise</a>
-      <a href="#grupo">Grupo</a>
-    </div>
+    <div class="nav-links" id="navLinks"></div>
     <div class="nav-cta">
-      <span class="nav-date">20.12.26 → 06.01.27</span>
+      <button class="trip-switch-btn" id="tripSwitchBtn" title="Trocar de viagem">Trocar viagem</button>
+      <span class="nav-date" id="navDate">20.12.26 → 06.01.27</span>
       <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -1978,6 +2124,9 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     </div>
   </div>
 </nav>
+
+<!-- TRIP: USA ==================================================== -->
+<div class="trip-body" data-trip="usa">
 
 <!-- HERO -->
 <section class="hero">
@@ -2513,6 +2662,399 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   </div>
 </section>
 
+</div>
+<!-- END TRIP: USA -->
+
+
+<!-- TRIP: MEXICO =================================================== -->
+<div class="trip-body" data-trip="mexico-2026">
+
+<!-- HERO MEXICO -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1 class="hero-title">México<span class="dot">.</span></h1>
+    <p class="hero-sub">CDMX e Yucatán. Dez dias no México incluindo o Dia dos Mortos — Schulz · Depiné · Polidoro · Litz.</p>
+    <div class="hero-ctas">
+      <a class="hero-cta primary" href="#itinerario-mex">Ver roteiro →</a>
+    </div>
+  </div>
+  <div class="hero-photo" id="heroPhotoMex">
+    <img class="hero-slide active" src="https://upload.wikimedia.org/wikipedia/commons/5/58/Teotihuac%C3%A1n-5973.JPG" alt="Teotihuacán" data-caption="Ciudad de México · Teotihuacán" loading="eager">
+    <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Chichen_Itza_3.jpg" alt="Chichén Itzá" data-caption="Yucatán · Chichén Itzá" loading="lazy">
+    <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/8/85/Tulum_2.jpg" alt="Tulum" data-caption="Tulum · ruínas no Caribe" loading="lazy">
+    <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/6/68/Catrina_3.jpg" alt="Dia dos Mortos" data-caption="Día de los Muertos · Catrina" loading="lazy">
+    <div class="hero-photo-caption active">Ciudad de México · Teotihuacán</div>
+    <div class="hero-dots">
+      <button class="hero-dot active" data-i="0" aria-label="Slide 1"></button>
+      <button class="hero-dot" data-i="1" aria-label="Slide 2"></button>
+      <button class="hero-dot" data-i="2" aria-label="Slide 3"></button>
+      <button class="hero-dot" data-i="3" aria-label="Slide 4"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ROTEIRO MEXICO -->
+<section class="block alt" id="itinerario-mex">
+  <div class="container">
+    <div class="pipeline">
+      <a class="pipe-card highlight" href="#cdmx">
+        <span class="pipe-tag">Dia dos Mortos</span>
+        <div class="pipe-idx">01 · 30 out — 3 nov</div>
+        <div class="pipe-city">Ciudad de México</div>
+        <div class="pipe-summary">Centro histórico, Frida, Antropologia, Teotihuacán.</div>
+        <div class="pipe-times">4 dias · chega 19h · sai 17h</div>
+      </a>
+      <a class="pipe-card" href="#valladolid">
+        <div class="pipe-idx">02 · 3 — 5 nov</div>
+        <div class="pipe-city">Valladolid</div>
+        <div class="pipe-summary">Base pra Chichén Itzá + vila colonial.</div>
+        <div class="pipe-times">1 dia · chega 23h · sai 11h</div>
+      </a>
+      <a class="pipe-card" href="#tulum">
+        <div class="pipe-idx">03 · 5 — 6 nov</div>
+        <div class="pipe-city">Tulum</div>
+        <div class="pipe-summary">Ruínas maias à beira-mar, vibe boho.</div>
+        <div class="pipe-times">1 dia · chega 13h · sai 9h</div>
+      </a>
+      <a class="pipe-card highlight" href="#puertomorelos">
+        <span class="pipe-tag">Caribe</span>
+        <div class="pipe-idx">04 · 6 — 8 nov</div>
+        <div class="pipe-city">Puerto Morelos</div>
+        <div class="pipe-summary">Cenote Dos Ojos, Cozumel, Isla Mujeres.</div>
+        <div class="pipe-times">2 dias · chega 18h · voa 11h20</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CITY MEX 01 · CDMX -->
+<section class="city" id="cdmx">
+  <div class="container">
+    <div class="ph city-visual">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Sobrevuelos_CDMX_HJ2A4913_%2825514321687%29_%28cropped%29.jpg" alt="Ciudad de México" loading="lazy">
+      <div class="ph-caption">
+        <span>Ciudad de México · vista aérea</span>
+        <span>01 / 04</span>
+      </div>
+    </div>
+    <div class="city-grid">
+      <div class="city-meta">
+        <div class="city-idx">01 · Parada</div>
+        <h3 class="city-name"><strong>CDMX.</strong></h3>
+        <p class="city-tagline">Capital cosmopolita, Dia dos Mortos, pirâmides milenares a uma hora.</p>
+        <div class="city-data">
+          <div class="city-data-row"><span>Datas</span><span>30 out → 3 nov</span></div>
+          <div class="city-data-row"><span>Dias</span><span>4 · inclui Dia dos Mortos</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>Voo PTY → MEX 19:20</span></div>
+          <div class="city-data-row"><span>Saída</span><span>Voo MEX → CUN 17:39</span></div>
+          <div class="city-data-row"><span>Altitude</span><span>2.240 m</span></div>
+          <div class="city-data-row"><span>Clima</span><span>~20°C · ameno</span></div>
+        </div>
+        <div class="city-status">
+          <div class="city-status-label">Reservas & tickets</div>
+          <div class="status-row"><span>Hospedagem CDMX · 4 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Transfer aeroporto MEX</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Museu Frida Kahlo (ingresso)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Museu Antropologia + Chapultepec</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Tour Teotihuacán (3h ou 8h)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Hop-on Hop-off bus · $110/pax</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Voo MEX → CUN · 3 nov</span><span class="s-pending">Pendente</span></div>
+        </div>
+      </div>
+      <div class="city-body">
+        <div>
+          <div class="block-title">Dia a dia <span>5 dias</span></div>
+          <div class="spots">
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>30 out · sex · chegada</h4><p>Voo FLN 1h30 → PTY (conexão) → MEX chega 19h20. Transfer pro hotel, jantar leve na vizinhança, dormir cedo (fuso -3 do Brasil, altitude 2.240m).</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>31 out · sáb · Centro histórico</h4><p><strong>Manhã:</strong> Palacio de Bellas Artes, Monumento a la Revolución, Plaza de la Constitución (Zócalo). Alguns cobram entrada, outros só fachada. <strong>Tarde:</strong> bairro <strong>Coyoacán</strong> + Museu Frida Kahlo (ingresso antecipado obrigatório). <strong>Noite:</strong> jantar na redondeza do hotel.</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>1 nov · dom · Dia dos Mortos</h4><p><strong>Manhã:</strong> Museu Nacional de Antropologia (um dos maiores da América Latina). <strong>Tarde:</strong> Bosque de Chapultepec + Castelo. <strong>Noite:</strong> <strong>San Andrés Mixquic</strong> — um dos locais mais tradicionais pro Dia dos Mortos (altares, velas, cemitério iluminado). Confirmar data do desfile principal anunciado próximo.</p></div></div>
+            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>2 nov · seg · Teotihuacán</h4><p><strong>Manhã:</strong> tour guiado Teotihuacán (opção 3h ou 8h com almoço). Pirâmides do Sol e da Lua, Calzada de los Muertos. 1h do Centro Histórico. <strong>Noite:</strong> jantar e descanso — dia cansativo.</p></div></div>
+            <div class="spot"><div class="spot-num">D5</div><div class="spot-body"><h4>3 nov · ter · saída</h4><p><strong>Manhã:</strong> Tour Hop-on Hop-off Turibus (ou descansar no hotel). <strong>Tarde:</strong> estar no aeroporto até 15h. Voo MEX → CUN 17:39, chega Cancún 21:05. Transfer — decidir se dormir em Cancún ou seguir pra Valladolid (2h de carro).</p></div></div>
+          </div>
+          <div class="city-gallery">
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/5/58/Teotihuac%C3%A1n-5973.JPG" alt="Teotihuacán" loading="lazy"></div>
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/6/68/Catrina_3.jpg" alt="Dia dos Mortos" loading="lazy"></div>
+          </div>
+        </div>
+        <div class="notes">
+          <div class="notes-label">Notas do grupo</div>
+          <ul>
+            <li><strong>Altitude 2.240m:</strong> primeira noite com possível dor de cabeça / insônia. Muito líquido, comer leve. Louise = atenção redobrada (mesmo protocolo Park City).</li>
+            <li><strong>Dia dos Mortos:</strong> pico turístico. Hospedagem esgota cedo — fechar até setembro. Cidade fica decorada e viva, é o melhor momento pra CDMX.</li>
+            <li><strong>Transfer aeroporto:</strong> reservar antecipado vs pegar no balcão. Uber funciona bem em CDMX. <em>Checar se transfer pré-pago vale o preço.</em></li>
+            <li><strong>Segurança:</strong> CDMX é tranquila nos bairros turísticos (Centro, Coyoacán, Roma, Condesa, Polanco). Evitar periferia à noite, não ostentar. Uber sempre.</li>
+            <li><strong>Água:</strong> nunca da torneira. Bebe só engarrafada. Precaução também com saladas em restaurante de rua.</li>
+            <li><strong>Pagamento:</strong> Peso mexicano em espécie pra mercados e táxis de rua. Cartão funciona em restaurantes e lojas grandes.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CITY MEX 02 · VALLADOLID -->
+<section class="city" id="valladolid">
+  <div class="container">
+    <div class="ph city-visual">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Valladolid_Yucatan_collage.jpg" alt="Valladolid Yucatán" loading="lazy">
+      <div class="ph-caption">
+        <span>Valladolid · cidade colonial</span>
+        <span>02 / 04</span>
+      </div>
+    </div>
+    <div class="city-grid">
+      <div class="city-meta">
+        <div class="city-idx">02 · Parada</div>
+        <h3 class="city-name"><strong>Valladolid.</strong></h3>
+        <p class="city-tagline">Base colonial maia pra Chichén Itzá. Cenotes, fachadas coloridas.</p>
+        <div class="city-data">
+          <div class="city-data-row"><span>Datas</span><span>3 → 5 nov</span></div>
+          <div class="city-data-row"><span>Dias</span><span>1 · base pra Chichén Itzá</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>Drive de Cancún · 2h</span></div>
+          <div class="city-data-row"><span>Saída</span><span>Drive → Tulum · 1h30</span></div>
+          <div class="city-data-row"><span>Clima</span><span>~28°C · quente</span></div>
+        </div>
+        <div class="city-status">
+          <div class="city-status-label">Reservas & tickets</div>
+          <div class="status-row"><span>Hospedagem Valladolid · 1 noite</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Aluguel carro Cancún (cadeira baby)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Ingresso Chichén Itzá · ~$81 USD</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Tour guiado Chichén Itzá (opcional)</span><span class="s-pending">Pendente</span></div>
+        </div>
+      </div>
+      <div class="city-body">
+        <div>
+          <div class="block-title">Dia a dia <span>2 dias</span></div>
+          <div class="spots">
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>3 nov · ter · chegada noite</h4><p>Chega CUN 21h05, pega carro alugado no aeroporto (cadeira baby reservada). Drive 2h até Valladolid. Chega tarde, check-in, dormir cedo.</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>4 nov · qua · Chichén Itzá</h4><p><strong>Manhã:</strong> descanso. <strong>Meio-dia:</strong> drive 45min Valladolid → <strong>Chichén Itzá</strong>. 1h30 de visita (tour guiado ou só ingressos). Aberto 8h–16h (última entrada). <strong>Tarde:</strong> volta pra Valladolid, conhecer redondezas, jantar. Pernoite.</p></div></div>
+          </div>
+          <div class="city-gallery">
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Chichen_Itza_3.jpg" alt="Chichén Itzá" loading="lazy"></div>
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Valladolid_Yucatan_collage.jpg" alt="Valladolid" loading="lazy"></div>
+          </div>
+        </div>
+        <div class="notes">
+          <div class="notes-label">Notas do grupo</div>
+          <ul>
+            <li><strong>Chegar CUN tarde:</strong> decisão-chave — dormir em Cancún ou encarar 2h de estrada pra Valladolid? Com Louise, talvez valha pernoitar em Cancún.</li>
+            <li><strong>Chichén Itzá:</strong> vai MUITO cedo (abre 8h) pra fugir do calor e do tumulto. Leve chapéu, água, protetor. Quase sem sombra.</li>
+            <li><strong>Valladolid vale mais:</strong> cidade charmosa, cenote Zací no centro, restaurantes yucatecos bons. Passa mais tempo no centro antes/depois de Chichén.</li>
+            <li><strong>Cadeira baby:</strong> confirmar na locadora antes de chegar. Se não tiverem, leva a sua do Brasil (comum em viagens).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CITY MEX 03 · TULUM -->
+<section class="city" id="tulum">
+  <div class="container">
+    <div class="ph city-visual">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Tulum_2.jpg" alt="Tulum" loading="lazy">
+      <div class="ph-caption">
+        <span>Tulum · ruínas no mar do Caribe</span>
+        <span>03 / 04</span>
+      </div>
+    </div>
+    <div class="city-grid">
+      <div class="city-meta">
+        <div class="city-idx">03 · Parada</div>
+        <h3 class="city-name"><strong>Tulum.</strong></h3>
+        <p class="city-tagline">Única ruína maia à beira-mar. Vibe boho, praias intocadas.</p>
+        <div class="city-data">
+          <div class="city-data-row"><span>Datas</span><span>5 → 6 nov</span></div>
+          <div class="city-data-row"><span>Dias</span><span>1</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>Drive de Valladolid · 1h30</span></div>
+          <div class="city-data-row"><span>Saída</span><span>Drive → Puerto Morelos · 1h20</span></div>
+          <div class="city-data-row"><span>Clima</span><span>~29°C · úmido</span></div>
+        </div>
+        <div class="city-status">
+          <div class="city-status-label">Reservas & tickets</div>
+          <div class="status-row"><span>Hospedagem Tulum · 1 noite</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Ingresso Zona Arqueológica</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Almoço / jantar na praia</span><span class="s-pending">Pendente</span></div>
+        </div>
+      </div>
+      <div class="city-body">
+        <div>
+          <div class="block-title">Dia a dia <span>2 dias</span></div>
+          <div class="spots">
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>5 nov · qua · chegada + ruínas</h4><p><strong>Manhã:</strong> drive 1h30 Valladolid → Tulum. Check-in. <strong>Tarde:</strong> Zona Arqueológica de Tulum — ruínas maias em penhasco acima do Caribe turquesa. 2h tranquilas. Falta pesquisar o que mais fazer na área. <strong>Noite:</strong> jantar Tulum (vibe boho-chic, mas caro pra padrão mexicano).</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>6 nov · qui · saída cedo</h4><p>Manhã: check-out cedo, drive pra Puerto Morelos com parada estratégica no Cenote Dos Ojos (ver D1 de Puerto Morelos).</p></div></div>
+          </div>
+          <div class="city-gallery">
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Tulum_2.jpg" alt="Tulum" loading="lazy"></div>
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Cenote_2.jpg" alt="Cenote" loading="lazy"></div>
+          </div>
+        </div>
+        <div class="notes">
+          <div class="notes-label">Notas do grupo</div>
+          <ul>
+            <li><strong>Tulum virou caro:</strong> o boom boho-chic disparou preços. Hospedagem e restaurantes cobram preço de NYC. Se for dormir barato, fica fora da zona hoteleira.</li>
+            <li><strong>Zona Arqueológica:</strong> muito quente ao meio-dia. Vai cedo ou no fim da tarde (fecha 17h). Leva água, chapéu, protetor biodegradável (as ruínas proíbem protetor comum).</li>
+            <li><strong>Sargaço:</strong> algas marrons que às vezes tomam a praia (pior entre maio-out). Em nov já diminui mas confirma antes.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CITY MEX 04 · PUERTO MORELOS -->
+<section class="city" id="puertomorelos">
+  <div class="container">
+    <div class="ph city-visual">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Birds_eye_view_of_Isla_Mujeres_%284257542920%29.jpg" alt="Isla Mujeres" loading="lazy">
+      <div class="ph-caption">
+        <span>Isla Mujeres · Caribe mexicano</span>
+        <span>04 / 04</span>
+      </div>
+    </div>
+    <div class="city-grid">
+      <div class="city-meta">
+        <div class="city-idx">04 · Parada</div>
+        <h3 class="city-name">Puerto <strong>Morelos.</strong></h3>
+        <p class="city-tagline">Base tranquila entre Cancún e Playa del Carmen. Cenote, Cozumel, Isla Mujeres.</p>
+        <div class="city-data">
+          <div class="city-data-row"><span>Datas</span><span>6 → 8 nov</span></div>
+          <div class="city-data-row"><span>Dias</span><span>2 · Caribe</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>Drive de Tulum · 1h20</span></div>
+          <div class="city-data-row"><span>Saída</span><span>Voo CUN 11:20</span></div>
+          <div class="city-data-row"><span>Clima</span><span>~29°C · praia</span></div>
+        </div>
+        <div class="city-status">
+          <div class="city-status-label">Reservas & tickets</div>
+          <div class="status-row"><span>Hospedagem Puerto Morelos · 2 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Cenote Dos Ojos · MXN 600</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Cozumel · ferry + snorkel R$ 174/pax</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Isla Mujeres · catamarã R$ 430/pax</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Drop-off carros + voo CUN 8 nov</span><span class="s-pending">Pendente</span></div>
+        </div>
+      </div>
+      <div class="city-body">
+        <div>
+          <div class="block-title">Dia a dia <span>3 dias</span></div>
+          <div class="spots">
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>6 nov · qui · Cenote + Playa del Carmen</h4><p><strong>Manhã:</strong> drive Tulum → <strong>Cenote Dos Ojos</strong> (20min de Tulum). Aberto 8h, até almoço dá tempo de curtir. Tem restaurante e piquenique. <strong>Tarde:</strong> Playa del Carmen (50min até a praia). Ou pegar ferry pra <strong>Cozumel</strong> (saída até 16h) pra snorkel em barco transparente. <strong>Noite:</strong> retorno 30min até Puerto Morelos, jantar.</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>7 nov · sex · Isla Mujeres</h4><p><strong>Dia inteiro:</strong> <strong>Isla Mujeres</strong> em catamarã com open bar e almoço buffet. Saída 9h, fim 17h. Ponto de encontro 35min de Puerto Morelos. <strong>Noite:</strong> jantar, descanso, preparar malas.</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>8 nov · sáb · saída</h4><p>Check-out cedo. Drop-off carro no aeroporto CUN. Voo CUN 11:20 → PTY (chegada 14:01) → FLN (chegada 00:30 do dia 09). Home sweet home.</p></div></div>
+          </div>
+          <div class="city-gallery">
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Cenote_2.jpg" alt="Cenote" loading="lazy"></div>
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Birds_eye_view_of_Isla_Mujeres_%284257542920%29.jpg" alt="Isla Mujeres" loading="lazy"></div>
+          </div>
+        </div>
+        <div class="notes">
+          <div class="notes-label">Notas do grupo</div>
+          <ul>
+            <li><strong>Puerto Morelos como base:</strong> muito mais tranquilo que Cancún (sem festa) e perto de tudo. Boa escolha pra família com bebê.</li>
+            <li><strong>Cenote Dos Ojos:</strong> entrada MXN 600/pessoa (R$ ~173). Leva toalha, roupa de banho por baixo da roupa, protetor biodegradável obrigatório. Sem protetor tradicional.</li>
+            <li><strong>Cozumel OU Isla Mujeres:</strong> se não der pra fazer os dois, Isla Mujeres tende a ser mais família-friendly (catamarã com almoço incluído). Cozumel é pra mergulho sério.</li>
+            <li><strong>Voo de volta:</strong> CUN 11:20 significa estar no aeroporto 8h30. Acordar cedo, devolver carro com folga de 1h.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BABY MEX -->
+<section class="inverse" id="louise-mex">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-index">§ 02 · Louise</div>
+      <div>
+        <h2 class="section-title">Com <em>Louise</em><br>no <em>México</em>.</h2>
+        <p class="section-sub">No México em outubro 2026 ela tem ~6 meses. Primeira viagem internacional, antes da USA em dezembro.</p>
+      </div>
+    </div>
+    <div class="baby-grid">
+      <div class="baby-card">
+        <div class="baby-card-num">01 · Documentos</div>
+        <h4>Passaporte + entrada México</h4>
+        <p>Brasileiros entram no México sem visto pra turismo até 180 dias. Louise precisa de passaporte próprio. Emite com antecedência — ~6 semanas em SC. Leva certidão de nascimento também como backup.</p>
+      </div>
+      <div class="baby-card">
+        <div class="baby-card-num">02 · Vacinas</div>
+        <h4>Febre amarela + rotina</h4>
+        <p>Febre amarela NÃO é obrigatória pra México (não é área endêmica), mas é exigida se vier do Brasil em certas conexões. Conferir a rota Latam. Demais vacinas de rotina do bebê em dia.</p>
+      </div>
+      <div class="baby-card">
+        <div class="baby-card-num">03 · Altitude CDMX</div>
+        <h4>2.240m por 4 dias</h4>
+        <p>Altitude leve mas real. Primeiras 24h: muito líquido, umidificador se quarto seco, sem esforço físico. Sinais de alerta: respiração rápida, lábios azulados, sonolência excessiva. Diferente de Park City (2.100m) pq aqui é só 4 dias, aclimatação menos crítica.</p>
+      </div>
+      <div class="baby-card">
+        <div class="baby-card-num">04 · Alimentação</div>
+        <h4>Cuidado com água</h4>
+        <p>Água NUNCA da torneira — leva pouches Gerber brasileiros pra emergência, compra fórmula/água mineral no Walmart local. Evita saladas cruas. Frutas descascadas ok. Iogurte e queijo de mercados grandes são seguros.</p>
+      </div>
+      <div class="baby-card">
+        <div class="baby-card-num">05 · Fuso + rotina</h4>
+        <p>Fuso Brasil -3h. Ajuste em 2-3 dias. Sonecas (~10h e ~14h) mantidas, preservar noite longa. White noise ajuda. Voos longos (FLN-PTY-MEX ~12h total com conexão) — levar fraldas extras, mamadeira pra decolagem/pouso.</p>
+      </div>
+      <div class="baby-card">
+        <div class="baby-card-num">06 · Saúde</div>
+        <h4>Kit e seguro</h4>
+        <p>Pediatra antes: prescrição de antitérmico + antialérgico + probiótico + soro reidratante. Seguro viagem com cobertura pediátrica (Assist Card, Universal). Hospital ABC e Hospital Angeles em CDMX são top.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GRUPO MEX -->
+<section class="block alt" id="grupo-mex">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-index">§ 03 · Grupo</div>
+      <div>
+        <h2 class="section-title">Seis adultos + <em>Louise</em>.<br>A logística do <em>coletivo</em>.</h2>
+        <p class="section-sub">Grupo menor e mais familiar que o da USA — três casais (Schulz, Depiné, Polidoro/Litz) no México com o bebê.</p>
+      </div>
+    </div>
+    <div class="group-grid">
+      <div class="group-card">
+        <h4>Hospedagem</h4>
+        <p>6 adultos + bebê em 3 casais. <strong>CDMX:</strong> 3 quartos duplos em hotel (Roma/Condesa/Polanco) ou Airbnb de 3 quartos. <strong>Yucatán:</strong> pousadas charmosas em Valladolid, Tulum e Puerto Morelos comportam bem grupos. Berço deve ser solicitado antes em todos.</p>
+      </div>
+      <div class="group-card">
+        <h4>Transporte</h4>
+        <p><strong>CDMX:</strong> Uber funciona ótimo, sem carro. <strong>Yucatán:</strong> <strong>aluguel de carro em CUN</strong> é essencial — faz o circuito Cancún → Valladolid → Tulum → Puerto Morelos → Cancún. 1 van/SUV grande pra 6 pax + bebê + bagagens ou 2 carros. Cadeira baby reservada.</p>
+      </div>
+      <div class="group-card">
+        <h4>Dinheiro · cartão e cash</h4>
+        <p>México opera 70% cartão, 30% cash. Traz <strong>Wise ou Nomad</strong> (câmbio IOF-free). USD em espécie ajuda em áreas turísticas. <strong>Peso mexicano</strong> em espécie pra taxis, mercados, cenotes, tips. Câmbio melhor no próprio México (casas de câmbio, não no aeroporto).</p>
+      </div>
+      <div class="group-card">
+        <h4>Documentos + seguro</h4>
+        <p><strong>Passaporte válido 6+ meses</strong> pra todos. Brasileiros <strong>não precisam de visto</strong> pro México pra turismo até 180 dias. <strong>FMM</strong> (forma migratória) preenchida no voo ou no aeroporto — guardar até a saída. <strong>Seguro viagem</strong> obrigatório (ou altamente recomendado) com cobertura pediátrica pra Louise.</p>
+      </div>
+      <div class="group-card">
+        <h4>Restaurantes · reserva</h4>
+        <p>Mesa pra 6 adultos + bebê em CDMX popular (Pujol, Quintonil, Contramar) precisa de <strong>2-3 meses</strong> de antecedência. Em Yucatán e Puerto Morelos menos restrito. Resy e OpenTable funcionam em CDMX. Tulum muitos só WhatsApp.</p>
+      </div>
+      <div class="group-card">
+        <h4>Telefone · eSIM</h4>
+        <p>Ativa <strong>eSIM</strong> (Airalo, Holafly) — $15-25 pros 10 dias com dados ilimitados. Evita roaming. Brasil tem boa compatibilidade, funciona imediatamente ao pousar. Um do grupo com plano unlimited hotspot serve de backup.</p>
+      </div>
+      <div class="group-card">
+        <h4>Splitwise</h4>
+        <p>Criar grupo Splitwise pra dividir despesas em tempo real. Câmbios: USD 4,98 / MXN 0,29 / BRL 1. Cada passeio cadastrado com custo e participantes. Reconciliação final em R$ no retorno.</p>
+      </div>
+      <div class="group-card">
+        <h4>Outros essenciais</h4>
+        <p><strong>Pasta compartilhada</strong> de fotos (Google Photos / iCloud shared). <strong>Splitwise</strong> pra despesas. <strong>Checar previsão do tempo</strong> próximo à viagem. <strong>Formalidades aduaneiras</strong> — limite de entrada sem declarar, itens proibidos. <strong>Salvar contatos importantes</strong> no celular antes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+<!-- END TRIP: MEXICO -->
+
+
 <footer>
   <div class="container">
     <div>
@@ -2564,7 +3106,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDJQBeEHuQtDmqdAgeBuky20MoXV7nH4X8",
@@ -2592,6 +3134,89 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   const input = document.getElementById('chatText');
 
   let currentUser = null;
+
+  // ——— TRIP SELECTOR ———
+  const TRIPS = {
+    'usa': {
+      label: 'North America',
+      date: '20.12.26 → 06.01.27',
+      links: [
+        { href: '#itinerario', label: 'Roteiro' },
+        { href: '#dc', label: 'Cidades' },
+        { href: '#louise', label: 'Louise' },
+        { href: '#grupo', label: 'Grupo' }
+      ]
+    },
+    'mexico-2026': {
+      label: 'México',
+      date: '30.10.26 → 08.11.26',
+      links: [
+        { href: '#itinerario-mex', label: 'Roteiro' },
+        { href: '#cdmx', label: 'Cidades' },
+        { href: '#louise-mex', label: 'Louise' },
+        { href: '#grupo-mex', label: 'Grupo' }
+      ]
+    }
+  };
+
+  const navLinks = document.getElementById('navLinks');
+  const navDate = document.getElementById('navDate');
+  const tripSelector = document.getElementById('tripSelector');
+  const tripSwitchBtn = document.getElementById('tripSwitchBtn');
+
+  let currentTripId = null;
+
+  function renderNavForTrip(tripId) {
+    const t = TRIPS[tripId];
+    if (!t) { navLinks.innerHTML = ''; return; }
+    navLinks.innerHTML = t.links.map(l => `<a href="${l.href}">${l.label}</a>`).join('');
+    navDate.textContent = t.date;
+  }
+
+  function chooseTrip(tripId) {
+    if (!TRIPS[tripId]) return;
+    localStorage.setItem('activeTrip', tripId);
+    document.body.dataset.activeTrip = tripId;
+    currentTripId = tripId;
+    renderNavForTrip(tripId);
+    if (currentUser) {
+      resubscribeAll();
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  function switchTrip() {
+    localStorage.removeItem('activeTrip');
+    delete document.body.dataset.activeTrip;
+    currentTripId = null;
+    navLinks.innerHTML = '';
+    navDate.textContent = '';
+    if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
+    if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
+  }
+
+  tripSwitchBtn.addEventListener('click', switchTrip);
+
+  document.querySelectorAll('.trip-card[data-choose]').forEach(btn => {
+    btn.addEventListener('click', () => chooseTrip(btn.dataset.choose));
+  });
+
+  // Init from localStorage
+  const savedTrip = localStorage.getItem('activeTrip');
+  if (savedTrip && TRIPS[savedTrip]) {
+    document.body.dataset.activeTrip = savedTrip;
+    currentTripId = savedTrip;
+    renderNavForTrip(savedTrip);
+  }
+
+  function resubscribeAll() {
+    if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
+    if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
+    if (currentUser && currentTripId) {
+      subscribeMessages();
+      subscribeCityComments();
+    }
+  }
 
   // ——— CITY COMMENTS (Google Sheets style) ———
   (function mountCityComments() {
@@ -2636,7 +3261,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     const form = e.target.closest('.city-comments-form');
     if (!form) return;
     e.preventDefault();
-    if (!currentUser) return;
+    if (!currentUser || !currentTripId) return;
     const widget = form.closest('.city-comments');
     const cityId = widget.dataset.city;
     const input = form.querySelector('.city-comments-input');
@@ -2646,6 +3271,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     try {
       await addDoc(collection(db, 'cityComments'), {
         cityId, text,
+        tripId: currentTripId,
         authorUid: currentUser.uid,
         authorName: currentUser.displayName || 'Anônimo',
         authorPhoto: currentUser.photoURL || '',
@@ -2693,7 +3319,13 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   }
 
   function subscribeCityComments() {
-    const q = query(collection(db, 'cityComments'), orderBy('createdAt', 'asc'), limit(1000));
+    if (!currentTripId) return;
+    const q = query(
+      collection(db, 'cityComments'),
+      where('tripId', '==', currentTripId),
+      orderBy('createdAt', 'asc'),
+      limit(1000)
+    );
     unsubscribeCityComments = onSnapshot(q, renderCityComments);
   }
 
@@ -2706,28 +3338,30 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     });
   }
 
-  // ——— HERO CAROUSEL ———
-  (function initCarousel() {
-    const slides = Array.from(document.querySelectorAll('.hero-slide'));
-    const dots = Array.from(document.querySelectorAll('.hero-dot'));
-    const cap = document.getElementById('heroCaption');
-    if (!slides.length) return;
-    let i = 0;
-    function show(n) {
-      i = (n + slides.length) % slides.length;
-      slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
-      dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
-      if (cap) {
-        cap.classList.remove('active');
-        setTimeout(() => {
-          cap.textContent = slides[i].dataset.caption || '';
-          cap.classList.add('active');
-        }, 200);
+  // ——— HERO CAROUSEL (per hero-photo) ———
+  (function initCarousels() {
+    document.querySelectorAll('.hero-photo').forEach(hero => {
+      const slides = Array.from(hero.querySelectorAll('.hero-slide'));
+      const dots = Array.from(hero.querySelectorAll('.hero-dot'));
+      const cap = hero.querySelector('.hero-photo-caption');
+      if (!slides.length) return;
+      let i = 0;
+      function show(n) {
+        i = (n + slides.length) % slides.length;
+        slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+        dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+        if (cap) {
+          cap.classList.remove('active');
+          setTimeout(() => {
+            cap.textContent = slides[i].dataset.caption || '';
+            cap.classList.add('active');
+          }, 200);
+        }
       }
-    }
-    dots.forEach((d, idx) => d.addEventListener('click', () => { show(idx); resetTimer(); }));
-    let timer = setInterval(() => show(i + 1), 5500);
-    function resetTimer() { clearInterval(timer); timer = setInterval(() => show(i + 1), 5500); }
+      dots.forEach((d, idx) => d.addEventListener('click', () => { show(idx); resetTimer(); }));
+      let timer = setInterval(() => show(i + 1), 5500);
+      function resetTimer() { clearInterval(timer); timer = setInterval(() => show(i + 1), 5500); }
+    });
   })();
 
   (function initTheme() {
@@ -2761,11 +3395,12 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const text = input.value.trim();
-    if (!text || !currentUser) return;
+    if (!text || !currentUser || !currentTripId) return;
     input.value = '';
     try {
       await addDoc(collection(db, 'messages'), {
         text,
+        tripId: currentTripId,
         uid: currentUser.uid,
         name: currentUser.displayName || 'Anônimo',
         photo: currentUser.photoURL || '',
@@ -2811,7 +3446,13 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   let unsubscribeMessages = null;
 
   function subscribeMessages() {
-    const q = query(collection(db, 'messages'), orderBy('createdAt', 'asc'), limit(500));
+    if (!currentTripId) return;
+    const q = query(
+      collection(db, 'messages'),
+      where('tripId', '==', currentTripId),
+      orderBy('createdAt', 'asc'),
+      limit(500)
+    );
     unsubscribeMessages = onSnapshot(q, (snap) => {
       if (snap.empty) {
         body.innerHTML = '<div class="chat-empty">Seja o primeiro a escrever 👋</div>';
@@ -2851,8 +3492,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       signoutBtn.style.display = 'inline-flex';
       headSub.textContent = user.displayName || user.email;
       body.innerHTML = '<div class="chat-empty">Carregando…</div>';
-      if (!unsubscribeMessages) subscribeMessages();
-      if (!unsubscribeCityComments) subscribeCityComments();
+      if (currentTripId) {
+        if (!unsubscribeMessages) subscribeMessages();
+        if (!unsubscribeCityComments) subscribeCityComments();
+      }
       setCityFormsEnabled(true);
     } else {
       document.body.classList.remove('authed');
