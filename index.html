@@ -26,7 +26,70 @@
     --bg-2: #F4F6F9;
     --border: #E6E9EE;
     --border-soft: #EFF1F5;
+    --accent-bg: #26282B;
+    --accent-fg: #FFFFFF;
+    color-scheme: light;
   }
+
+  body.dark {
+    --ink: #E9EBEF;
+    --ink-2: #C2C6CD;
+    --ink-muted: #7A7F88;
+    --blue: #E9EBEF;
+    --blue-light: #7A7F88;
+    --paper: #15171C;
+    --bg: #0F1013;
+    --bg-2: #1D1F24;
+    --border: #2A2D33;
+    --border-soft: #22252A;
+    --accent-bg: #E9EBEF;
+    --accent-fg: #15171C;
+    color-scheme: dark;
+  }
+
+  body.dark .inverse { background: #0A0B0E; color: var(--paper); }
+  body.dark footer { background: #0A0B0E; }
+  body.dark .nav { background: rgba(21, 23, 28, 0.85); }
+  body.dark .auth-gate { background: var(--paper); }
+  body.dark .hero-photo { filter: brightness(0.9); }
+  body.dark .city-visual img { filter: brightness(0.92); }
+  body.dark .ph img { filter: brightness(0.92); }
+  body.dark .nav-btn { background: var(--accent-bg); color: var(--accent-fg); }
+  body.dark .nav-btn:hover { background: #fff; }
+  body.dark .hero-cta.primary { background: var(--accent-bg); color: var(--accent-fg); border-color: var(--accent-bg); }
+  body.dark .hero-cta.primary:hover { background: #fff; }
+  body.dark .hero-cta.ghost { border-color: var(--ink); color: var(--ink); }
+  body.dark .hero-cta.ghost:hover { background: var(--ink); color: var(--paper); }
+  body.dark .auth-btn { background: var(--accent-bg); color: var(--accent-fg); }
+  body.dark .auth-btn:hover { background: #fff; }
+  body.dark .chat-fab { background: var(--accent-bg); color: var(--accent-fg); }
+  body.dark .chat-fab:hover { background: #fff; }
+  body.dark .chat-fab .badge { background: var(--accent-fg); color: var(--accent-bg); }
+  body.dark .chat-login { background: var(--accent-bg); color: var(--accent-fg); }
+  body.dark .chat-login:hover { background: #fff; }
+  body.dark .chat-input button { background: var(--accent-bg); color: var(--accent-fg); }
+  body.dark .chat-input button:hover { background: #fff; }
+  body.dark .msg.self .msg-bubble { background: var(--accent-bg); color: var(--accent-fg); border-color: var(--accent-bg); }
+  body.dark .s-ok { background: var(--accent-bg); color: var(--accent-fg); }
+
+  .theme-toggle {
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+
+  .theme-toggle:hover { background: var(--bg-2); }
+  .theme-toggle svg { width: 18px; height: 18px; }
+  .theme-toggle .sun { display: none; }
+  body.dark .theme-toggle .sun { display: block; }
+  body.dark .theme-toggle .moon { display: none; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -1530,6 +1593,15 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </head>
 <body>
 
+<script>
+  (function () {
+    var saved = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) document.documentElement.classList.add('pre-dark');
+  })();
+</script>
+<style>html.pre-dark body { background: #15171C; color: #E9EBEF; }</style>
+
 <!-- AUTH GATE -->
 <div class="auth-gate" id="authGate">
   <div class="auth-tag">Roteiro privado</div>
@@ -1556,6 +1628,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     </div>
     <div class="nav-cta">
       <span class="nav-date">USA · 26 — 27</span>
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
       <button class="nav-btn" onclick="window.print()">PDF</button>
     </div>
   </div>
@@ -2260,6 +2336,19 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   const input = document.getElementById('chatText');
 
   let currentUser = null;
+
+  (function initTheme() {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const dark = saved === 'dark' || (!saved && prefersDark);
+    document.body.classList.toggle('dark', dark);
+    document.documentElement.classList.remove('pre-dark');
+  })();
+
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const dark = document.body.classList.toggle('dark');
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  });
 
   function toggleChat() {
     const open = drawer.classList.toggle('open');
