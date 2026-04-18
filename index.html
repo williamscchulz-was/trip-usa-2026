@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>USA · Schulz, Horn & Pitz · Dez 2026 — Jan 2027</title>
-<meta name="description" content="Roteiro de viagem em família — 17 noites atravessando os EUA entre dez 2026 e jan 2027.">
+<meta name="description" content="Roteiro de viagem em família — 17 dias atravessando os EUA entre dez 2026 e jan 2027.">
 <meta property="og:title" content="USA · Schulz, Horn & Pitz · 2026 — 27">
-<meta property="og:description" content="17 noites atravessando os EUA. Do Natal em NYC ao Réveillon na neve de Utah.">
+<meta property="og:description" content="17 dias atravessando os EUA. Do Natal em NYC ao Réveillon na neve de Utah.">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -1138,45 +1138,44 @@
   .pipe-card {
     background: var(--paper);
     border: 1px solid var(--border);
-    padding: 18px 18px 20px;
+    padding: 20px 20px 22px;
     position: relative;
-    cursor: grab;
+    cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    user-select: none;
+    text-decoration: none;
+    color: inherit;
+    display: block;
   }
 
   .pipe-card:hover {
     border-color: var(--ink);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
   }
 
-  body.dark .pipe-card:hover { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4); }
-
-  .pipe-card:active { cursor: grabbing; }
-
-  .pipe-card.dragging {
-    opacity: 0.35;
-    transform: rotate(2deg);
-  }
-
-  .pipe-card.drop-before {
-    border-left: 3px solid var(--ink);
-    padding-left: 15px;
-  }
+  body.dark .pipe-card:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); }
 
   .pipe-card.highlight { border-color: var(--ink); }
 
-  .pipe-handle {
+  .pipe-card.daytrip {
+    border-style: dashed;
+    background: var(--bg);
+  }
+
+  .pipe-card::after {
+    content: '→';
     position: absolute;
-    top: 14px;
-    right: 14px;
+    top: 18px;
+    right: 18px;
     color: var(--ink-muted);
-    font-size: 1rem;
-    letter-spacing: -3px;
-    font-weight: bold;
-    user-select: none;
-    pointer-events: none;
+    font-size: 0.95rem;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .pipe-card:hover::after {
+    opacity: 1;
+    transform: translateX(2px);
   }
 
   .pipe-idx {
@@ -1218,51 +1217,23 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-muted);
-    line-height: 1.7;
+    line-height: 1.5;
+    margin-bottom: 8px;
   }
 
-  .pipeline-foot {
-    margin-top: 28px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .pipeline-actions { display: flex; gap: 10px; }
-
-  .pipe-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--ink);
-    padding: 9px 18px;
-    border-radius: 999px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.84rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .pipe-btn:hover { border-color: var(--ink); background: var(--bg-2); }
-  .pipe-btn.primary { background: var(--accent-bg); color: var(--accent-fg); border-color: var(--accent-bg); }
-  .pipe-btn.primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .pipeline-disclaimer {
+  .pipe-times {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink-muted);
+    color: var(--ink);
+    line-height: 1.5;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-soft);
   }
 
   @media (max-width: 900px) {
     .pipeline { grid-template-columns: unset; grid-auto-flow: column; grid-auto-columns: 72%; }
-    .pipeline-foot { flex-direction: column; align-items: stretch; }
-    .pipeline-actions { justify-content: flex-end; }
   }
 
   /* ——— CITY STATUS (reservas) ——— */
@@ -1832,7 +1803,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     <div class="nav-links">
       <a href="#itinerario">Roteiro</a>
       <a href="#voos">Chegadas</a>
-      <a href="#cidades">Cidades</a>
+      <a href="#dc">Cidades</a>
       <a href="#louise">Louise</a>
       <a href="#grupo">Grupo</a>
     </div>
@@ -1852,7 +1823,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <div class="hero-inner">
     <div class="hero-tag">Roteiro · Viagem em família</div>
     <h1 class="hero-title">Norte América<span class="dot">.</span><br>2026 — 27<span class="dot">.</span></h1>
-    <p class="hero-sub">17 noites atravessando os Estados Unidos em família — do Natal em NYC ao Réveillon na neve de Utah, terminando no sol de Miami.</p>
+    <p class="hero-sub">17 dias atravessando os Estados Unidos em família — do Natal em NYC ao Réveillon na neve de Utah, encerrando com um day-trip em Miami antes do voo de volta.</p>
     <div class="hero-ctas">
       <a class="hero-cta primary" href="#itinerario">Ver Itinerário →</a>
       <a class="hero-cta ghost" href="#cidades">▶ Fotos</a>
@@ -1887,69 +1858,57 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   </div>
 </section>
 
-<!-- ROTEIRO · PIPELINE MOCKUP -->
+<!-- ROTEIRO · CARDS CLICÁVEIS -->
 <section class="block alt" id="itinerario">
   <div class="container">
     <div class="section-head">
       <div class="section-index">§ 01 · Roteiro</div>
       <div>
-        <h2 class="section-title">Dezessete noites,<br>seis <em>paradas</em>.</h2>
-        <p class="section-sub">Cada parada é um card arrastável — reordene pra experimentar uma sequência diferente. Mockup interativo: as mudanças são só visuais, ainda não salvam.</p>
+        <h2 class="section-title">Dezessete dias,<br>seis <em>paradas</em>.</h2>
+        <p class="section-sub">Do mármore de DC ao sol de Miami — clica em qualquer parada pra ir direto pro detalhe daquela cidade.</p>
       </div>
     </div>
 
-    <div class="pipeline-hint">
-      <span class="dot-badge">⠿ Mockup</span>
-      <span>Arraste os cards pra reorganizar · botão abaixo restaura a ordem original</span>
-    </div>
-
-    <div class="pipeline" id="pipeline">
-      <div class="pipe-card" draggable="true">
-        <span class="pipe-handle" aria-hidden="true">⠿</span>
+    <div class="pipeline">
+      <a class="pipe-card" href="#dc">
         <div class="pipe-idx">01</div>
         <div class="pipe-city">Washington DC</div>
-        <div class="pipe-meta">20 → 22 dez<br>2 noites</div>
-      </div>
-      <div class="pipe-card highlight" draggable="true">
-        <span class="pipe-handle" aria-hidden="true">⠿</span>
+        <div class="pipe-meta">20 → 22 dez · 2 dias</div>
+        <div class="pipe-times">chega 15h · sai 9h</div>
+      </a>
+      <a class="pipe-card highlight" href="#nyc">
         <span class="pipe-tag">Natal</span>
         <div class="pipe-idx">02</div>
         <div class="pipe-city">New York City</div>
-        <div class="pipe-meta">22 → 26 dez<br>4 noites</div>
-      </div>
-      <div class="pipe-card" draggable="true">
-        <span class="pipe-handle" aria-hidden="true">⠿</span>
+        <div class="pipe-meta">22 → 26 dez · 4 dias</div>
+        <div class="pipe-times">chega 12h · sai 10h</div>
+      </a>
+      <a class="pipe-card" href="#boston">
         <div class="pipe-idx">03</div>
         <div class="pipe-city">Boston</div>
-        <div class="pipe-meta">26 → 28 dez<br>2 noites</div>
-      </div>
-      <div class="pipe-card highlight" draggable="true">
-        <span class="pipe-handle" aria-hidden="true">⠿</span>
+        <div class="pipe-meta">26 → 28 dez · 2 dias</div>
+        <div class="pipe-times">chega 13h · sai 8h</div>
+      </a>
+      <a class="pipe-card highlight" href="#utah">
         <span class="pipe-tag">Réveillon</span>
         <div class="pipe-idx">04</div>
         <div class="pipe-city">Utah · SLC + PC</div>
-        <div class="pipe-meta">28 dez → 02 jan<br>5 noites</div>
-      </div>
-      <div class="pipe-card" draggable="true">
-        <span class="pipe-handle" aria-hidden="true">⠿</span>
+        <div class="pipe-meta">28 dez → 02 jan · 5 dias</div>
+        <div class="pipe-times">chega 14h · sai 11h</div>
+      </a>
+      <a class="pipe-card" href="#orlando">
         <div class="pipe-idx">05</div>
         <div class="pipe-city">Orlando</div>
-        <div class="pipe-meta">02 → 05 jan<br>3 noites</div>
-      </div>
-      <div class="pipe-card" draggable="true">
-        <span class="pipe-handle" aria-hidden="true">⠿</span>
+        <div class="pipe-meta">02 → 05 jan · 3 dias</div>
+        <div class="pipe-times">chega 17h · sai 8h</div>
+      </a>
+      <a class="pipe-card daytrip" href="#miami">
+        <span class="pipe-tag">Day trip</span>
         <div class="pipe-idx">06</div>
         <div class="pipe-city">Miami</div>
-        <div class="pipe-meta">05 → 06 jan<br>1 noite</div>
-      </div>
-    </div>
-
-    <div class="pipeline-foot">
-      <div class="pipeline-disclaimer">Mockup — drag funciona visualmente, mas não persiste</div>
-      <div class="pipeline-actions">
-        <button class="pipe-btn" id="pipeReset">Restaurar ordem</button>
-        <button class="pipe-btn primary" disabled title="Em construção">Salvar (em breve)</button>
-      </div>
+        <div class="pipe-meta">05 jan · sem overnight</div>
+        <div class="pipe-times">chega 12h · voa 18h55</div>
+      </a>
     </div>
   </div>
 </section>
@@ -1961,7 +1920,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="stat-block">
         <span class="mono">Duração</span>
         <div class="stat-number">17</div>
-        <div class="stat-desc">Noites no solo americano, do nordeste ao sul.</div>
+        <div class="stat-desc">Dias no solo americano, do nordeste ao sul.</div>
       </div>
       <div class="stat-block">
         <span class="mono">Destinos</span>
@@ -2031,7 +1990,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </section>
 
 <!-- CITY 01 · DC -->
-<section class="city" id="cidades">
+<section class="city" id="dc">
   <div class="container">
     <div class="ph city-visual">
       <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg" alt="Washington DC" loading="lazy">
@@ -2047,7 +2006,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <p class="city-tagline">O mármore da república, monumentos iluminados, museus de graça.</p>
         <div class="city-data">
           <div class="city-data-row"><span>Datas</span><span>20 → 22 dez</span></div>
-          <div class="city-data-row"><span>Noites</span><span>2</span></div>
+          <div class="city-data-row"><span>Dias</span><span>2</span></div>
           <div class="city-data-row"><span>Chegada</span><span>BWI · 14:50</span></div>
           <div class="city-data-row"><span>Saída</span><span>Amtrak → NYC</span></div>
           <div class="city-data-row"><span>Clima</span><span>~2°C · frio seco</span></div>
@@ -2089,7 +2048,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </section>
 
 <!-- CITY 02 · NYC -->
-<section class="city">
+<section class="city" id="nyc">
   <div class="container">
     <div class="ph city-visual">
       <img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Rockefeller_Christmas_Tree.jpg" alt="New York City" loading="lazy">
@@ -2102,17 +2061,17 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="city-meta">
         <div class="city-idx">02 · Parada</div>
         <h3 class="city-name">New York <strong>City.</strong></h3>
-        <p class="city-tagline">Natal na cidade que não dorme. Quatro noites para caminhar, patinar, comer.</p>
+        <p class="city-tagline">Natal na cidade que não dorme. Quatro dias para caminhar, patinar, comer.</p>
         <div class="city-data">
           <div class="city-data-row"><span>Datas</span><span>22 → 26 dez</span></div>
-          <div class="city-data-row"><span>Noites</span><span>4 · inclui Natal</span></div>
+          <div class="city-data-row"><span>Dias</span><span>4 · inclui Natal</span></div>
           <div class="city-data-row"><span>Chegada</span><span>Amtrak Acela · 3h</span></div>
           <div class="city-data-row"><span>Saída</span><span>Voo → BOS</span></div>
           <div class="city-data-row"><span>Clima</span><span>~0°C · possível neve</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hospedagem · 4 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Hospedagem · 4 dias</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Rockefeller observation</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Patinação Bryant Park</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Broadway</span><span class="s-pending">Pendente</span></div>
@@ -2151,7 +2110,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </section>
 
 <!-- CITY 03 · BOSTON -->
-<section class="city">
+<section class="city" id="boston">
   <div class="container">
     <div class="ph city-visual">
       <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/ISH_WC_Boston4.jpg" alt="Boston" loading="lazy">
@@ -2167,14 +2126,14 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <p class="city-tagline">Onde a América começou. Dois dias de história, mar e comida puritana.</p>
         <div class="city-data">
           <div class="city-data-row"><span>Datas</span><span>26 → 28 dez</span></div>
-          <div class="city-data-row"><span>Noites</span><span>2</span></div>
+          <div class="city-data-row"><span>Dias</span><span>2</span></div>
           <div class="city-data-row"><span>Chegada</span><span>Voo 1h30 ou Amtrak 4h</span></div>
           <div class="city-data-row"><span>Saída</span><span>Voo → SLC</span></div>
           <div class="city-data-row"><span>Clima</span><span>~-2°C · cortante</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hospedagem · 2 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Hospedagem · 2 dias</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Harvard tour</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Jantar North End</span><span class="s-pending">Pendente</span></div>
         </div>
@@ -2212,7 +2171,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </section>
 
 <!-- CITY 04 · UTAH -->
-<section class="city">
+<section class="city" id="utah">
   <div class="container">
     <div class="ph city-visual">
       <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Eagle_Race_Arena_at_Park_City_Resort.jpg" alt="Park City Utah" loading="lazy">
@@ -2225,10 +2184,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="city-meta">
         <div class="city-idx">04 · Parada</div>
         <h3 class="city-name"><strong>Utah.</strong></h3>
-        <p class="city-tagline">Cidade + deserto + neve em cinco noites. Três paisagens em uma parada, terminando com Réveillon na montanha.</p>
+        <p class="city-tagline">Cidade + deserto + neve em cinco dias. Três paisagens em uma parada, terminando com Réveillon na montanha.</p>
         <div class="city-data">
           <div class="city-data-row"><span>Datas</span><span>28 dez → 02 jan</span></div>
-          <div class="city-data-row"><span>Noites</span><span>5 · inclui Réveillon</span></div>
+          <div class="city-data-row"><span>Dias</span><span>5 · inclui Réveillon</span></div>
           <div class="city-data-row"><span>Paradas</span><span>SLC · Antelope · Park City</span></div>
           <div class="city-data-row"><span>Chegada</span><span>Voo BOS → SLC</span></div>
           <div class="city-data-row"><span>Saída</span><span>Voo SLC → MCO</span></div>
@@ -2236,8 +2195,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hotel SLC · 2 noites</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Casa/condo Park City · 3 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Hotel SLC · 2 dias</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Casa/condo Park City · 3 dias</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Carros alugados SLC</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Passe de ski + equipamento</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Réveillon jantar</span><span class="s-pending">Pendente</span></div>
@@ -2247,10 +2206,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <div>
           <div class="block-title">Destaques <span>3 capítulos · 8 spots</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">A</div><div class="spot-body"><h4>Capítulo A · Salt Lake City (2 noites)</h4><p><strong>28 dez:</strong> chegada SLC tarde, hotel downtown. Aclimatação leve — a cidade fica a 1.300m (nada de altitude pesada ainda). Jantar no The Copper Onion ou HSL.</p><p><strong>29 dez:</strong> manhã em <strong>Temple Square</strong> (arquitetura mórmon impressionante, aberto ao público), City Creek Center pra fugir do frio, almoço, e tarde na <strong>Antelope Island</strong>.</p></div></div>
+            <div class="spot"><div class="spot-num">A</div><div class="spot-body"><h4>Capítulo A · Salt Lake City (2 dias)</h4><p><strong>28 dez:</strong> chegada SLC tarde, hotel downtown. Aclimatação leve — a cidade fica a 1.300m (nada de altitude pesada ainda). Jantar no The Copper Onion ou HSL.</p><p><strong>29 dez:</strong> manhã em <strong>Temple Square</strong> (arquitetura mórmon impressionante, aberto ao público), City Creek Center pra fugir do frio, almoço, e tarde na <strong>Antelope Island</strong>.</p></div></div>
             <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Temple Square</h4><p>Coração mórmon: templo branco neogótico, tabernáculo com acústica lendária, jardins. Gratuito. Tour guiado em inglês ou só andar. Vale 1h30-2h.</p></div></div>
             <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Antelope Island State Park · o deserto</h4><p>1h de carro de SLC. Ilha dentro do Great Salt Lake — paisagem marciana, salinas brancas, manadas de bison livres, pôr-do-sol na água salgada. Entrada $15/carro. Dá pra fazer meio-dia: <em>Fielding Garr Ranch</em> + <em>Buffalo Point overlook</em>. Volta pra SLC pro jantar.</p></div></div>
-            <div class="spot"><div class="spot-num">B</div><div class="spot-body"><h4>Capítulo B · Park City (3 noites)</h4><p><strong>30 dez:</strong> sobe 45 min pra Park City (2.100m), chega no condo de manhã, aclimata, primeiro ski leve de meio período.</p><p><strong>31 dez:</strong> ski pela manhã, Réveillon no resort ou Main Street à noite.</p><p><strong>1 jan:</strong> ski ou rest day. <strong>2 jan:</strong> desce pra SLC, voo MCO.</p></div></div>
+            <div class="spot"><div class="spot-num">B</div><div class="spot-body"><h4>Capítulo B · Park City (3 dias)</h4><p><strong>30 dez:</strong> sobe 45 min pra Park City (2.100m), chega no condo de manhã, aclimata, primeiro ski leve de meio período.</p><p><strong>31 dez:</strong> ski pela manhã, Réveillon no resort ou Main Street à noite.</p><p><strong>1 jan:</strong> ski ou rest day. <strong>2 jan:</strong> desce pra SLC, voo MCO.</p></div></div>
             <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Park City Mountain Resort</h4><p>Maior ski resort dos EUA (mesclou com The Canyons). 300+ trilhas pra todos os níveis. Ski-in/ski-out do condo muda o jogo. Aulas particulares pra iniciantes.</p></div></div>
             <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Deer Valley · o chique</h4><p>Só esqui, sem snowboard. Mais caro, menos gente, pistas impecáveis, almoço de restaurante de verdade. Se tiver 1 dia de ski só, talvez valha esse.</p></div></div>
             <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Main Street Park City</h4><p>Rua histórica cheia de restaurantes, galerias e lojas. Riverhorse on Main e High West Saloon (whiskey distillery) são obrigatórios.</p></div></div>
@@ -2265,10 +2224,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <div class="notes">
           <div class="notes-label">Notas do grupo · CRÍTICAS</div>
           <ul>
-            <li><strong>Split 2+3 noites:</strong> 2 noites em SLC (chegada + deserto) aclimata gradualmente antes da altitude, e 3 noites em Park City cobrem o ski + Réveillon. Mudar de hospedagem 1x no meio parece chato, mas a transição gradual ajuda o grupo (especialmente Louise) a se adaptar a 2.100m.</li>
+            <li><strong>Split 2+3 dias:</strong> 2 dias em SLC (chegada + deserto) aclimata gradualmente antes da altitude, e 3 dias em Park City cobrem o ski + Réveillon. Mudar de hospedagem 1x no meio parece chato, mas a transição gradual ajuda o grupo (especialmente Louise) a se adaptar a 2.100m.</li>
             <li><strong>SLC hospedagem:</strong> Kimpton Hotel Monaco, Grand America, Marriott City Creek. Downtown walkable, perto de Temple Square e restaurantes.</li>
             <li><strong>Antelope Island no inverno:</strong> estrada até a ilha (Davis County Causeway) fica aberta ano inteiro. Causeway + ilha dá pra fazer em ½ dia. Levem água e lanche — ilha não tem comércio. Bonneville Salt Flats fica cogitado mas em dez/jan costuma estar alagado e sem o visual do chão branco — Antelope é o substituto que funciona.</li>
-            <li><strong>Altitude 2.100m em Park City:</strong> as 2 noites em SLC (1.300m) já ajudam, mas hidrata muito, umidificador no quarto, evita esforço no primeiro dia subindo. Sinais de alerta em Louise: respiração rápida, lábios azulados, sonolência excessiva — se aparecer, desce pra SLC.</li>
+            <li><strong>Altitude 2.100m em Park City:</strong> as 2 dias em SLC (1.300m) já ajudam, mas hidrata muito, umidificador no quarto, evita esforço no primeiro dia subindo. Sinais de alerta em Louise: respiração rápida, lábios azulados, sonolência excessiva — se aparecer, desce pra SLC.</li>
             <li><strong>Park City hospedagem:</strong> condo 3-4 quartos é o único caminho. Considere Waldorf Astoria, The Lodge at Mountain Village, ou VRBO ski-in/ski-out no Canyons Village. Reserva AGORA — Réveillon fica sold out em setembro.</li>
             <li><strong>Carros:</strong> dois veículos SUV 4x4 alugados em SLC. 1h de SLC até Antelope Island, 45 min de SLC até Park City. Pneus de neve já incluídos em janeiro.</li>
             <li><strong>Roupa de esqui:</strong> NÃO compre no Brasil se o grupo não esquia sempre. Ski Butlers entrega no condo, ~$50/dia/pessoa.</li>
@@ -2281,7 +2240,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </section>
 
 <!-- CITY 05 · ORLANDO -->
-<section class="city">
+<section class="city" id="orlando">
   <div class="container">
     <div class="ph city-visual">
       <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/UEU_Entrance.jpg" alt="Orlando" loading="lazy">
@@ -2297,14 +2256,14 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <p class="city-tagline">Outlet, parque novo, mudança de clima. O respiro da família antes do voo de volta.</p>
         <div class="city-data">
           <div class="city-data-row"><span>Datas</span><span>02 → 05 jan</span></div>
-          <div class="city-data-row"><span>Noites</span><span>3</span></div>
+          <div class="city-data-row"><span>Dias</span><span>3</span></div>
           <div class="city-data-row"><span>Chegada</span><span>Voo SLC → MCO</span></div>
           <div class="city-data-row"><span>Saída</span><span>Drive → Miami 3h30</span></div>
           <div class="city-data-row"><span>Clima</span><span>~22°C · alívio</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hospedagem · 3 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Hospedagem · 3 dias</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Carros alugados MCO</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Ingressos Epic Universe</span><span class="s-pending">Pendente</span></div>
         </div>
@@ -2340,7 +2299,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </section>
 
 <!-- CITY 06 · MIAMI -->
-<section class="city">
+<section class="city" id="miami">
   <div class="container">
     <div class="ph city-visual">
       <img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Ocean_drive_day_2009j.JPG" alt="Miami" loading="lazy">
@@ -2353,28 +2312,28 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="city-meta">
         <div class="city-idx">06 · Parada</div>
         <h3 class="city-name"><strong>Miami.</strong></h3>
-        <p class="city-tagline">Uma noite, uma manhã. Último respiro antes de voltar pra casa.</p>
+        <p class="city-tagline">Um dia só, sem overnight. Drive de Orlando, manhã de praia, voo à noite.</p>
         <div class="city-data">
-          <div class="city-data-row"><span>Datas</span><span>05 → 06 jan</span></div>
-          <div class="city-data-row"><span>Noites</span><span>1</span></div>
-          <div class="city-data-row"><span>Chegada</span><span>Drive 3h30 de MCO</span></div>
-          <div class="city-data-row"><span>Saída</span><span>MIA · 18:55</span></div>
+          <div class="city-data-row"><span>Data</span><span>05 jan</span></div>
+          <div class="city-data-row"><span>Modo</span><span>Day trip · sem overnight</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>Drive 3h30 de MCO · 12h</span></div>
+          <div class="city-data-row"><span>Saída</span><span>Voo MIA · 18:55</span></div>
           <div class="city-data-row"><span>Clima</span><span>~25°C · praia</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hospedagem · 1 noite</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Drop-off carros MIA</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Check-in voo LA</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Check-in voo Latam</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Almoço South Beach</span><span class="s-pending">Pendente</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>3 spots</span></div>
+          <div class="block-title">Destaques <span>3 spots · day trip</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Chegada tarde · jantar</h4><p>Drive de Orlando chega no fim da tarde. Jantar leve, cedo. Cvi.Che 105 (Brickell), Joe's Stone Crab (South Beach — só na época, vale a tradição), ou cubano em Little Havana (Versailles clássico).</p></div></div>
-            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Manhã de praia · South Beach</h4><p>Última manhã relaxada. Walk pelo Ocean Drive (Louise vendo o Atlântico de cima), café em Lincoln Road, pés na areia. Check-out ao meio-dia, aeroporto 15h — voo 18:55.</p></div></div>
-            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Alternativa · Wynwood Walls</h4><p>Se quiser menos praia, mais arte: Wynwood é o bairro de street art. Murais épicos, cafés descolados. 1-2h resolvidas.</p></div></div>
+            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Drive Orlando → Miami (manhã)</h4><p>Sai de Orlando cedo (7h-8h), 3h30 de estrada pela I-95. Parada em Ft. Lauderdale pro café se precisar. Chega em Miami por volta de meio-dia, direto pra South Beach.</p></div></div>
+            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Ocean Drive + almoço (12-15h)</h4><p>Caminhada pelo Ocean Drive art déco, pés na areia, almoço em Joe's Stone Crab (se em temporada) ou Versailles (cubano em Little Havana). Louise vendo o Atlântico.</p></div></div>
+            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Aeroporto + voo (15h30+)</h4><p>Drop-off carros em MIA 15h30, check-in 16h pro voo Latam 18:55. Com bebê, fila family check-in é mais rápida. Aeroporto MIA lotado no inverno — planeja buffer.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Ocean_drive_day_2009j.JPG" alt="South Beach" loading="lazy"></div>
@@ -2384,10 +2343,12 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <div class="notes">
           <div class="notes-label">Notas do grupo</div>
           <ul>
-            <li><strong>Hotel:</strong> South Beach é a experiência, mas logística fica pior com voo tarde. Brickell (downtown, 20 min do aeroporto) é o melhor compromisso. Se quiser mesmo SoBe: Loews, Gale, Metropolitan by COMO.</li>
+            <li><strong>Sem overnight em Miami:</strong> ganham 1 dia extra em Orlando (4 dias em vez de 3) e simplifica logística — cola a noite de Orlando à chegada no Brasil sem mudança extra de hotel. Trade-off: tarde em Miami fica curtinha (~4h).</li>
+            <li><strong>Drive de Orlando:</strong> I-95 sul, 3h30-4h com trânsito típico. Saindo 7h-8h chega antes do almoço.</li>
             <li><strong>Check-in voo internacional:</strong> chega 3h30 antes. MIA lotado no inverno. Com bebê, aproveita fila de family check-in da Latam.</li>
-            <li><strong>Carro devolve:</strong> em MIA planeja 30-40 min extra (filas + shuttle pro terminal).</li>
-            <li><strong>Se der tempo:</strong> Walgreens/CVS pra últimas coisas (fraldas Pampers Swaddlers, vitaminas, skincare). Diferencial de preço vs Brasil justifica parada.</li>
+            <li><strong>Carro devolve:</strong> em MIA planeja 30-40 min extra (filas + shuttle pro terminal). Se alugou em MCO, tem fee one-way ~$100-200 — já contar no budget.</li>
+            <li><strong>Se der tempo:</strong> Walgreens/CVS pra últimas coisas (fraldas Pampers Swaddlers, vitaminas, skincare). Diferencial de preço vs Brasil justifica parada rápida.</li>
+            <li><strong>Wynwood Walls:</strong> se quiser menos praia, troca a tarde por Wynwood (street art, 1-2h resolvidas). Vale se pegou 2 dias de praia em outras cidades.</li>
           </ul>
         </div>
       </div>
@@ -2570,48 +2531,6 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   const input = document.getElementById('chatText');
 
   let currentUser = null;
-
-  // ——— PIPELINE DRAG-DROP (mockup) ———
-  (function initPipeline() {
-    const pipe = document.getElementById('pipeline');
-    if (!pipe) return;
-    const original = Array.from(pipe.children).map(c => c.outerHTML);
-    let dragged = null;
-
-    pipe.addEventListener('dragstart', (e) => {
-      const card = e.target.closest('.pipe-card');
-      if (!card) return;
-      dragged = card;
-      card.classList.add('dragging');
-      e.dataTransfer.effectAllowed = 'move';
-    });
-
-    pipe.addEventListener('dragend', () => {
-      if (dragged) dragged.classList.remove('dragging');
-      dragged = null;
-      pipe.querySelectorAll('.drop-before').forEach(c => c.classList.remove('drop-before'));
-    });
-
-    pipe.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      const target = e.target.closest('.pipe-card');
-      if (!target || target === dragged) return;
-      pipe.querySelectorAll('.drop-before').forEach(c => c.classList.remove('drop-before'));
-      target.classList.add('drop-before');
-    });
-
-    pipe.addEventListener('drop', (e) => {
-      e.preventDefault();
-      const target = e.target.closest('.pipe-card');
-      if (!target || target === dragged || !dragged) return;
-      pipe.insertBefore(dragged, target);
-    });
-
-    const reset = document.getElementById('pipeReset');
-    if (reset) reset.addEventListener('click', () => {
-      pipe.innerHTML = original.join('');
-    });
-  })();
 
   // ——— HERO CAROUSEL ———
   (function initCarousel() {
