@@ -1055,6 +1055,207 @@
 
   .group-card strong { color: var(--ink); font-weight: 600; }
 
+  /* ——— PROPOSTAS ——— */
+  .proposal-form {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 28px;
+    margin-bottom: 48px;
+  }
+
+  .proposal-form-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 16px;
+  }
+
+  .proposal-form input,
+  .proposal-form textarea,
+  .proposal-form select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    outline: none;
+    resize: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .proposal-form input:focus,
+  .proposal-form textarea:focus,
+  .proposal-form select:focus { border-bottom-color: var(--ink); }
+
+  .proposal-form input { font-size: 1.15rem; font-weight: 500; }
+  .proposal-form textarea { min-height: 72px; font-size: 0.92rem; line-height: 1.5; margin-top: 6px; }
+
+  .proposal-form-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    gap: 16px;
+  }
+
+  .proposal-form select {
+    flex: 1;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 0.8rem;
+    padding: 6px 0;
+    color: var(--ink-muted);
+  }
+
+  .proposal-form button {
+    background: var(--accent-bg);
+    color: var(--accent-fg);
+    border: none;
+    padding: 10px 26px;
+    border-radius: 999px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .proposal-form button:hover { background: #000; transform: translateY(-1px); }
+  body.dark .proposal-form button:hover { background: #fff; }
+  .proposal-form button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .proposals-login-notice {
+    padding: 36px;
+    border: 1px dashed var(--border);
+    text-align: center;
+    color: var(--ink-muted);
+    font-size: 0.92rem;
+    margin-bottom: 48px;
+  }
+
+  .proposals-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .proposal-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .proposal-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .proposal-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.84rem;
+    color: var(--ink-muted);
+  }
+
+  .proposal-author img {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .proposal-author strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .proposal-city-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--bg-2);
+    white-space: nowrap;
+  }
+
+  .proposal-title {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .proposal-body {
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    line-height: 1.55;
+    white-space: pre-wrap;
+  }
+
+  .proposal-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-soft);
+  }
+
+  .proposal-votes { display: flex; gap: 6px; }
+
+  .vote-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--ink-2);
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .vote-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .vote-btn.active { background: var(--accent-bg); color: var(--accent-fg); border-color: var(--accent-bg); }
+  .vote-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+
+  .proposal-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .proposals-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--ink-muted);
+    padding: 48px 20px;
+    border: 1px dashed var(--border);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 900px) {
+    .proposals-grid { grid-template-columns: 1fr; }
+    .proposal-form-foot { flex-direction: column; align-items: stretch; }
+  }
+
   /* ——— CITY STATUS (reservas) ——— */
   .city-status {
     margin-top: 28px;
@@ -1625,6 +1826,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <a href="#cidades">Cidades</a>
       <a href="#louise">Louise</a>
       <a href="#grupo">Grupo</a>
+      <a href="#propostas">Propostas</a>
     </div>
     <div class="nav-cta">
       <span class="nav-date">USA · 26 — 27</span>
@@ -2257,6 +2459,42 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   </div>
 </section>
 
+<!-- PROPOSTAS -->
+<section class="block" id="propostas">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-index">§ 05 · Propostas</div>
+      <div>
+        <h2 class="section-title">Ideias do <em>grupo</em>.</h2>
+        <p class="section-sub">Espaço pra propor mudanças no roteiro. Escreve a ideia, todo mundo vota 👍 ou 👎, o grupo decide. Sem rede social, sem ranking — só pra alinhar.</p>
+      </div>
+    </div>
+
+    <form class="proposal-form" id="proposalForm">
+      <div class="proposal-form-head">Nova proposta</div>
+      <input type="text" id="proposalTitle" placeholder="Título curto — ex: 'Trocar Epic Universe por Magic Kingdom'" maxlength="120" required>
+      <textarea id="proposalBody" placeholder="Por quê? Detalhe sua ideia…" maxlength="2000"></textarea>
+      <div class="proposal-form-foot">
+        <select id="proposalCity">
+          <option value="">Cidade (opcional)</option>
+          <option value="DC">Washington DC</option>
+          <option value="NYC">New York City</option>
+          <option value="Boston">Boston</option>
+          <option value="Utah">Utah</option>
+          <option value="Orlando">Orlando</option>
+          <option value="Miami">Miami</option>
+          <option value="Geral">Geral / Roteiro</option>
+        </select>
+        <button type="submit" id="proposalSubmit">Enviar proposta</button>
+      </div>
+    </form>
+
+    <div class="proposals-grid" id="proposalsGrid">
+      <div class="proposals-empty">Carregando…</div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="container">
     <div>
@@ -2308,7 +2546,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, limit, doc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDJQBeEHuQtDmqdAgeBuky20MoXV7nH4X8",
@@ -2449,6 +2687,114 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     });
   }
 
+  // ——— PROPOSALS ———
+  const proposalsGrid = document.getElementById('proposalsGrid');
+  const proposalForm = document.getElementById('proposalForm');
+  const proposalTitle = document.getElementById('proposalTitle');
+  const proposalBody = document.getElementById('proposalBody');
+  const proposalCity = document.getElementById('proposalCity');
+  const proposalSubmit = document.getElementById('proposalSubmit');
+
+  let unsubscribeProposals = null;
+
+  function fmtShortDate(ts) {
+    if (!ts || !ts.toDate) return '';
+    return ts.toDate().toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+  }
+
+  function renderProposals(snap) {
+    if (snap.empty) {
+      proposalsGrid.innerHTML = '<div class="proposals-empty">Nenhuma proposta ainda — seja o primeiro.</div>';
+      return;
+    }
+    let html = '';
+    snap.forEach((docSnap) => {
+      const p = docSnap.data();
+      const id = docSnap.id;
+      const votesUp = Array.isArray(p.votesUp) ? p.votesUp : [];
+      const votesDown = Array.isArray(p.votesDown) ? p.votesDown : [];
+      const myVote = currentUser && (votesUp.includes(currentUser.uid) ? 'up' : votesDown.includes(currentUser.uid) ? 'down' : null);
+      const avatar = p.authorPhoto ? `<img src="${p.authorPhoto}" alt="" referrerpolicy="no-referrer">` : '';
+      const name = escapeHtml((p.authorName || 'Anônimo').split(' ')[0]);
+      const city = p.city ? `<span class="proposal-city-tag">${escapeHtml(p.city)}</span>` : '';
+      const date = fmtShortDate(p.createdAt);
+      html += `
+        <article class="proposal-card">
+          <div class="proposal-card-head">
+            <div class="proposal-author">${avatar}<strong>${name}</strong></div>
+            ${city}
+          </div>
+          <div class="proposal-title">${escapeHtml(p.title || '')}</div>
+          <div class="proposal-body">${escapeHtml(p.body || '')}</div>
+          <div class="proposal-foot">
+            <div class="proposal-votes">
+              <button class="vote-btn ${myVote === 'up' ? 'active' : ''}" data-id="${id}" data-vote="up">👍 ${votesUp.length}</button>
+              <button class="vote-btn ${myVote === 'down' ? 'active' : ''}" data-id="${id}" data-vote="down">👎 ${votesDown.length}</button>
+            </div>
+            <div class="proposal-date">${date}</div>
+          </div>
+        </article>`;
+    });
+    proposalsGrid.innerHTML = html;
+  }
+
+  function subscribeProposals() {
+    const q = query(collection(db, 'proposals'), orderBy('createdAt', 'desc'), limit(100));
+    unsubscribeProposals = onSnapshot(q, renderProposals, (err) => {
+      proposalsGrid.innerHTML = `<div class="proposals-empty">Erro: ${escapeHtml(err.message)}</div>`;
+    });
+  }
+
+  proposalsGrid.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.vote-btn');
+    if (!btn || !currentUser) return;
+    const id = btn.dataset.id;
+    const vote = btn.dataset.vote;
+    const ref = doc(db, 'proposals', id);
+    const field = vote === 'up' ? 'votesUp' : 'votesDown';
+    const other = vote === 'up' ? 'votesDown' : 'votesUp';
+    const isActive = btn.classList.contains('active');
+    try {
+      if (isActive) {
+        await updateDoc(ref, { [field]: arrayRemove(currentUser.uid) });
+      } else {
+        await updateDoc(ref, {
+          [field]: arrayUnion(currentUser.uid),
+          [other]: arrayRemove(currentUser.uid)
+        });
+      }
+    } catch (err) {
+      alert('Erro ao votar: ' + err.message);
+    }
+  });
+
+  proposalForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const title = proposalTitle.value.trim();
+    const body = proposalBody.value.trim();
+    const city = proposalCity.value;
+    if (!title || !currentUser) return;
+    proposalSubmit.disabled = true;
+    try {
+      await addDoc(collection(db, 'proposals'), {
+        title, body, city,
+        authorUid: currentUser.uid,
+        authorName: currentUser.displayName || 'Anônimo',
+        authorPhoto: currentUser.photoURL || '',
+        votesUp: [],
+        votesDown: [],
+        createdAt: serverTimestamp()
+      });
+      proposalTitle.value = '';
+      proposalBody.value = '';
+      proposalCity.value = '';
+    } catch (err) {
+      alert('Erro ao enviar: ' + err.message);
+    } finally {
+      proposalSubmit.disabled = false;
+    }
+  });
+
   onAuthStateChanged(auth, (user) => {
     currentUser = user;
     if (user) {
@@ -2459,6 +2805,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       headSub.textContent = user.displayName || user.email;
       body.innerHTML = '<div class="chat-empty">Carregando…</div>';
       if (!unsubscribeMessages) subscribeMessages();
+      if (!unsubscribeProposals) subscribeProposals();
+      proposalSubmit.disabled = false;
     } else {
       document.body.classList.remove('authed');
       loginWrap.style.display = 'flex';
@@ -2467,7 +2815,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       headSub.textContent = 'Entra com Google pra conversar';
       authBtn.disabled = false;
       if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
+      if (unsubscribeProposals) { unsubscribeProposals(); unsubscribeProposals = null; }
       body.innerHTML = '<div class="chat-empty">Entra pra ver as mensagens</div>';
+      proposalsGrid.innerHTML = '<div class="proposals-empty">Entra com Google pra ver e participar</div>';
+      proposalSubmit.disabled = true;
     }
   });
 
