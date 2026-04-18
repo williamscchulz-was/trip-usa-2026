@@ -1202,23 +1202,20 @@
   }
 
   .pipe-city {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     font-weight: 500;
     color: var(--ink);
     letter-spacing: -0.015em;
-    line-height: 1.2;
-    margin-bottom: 14px;
-    min-height: 2.4em;
+    line-height: 1.15;
+    margin-bottom: 10px;
   }
 
-  .pipe-meta {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    line-height: 1.5;
-    margin-bottom: 8px;
+  .pipe-summary {
+    font-size: 0.82rem;
+    color: var(--ink-2);
+    line-height: 1.45;
+    margin-bottom: 14px;
+    min-height: 2.8em;
   }
 
   .pipe-times {
@@ -1226,9 +1223,9 @@
     font-size: 0.58rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink);
+    color: var(--ink-muted);
     line-height: 1.5;
-    padding-top: 8px;
+    padding-top: 10px;
     border-top: 1px solid var(--border-soft);
   }
 
@@ -1967,13 +1964,12 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     <div class="nav-brand">SCHULZ <span>·</span> HORN <span>·</span> PITZ</div>
     <div class="nav-links">
       <a href="#itinerario">Roteiro</a>
-      <a href="#voos">Chegadas</a>
       <a href="#dc">Cidades</a>
       <a href="#louise">Louise</a>
       <a href="#grupo">Grupo</a>
     </div>
     <div class="nav-cta">
-      <span class="nav-date">USA · 26 — 27</span>
+      <span class="nav-date">20.12.26 → 06.01.27</span>
       <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -1986,19 +1982,17 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-tag">Roteiro · Viagem em família</div>
-    <h1 class="hero-title">Norte América<span class="dot">.</span><br>2026 — 27<span class="dot">.</span></h1>
-    <p class="hero-sub">17 dias atravessando os Estados Unidos em família — do Natal em NYC ao Réveillon na neve de Utah, encerrando com um day-trip em Miami antes do voo de volta.</p>
+    <h1 class="hero-title">North America<span class="dot">.</span></h1>
+    <p class="hero-sub">Christmas in New York. New Year's in Utah. Seventeen days across the US — Schulz · Horn · Pitz.</p>
     <div class="hero-ctas">
-      <a class="hero-cta primary" href="#itinerario">Ver Itinerário →</a>
-      <a class="hero-cta ghost" href="#cidades">▶ Fotos</a>
+      <a class="hero-cta primary" href="#itinerario">See the route →</a>
     </div>
   </div>
   <div class="hero-photo" id="heroPhoto">
     <img class="hero-slide active" src="https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg" alt="New York City" data-caption="New York · Times Square" loading="eager">
     <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg" alt="Washington DC" data-caption="Washington · Lincoln Memorial" loading="lazy">
-    <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Eagle_Race_Arena_at_Park_City_Resort.jpg" alt="Utah" data-caption="Utah · Park City Rockies" loading="lazy">
-    <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Rockefeller_Christmas_Tree.jpg" alt="Rockefeller" data-caption="New York · Natal no Rockefeller" loading="lazy">
+    <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Deer_Valley_Ski_Resort_Park_City_Utah_photo_D_Ramey_Logan.jpg" alt="Utah" data-caption="Utah · Deer Valley" loading="lazy">
+    <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Rockefeller_Christmas_Tree.jpg" alt="Rockefeller" data-caption="New York · Rockefeller" loading="lazy">
     <div class="hero-photo-caption active" id="heroCaption">New York · Times Square</div>
     <div class="hero-dots" id="heroDots">
       <button class="hero-dot active" data-i="0" aria-label="Slide 1"></button>
@@ -2007,152 +2001,55 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <button class="hero-dot" data-i="3" aria-label="Slide 4"></button>
     </div>
   </div>
-  <div class="hero-meta">
-    <div class="hero-meta-item">
-      <div class="hero-meta-label">Saída</div>
-      <div class="hero-meta-value">20 dez 2026 · NVT</div>
-    </div>
-    <div class="hero-meta-item">
-      <div class="hero-meta-label">Retorno</div>
-      <div class="hero-meta-value">07 jan 2027 · NVT</div>
-    </div>
-    <div class="hero-meta-item">
-      <div class="hero-meta-label">Grupo</div>
-      <div class="hero-meta-value">6 adultos + 1 bebê</div>
-    </div>
-  </div>
 </section>
 
 <!-- ROTEIRO · CARDS CLICÁVEIS -->
 <section class="block alt" id="itinerario">
   <div class="container">
-    <div class="section-head">
-      <div class="section-index">§ 01 · Roteiro</div>
-      <div>
-        <h2 class="section-title">Dezessete dias,<br>seis <em>paradas</em>.</h2>
-        <p class="section-sub">Do mármore de DC ao sol de Miami — clica em qualquer parada pra ir direto pro detalhe daquela cidade.</p>
-      </div>
-    </div>
-
     <div class="pipeline">
       <a class="pipe-card" href="#dc">
-        <div class="pipe-idx">01</div>
+        <div class="pipe-idx">01 · 20—22 dez</div>
         <div class="pipe-city">Washington DC</div>
-        <div class="pipe-meta">20 → 22 dez · 2 dias</div>
-        <div class="pipe-times">chega 15h · sai 9h</div>
+        <div class="pipe-summary">Mall, Smithsonian, monumentos à noite.</div>
+        <div class="pipe-times">2 dias · chega 15h · sai 9h</div>
       </a>
       <a class="pipe-card highlight" href="#nyc">
         <span class="pipe-tag">Natal</span>
-        <div class="pipe-idx">02</div>
+        <div class="pipe-idx">02 · 22—26 dez</div>
         <div class="pipe-city">New York City</div>
-        <div class="pipe-meta">22 → 26 dez · 4 dias</div>
-        <div class="pipe-times">chega 12h · sai 10h</div>
+        <div class="pipe-summary">Rockefeller, Central Park, Brooklyn, Williamsburg.</div>
+        <div class="pipe-times">4 dias · chega 12h · sai 10h</div>
       </a>
       <a class="pipe-card" href="#boston">
-        <div class="pipe-idx">03</div>
+        <div class="pipe-idx">03 · 26—28 dez</div>
         <div class="pipe-city">Boston</div>
-        <div class="pipe-meta">26 → 28 dez · 2 dias</div>
-        <div class="pipe-times">chega 13h · sai 8h</div>
+        <div class="pipe-summary">Beacon Hill, Harvard, Charles River, lobster roll.</div>
+        <div class="pipe-times">2 dias · chega 13h · sai 8h</div>
       </a>
       <a class="pipe-card highlight" href="#utah">
         <span class="pipe-tag">Réveillon</span>
-        <div class="pipe-idx">04</div>
-        <div class="pipe-city">Utah · SLC + PC</div>
-        <div class="pipe-meta">28 dez → 02 jan · 5 dias</div>
-        <div class="pipe-times">chega 14h · sai 11h</div>
+        <div class="pipe-idx">04 · 28 dez — 2 jan</div>
+        <div class="pipe-city">Utah</div>
+        <div class="pipe-summary">SLC, Antelope Island, ski em Park City.</div>
+        <div class="pipe-times">5 dias · chega 14h · sai 11h</div>
       </a>
       <a class="pipe-card" href="#orlando">
-        <div class="pipe-idx">05</div>
+        <div class="pipe-idx">05 · 2—5 jan</div>
         <div class="pipe-city">Orlando</div>
-        <div class="pipe-meta">02 → 05 jan · 3 dias</div>
-        <div class="pipe-times">chega 17h · sai 8h</div>
+        <div class="pipe-summary">Premium Outlets + Epic Universe.</div>
+        <div class="pipe-times">3 dias · chega 17h · sai 8h</div>
       </a>
       <a class="pipe-card daytrip" href="#miami">
         <span class="pipe-tag">Day trip</span>
-        <div class="pipe-idx">06</div>
+        <div class="pipe-idx">06 · 5 jan</div>
         <div class="pipe-city">Miami</div>
-        <div class="pipe-meta">05 jan · sem overnight</div>
-        <div class="pipe-times">chega 12h · voa 18h55</div>
+        <div class="pipe-summary">South Beach, almoço, voo de volta 18h55.</div>
+        <div class="pipe-times">1 dia · chega 12h · voa 18h55</div>
       </a>
     </div>
   </div>
 </section>
 
-<!-- STATS -->
-<section class="stats">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat-block">
-        <span class="mono">Duração</span>
-        <div class="stat-number">17</div>
-        <div class="stat-desc">Dias no solo americano, do nordeste ao sul.</div>
-      </div>
-      <div class="stat-block">
-        <span class="mono">Destinos</span>
-        <div class="stat-number">06</div>
-        <div class="stat-desc">Cidades com climas e ritmos muito distintos.</div>
-      </div>
-      <div class="stat-block">
-        <span class="mono">Grupo</span>
-        <div class="stat-number">06<sup>+1</sup></div>
-        <div class="stat-desc">Seis adultos e a Louise, nossa lap infant.</div>
-      </div>
-      <div class="stat-block">
-        <span class="mono">Feriados</span>
-        <div class="stat-number">02</div>
-        <div class="stat-desc">Natal em New York, Réveillon em Park City (Utah).</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CHEGADAS -->
-<section class="block" id="voos">
-  <div class="container">
-    <div class="section-head">
-      <div class="section-index">§ 02 · Chegadas</div>
-      <div>
-        <h2 class="section-title">Três famílias,<br>três <em>origens</em>.</h2>
-        <p class="section-sub">Schulz, Pitz e Horn chegando de pontos distintos pra se encontrar em Washington DC. Horários individuais — cada família acerta seu voo.</p>
-      </div>
-    </div>
-    <div class="family-grid">
-      <div class="family-card">
-        <div class="family-tag">Família 01</div>
-        <h3 class="family-name">Schulz</h3>
-        <div class="family-data">
-          <div class="family-data-row"><span>Origem</span><span>Navegantes · NVT</span></div>
-          <div class="family-data-row"><span>Destino</span><span>Washington DC</span></div>
-          <div class="family-data-row"><span>Data</span><span>20 dez 2026</span></div>
-          <div class="family-data-row"><span>Horário</span><span class="s-pending">a confirmar</span></div>
-        </div>
-      </div>
-      <div class="family-card">
-        <div class="family-tag">Família 02</div>
-        <h3 class="family-name">Pitz</h3>
-        <div class="family-data">
-          <div class="family-data-row"><span>Origem</span><span>a confirmar</span></div>
-          <div class="family-data-row"><span>Destino</span><span>Washington DC</span></div>
-          <div class="family-data-row"><span>Data</span><span>20 dez 2026</span></div>
-          <div class="family-data-row"><span>Horário</span><span class="s-pending">a confirmar</span></div>
-        </div>
-      </div>
-      <div class="family-card">
-        <div class="family-tag">Família 03</div>
-        <h3 class="family-name">Horn</h3>
-        <div class="family-data">
-          <div class="family-data-row"><span>Origem</span><span>Texas · EUA</span></div>
-          <div class="family-data-row"><span>Destino</span><span>Washington DC</span></div>
-          <div class="family-data-row"><span>Data</span><span>20 dez 2026</span></div>
-          <div class="family-data-row"><span>Horário</span><span class="s-pending">a confirmar</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="family-foot">
-      Ponto de encontro · Washington DC · hotel em Penn Quarter · 20 dez 2026
-    </div>
-  </div>
-</section>
 
 <!-- CITY 01 · DC -->
 <section class="city" id="dc">
@@ -2177,21 +2074,21 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           <div class="city-data-row"><span>Clima</span><span>~2°C · frio seco</span></div>
         </div>
         <div class="city-status">
-          <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hospedagem</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Transporte BWI → hotel</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Capitol tour</span><span class="s-pending">Pendente</span></div>
+          <div class="city-status-label">Reservas & tickets</div>
+          <div class="status-row"><span>Hospedagem Penn Quarter · 2 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Timed-entry Smithsonian Air &amp; Space</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Tour Capitólio (free, reserva online)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Uber XL BWI → hotel</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Passagem Amtrak DC → NYC</span><span class="s-pending">Pendente</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>5 spots</span></div>
+          <div class="block-title">Dia a dia <span>3 dias</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>National Mall</h4><p>Capitólio, Washington Monument, Lincoln Memorial, WWII e Vietnam Memorial. Caminhável em 2h com pausas, calçamento plano pro stroller.</p></div></div>
-            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Smithsonian · Air and Space Museum</h4><p>Gratuito, climatizado, enorme. Spirit of St. Louis, cápsula Apollo 11. Timed-entry grátis mas reserva online com antecedência.</p></div></div>
-            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Capitólio + Library of Congress</h4><p>Tour gratuito no Capitólio. Library of Congress do lado tem a sala de leitura mais bonita dos EUA — vale entrar mesmo sem tour.</p></div></div>
-            <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Monumentos iluminados à noite</h4><p>Lincoln, WWII, MLK e Jefferson iluminados após o jantar. A experiência mais memorável de DC. Uber entre eles pra não congelar.</p></div></div>
-            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Georgetown + Eastern Market</h4><p>Georgetown pra almoço em rua charmosa; Eastern Market pra food hall no domingo com famílias locais.</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>20 dez · sáb · chegada</h4><p>Chega BWI 14h50, Uber XL pro hotel em Penn Quarter, jantar leve de delivery no quarto, todo mundo dorme cedo (viagem internacional).</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>21 dez · dom · Mall inteiro</h4><p><strong>Manhã:</strong> walk pelo National Mall (Capitólio → Washington Monument → Lincoln Memorial, 2h com pausas). <strong>Tarde:</strong> Smithsonian Air &amp; Space Museum (grátis, reserva timed-entry antes). <strong>Noite:</strong> monumentos iluminados — Lincoln + WWII + MLK + Jefferson de Uber.</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>22 dez · seg · saída</h4><p>Manhã no Capitólio + Library of Congress (tour grátis reservado). Almoço rápido em Georgetown ou Eastern Market. Amtrak Union Station 13h → Penn Station NYC (3h).</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Capitol_Building_Full_View.jpg" alt="Capitol" loading="lazy"></div>
@@ -2235,24 +2132,24 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           <div class="city-data-row"><span>Clima</span><span>~0°C · possível neve</span></div>
         </div>
         <div class="city-status">
-          <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hospedagem · 4 dias</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Rockefeller observation</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Patinação Bryant Park</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Broadway</span><span class="s-pending">Pendente</span></div>
+          <div class="city-status-label">Reservas & tickets</div>
+          <div class="status-row"><span>Hospedagem Midtown · 4 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Tickets Top of the Rock</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Patinação Bryant Park / Rockefeller</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Dim sum reserva 25 dez (Chinatown)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Broadway matinée (opcional)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Voo NYC → BOS · 26 dez</span><span class="s-pending">Pendente</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>7 spots</span></div>
+          <div class="block-title">Dia a dia <span>5 dias</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Rockefeller Center · a árvore</h4><p>A árvore, a pista de patinação, o Top of the Rock para o pôr-do-sol. Vai muito cedo (8h) ou após 22h pra fugir da multidão. Reserva patinação online.</p></div></div>
-            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Central Park no inverno</h4><p>Bow Bridge, Bethesda Terrace, Strawberry Fields. Se nevar, vira outra coisa. Carriage ride pelo parque (~$100 meia hora) é turistão mas memorável com bebê.</p></div></div>
-            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>The Met · Natural History</h4><p>Dois museus gigantes. O Met pro art & culture; o Natural History pros dinossauros. Ambos com stroller access e cafés internos — dia inteiro fácil.</p></div></div>
-            <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Natal (25/dez) · Chinatown + filme</h4><p>Tradição nova-iorquina: quase tudo fecha, exceto restaurantes chineses e cinemas. Dim sum em Chinatown + sessão de cinema é um dia diferente e muito divertido.</p></div></div>
-            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Brooklyn · DUMBO + Brooklyn Bridge</h4><p>Atravessa a ponte a pé no começo da manhã (sem fila, luz bonita) — 30 min até DUMBO. Pizza na Juliana's (evita a fila da Grimaldi's ao lado, é a mesma receita original), pôr-do-sol em Brooklyn Bridge Park com skyline de Manhattan.</p></div></div>
-            <div class="spot"><div class="spot-num">06</div><div class="spot-body"><h4>Williamsburg · bairro criativo</h4><p>L-train até Bedford Ave, caminhada pela Wythe + North 6th. Galerias, vintage shops, boutiques independentes. Brunch no Sunday in Brooklyn ou Five Leaves. Se pegar sábado: Smorgasburg (food market outdoor) até tarde. Vista do East River com Manhattan do outro lado.</p></div></div>
-            <div class="spot"><div class="spot-num">07</div><div class="spot-body"><h4>Broadway · se der</h4><p>Matinée com 6 adultos é viável (3 ficam com a Louise, 3 vão). Lion King, Wicked, MJ ou Hamilton costumam ter sessões sábado e domingo de tarde.</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>22 dez · seg · chegada</h4><p>Amtrak chega Penn Station ~16h30. Check-in em Midtown. Jantar leve, walk pela Times Square à noite (luzes de Natal bombando).</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>23 dez · ter · Rockefeller</h4><p><strong>Manhã:</strong> árvore de Natal do Rockefeller cedo (8h, sem multidão). <strong>Tarde:</strong> Top of the Rock pro pôr-do-sol. <strong>Noite:</strong> patinação Bryant Park (reservado).</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>24 dez · qua · Central Park + museu</h4><p>Manhã no Central Park (Bow Bridge, Bethesda Terrace). Almoço. Tarde em museu — Met ou Natural History (dinossauros pra Louise). Ceia leve early — muitos lugares fecham cedo véspera de Natal.</p></div></div>
+            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>25 dez · qui · Natal à nova-iorquina</h4><p>Dim sum em Chinatown (quase tudo fecha no Natal, exceto chinês). Sessão de cinema à tarde. Tradição local que vira history pra contar. Jantar simples.</p></div></div>
+            <div class="spot"><div class="spot-num">D5</div><div class="spot-body"><h4>26 dez · sex · Brooklyn + saída</h4><p><strong>Manhã:</strong> atravessa a Ponte do Brooklyn a pé (30min), pizza Juliana's em DUMBO. Opcional: Williamsburg (Bedford Ave, Smorgasburg se sábado). <strong>Tarde:</strong> LGA voo → BOS (1h30).</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Global_Citizen_Festival_Central_Park_New_York_City_from_NYonAir_%2815351915006%29.jpg" alt="Central Park" loading="lazy"></div>
@@ -2297,23 +2194,21 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           <div class="city-data-row"><span>Clima</span><span>~-2°C · cortante</span></div>
         </div>
         <div class="city-status">
-          <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hospedagem · 2 dias</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Harvard tour</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Jantar North End</span><span class="s-pending">Pendente</span></div>
+          <div class="city-status-label">Reservas & tickets</div>
+          <div class="status-row"><span>Hospedagem Back Bay · 2 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Almoço Neptune Oyster (chegar 11h30)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Jantar Regina Pizzeria (reserva)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Harvard Yard tour (grátis, opcional)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Voo BOS → SLC · 28 dez</span><span class="s-pending">Pendente</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>7 spots</span></div>
+          <div class="block-title">Dia a dia <span>3 dias</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Freedom Trail · parcial</h4><p>Linha vermelha no chão que liga 16 locais históricos. Com bebê e frio, foca no trecho Boston Common → Faneuil Hall (1h, mais urbano e aquecido).</p></div></div>
-            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Beacon Hill · Acorn Street</h4><p>O bairro mais fotogênico de Boston. Ruas de paralelepípedo, gas lamps, casas de tijolo federal. Acorn Street é a rua mais fotografada da cidade — vai no começo da manhã pra pegar vazio. Charles Street no pé do morro tem cafés e antiquários.</p></div></div>
-            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Harvard + Cambridge</h4><p>Metrô Red Line até Harvard Square. Campus livre pra visitar, Harvard Yard é fotogênico no inverno. Almoço em Felipe's Taqueria ou Mr. Bartley's.</p></div></div>
-            <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Lobster roll · obrigatório</h4><p>O prato oficial da viagem. <strong>Neptune Oyster</strong> (North End) tem o lobster roll definitivo — chega 11:30 pra garantir mesa, não aceitam reserva, fila dobra a esquina. Alternativas sem fila: James Hook & Co (no porto, casual) ou Saltie Girl (Back Bay, versão gourmet). Peça <em>hot with butter</em>, é como se deve.</p></div></div>
-            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Charles River Esplanade · walk</h4><p>Caminhada pela margem do rio do Back Bay até o MIT. Vista de Cambridge do outro lado, Longfellow Bridge ("Salt and Pepper Bridge"). Se o rio estiver congelado e tiver sol, é uma das imagens mais memoráveis de Boston no inverno. ~40 min relaxado.</p></div></div>
-            <div class="spot"><div class="spot-num">06</div><div class="spot-body"><h4>Boston Public Garden + Common</h4><p>O parque público mais antigo dos EUA. No inverno fica mágico, especialmente com neve. Frog Pond vira pista de patinação.</p></div></div>
-            <div class="spot"><div class="spot-num">07</div><div class="spot-body"><h4>North End · jantar italiano</h4><p>Bairro italiano de Boston. Regina Pizzeria (a original, não a do mall), Mike's Pastry pro cannoli. Restaurantes pequenos — reserva ou chega cedo.</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>26 dez · sex · chegada</h4><p>Voo NYC → BOS chega tarde. Check-in em Back Bay. Jantar no <strong>North End</strong> — Regina Pizzeria (a original) + Mike's Pastry pro cannoli. Reserva antes ou chega cedo.</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>27 dez · sáb · dia cheio</h4><p><strong>Manhã:</strong> Beacon Hill — Acorn Street (a rua mais fotografada) + Boston Common. <strong>Almoço:</strong> lobster roll no <strong>Neptune Oyster</strong> (chegar 11h30, fila dobra a esquina; peça <em>hot with butter</em>). <strong>Tarde:</strong> Harvard + Cambridge (Red Line). <strong>Noite:</strong> volta pelo Freedom Trail iluminado.</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>28 dez · dom · saída</h4><p>Walk pela Charles River Esplanade com café (vista de Cambridge, rio possivelmente congelado). Uber XL pro Logan. Voo → SLC (5h de voo, com conexão ~8h total).</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Harvard_Yard_in_autumn%2C_Boston%2C_Massachusetts%2C_2015.jpg" alt="Harvard" loading="lazy"></div>
@@ -2359,27 +2254,26 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           <div class="city-data-row"><span>Clima</span><span>-2°C (SLC) · -10°C (PC)</span></div>
         </div>
         <div class="city-status">
-          <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hotel SLC · 2 dias</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Casa/condo Park City · 3 dias</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Carros alugados SLC</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Passe de ski + equipamento</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Réveillon jantar</span><span class="s-pending">Pendente</span></div>
+          <div class="city-status-label">Reservas & tickets</div>
+          <div class="status-row"><span>Hotel SLC downtown · 2 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Condo Park City ski-in/out · 3 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Carros SUV 4x4 SLC (x2)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Passes de ski (Epic / Ikon)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Ski Butlers · entrega equipamento</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Réveillon 31/12 · jantar (Riverhorse/Glitretind)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Voo SLC → MCO · 2 jan</span><span class="s-pending">Pendente</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>3 capítulos · 8 spots</span></div>
+          <div class="block-title">Dia a dia <span>6 dias</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">A</div><div class="spot-body"><h4>Capítulo A · Salt Lake City (2 dias)</h4><p><strong>28 dez:</strong> chegada SLC tarde, hotel downtown. Aclimatação leve — a cidade fica a 1.300m (nada de altitude pesada ainda). Jantar no The Copper Onion ou HSL.</p><p><strong>29 dez:</strong> manhã em <strong>Temple Square</strong> (arquitetura mórmon impressionante, aberto ao público), City Creek Center pra fugir do frio, almoço, e tarde na <strong>Antelope Island</strong>.</p></div></div>
-            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Temple Square</h4><p>Coração mórmon: templo branco neogótico, tabernáculo com acústica lendária, jardins. Gratuito. Tour guiado em inglês ou só andar. Vale 1h30-2h.</p></div></div>
-            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Antelope Island State Park · o deserto</h4><p>1h de carro de SLC. Ilha dentro do Great Salt Lake — paisagem marciana, salinas brancas, manadas de bison livres, pôr-do-sol na água salgada. Entrada $15/carro. Dá pra fazer meio-dia: <em>Fielding Garr Ranch</em> + <em>Buffalo Point overlook</em>. Volta pra SLC pro jantar.</p></div></div>
-            <div class="spot"><div class="spot-num">B</div><div class="spot-body"><h4>Capítulo B · Park City (3 dias)</h4><p><strong>30 dez:</strong> sobe 45 min pra Park City (2.100m), chega no condo de manhã, aclimata, primeiro ski leve de meio período.</p><p><strong>31 dez:</strong> ski pela manhã, Réveillon no resort ou Main Street à noite.</p><p><strong>1 jan:</strong> ski ou rest day. <strong>2 jan:</strong> desce pra SLC, voo MCO.</p></div></div>
-            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Park City Mountain Resort</h4><p>Maior ski resort dos EUA (mesclou com The Canyons). 300+ trilhas pra todos os níveis. Ski-in/ski-out do condo muda o jogo. Aulas particulares pra iniciantes.</p></div></div>
-            <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Deer Valley · o chique</h4><p>Só esqui, sem snowboard. Mais caro, menos gente, pistas impecáveis, almoço de restaurante de verdade. Se tiver 1 dia de ski só, talvez valha esse.</p></div></div>
-            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Main Street Park City</h4><p>Rua histórica cheia de restaurantes, galerias e lojas. Riverhorse on Main e High West Saloon (whiskey distillery) são obrigatórios.</p></div></div>
-            <div class="spot"><div class="spot-num">06</div><div class="spot-body"><h4>Réveillon · 31 de dezembro</h4><p>Opção 1: jantar gourmet no resort + fogos. Opção 2: Main Street (fogos às 20h, depois às 24h + festa). Com Louise, Opção 1 é mais sensata.</p></div></div>
-            <div class="spot"><div class="spot-num">07</div><div class="spot-body"><h4>Pro não-esquiador</h4><p>Dog sledding, snowshoeing, snowmobile tours, spas de resort (Montage, St. Regis). Utah Olympic Park (bobsled, museu). Dá pra preencher dias inteiros sem tocar em esqui.</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>28 dez · dom · chegada SLC</h4><p>Voo chega SLC tarde. Hotel downtown (1.300m — altitude leve). Jantar no <strong>The Copper Onion</strong> ou HSL. Cedo pra dormir, dia foi longo.</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>29 dez · seg · deserto</h4><p><strong>Manhã:</strong> Temple Square (templo mórmon + tabernáculo, grátis, 1h30). <strong>Tarde:</strong> drive 1h até <strong>Antelope Island</strong> — paisagem marciana, bisões livres, pôr-do-sol no Great Salt Lake. Volta pra SLC pro jantar.</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>30 dez · ter · sobe Park City</h4><p>Drive 45min SLC → Park City (2.100m). Check-in condo. Aclimatação: ski leve meio período à tarde, sem exagero. Ski Butlers entrega equipamento no condo. Jantar na Main Street.</p></div></div>
+            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>31 dez · qua · Réveillon</h4><p>Ski de manhã (Park City Mountain ou Deer Valley). Retorno pro condo descansar. <strong>Jantar:</strong> resort gourmet (Riverhorse, Glitretind) — com Louise, mais sensato que Main Street. Fogos à meia-noite no resort.</p></div></div>
+            <div class="spot"><div class="spot-num">D5</div><div class="spot-body"><h4>1 jan · qui · rest day</h4><p>Primeiro dia do ano = ressaca + cansaço de ski. Opções: ski leve meio período, spa no resort (Montage, St. Regis), dog sledding ou snowshoeing pros não-esquiadores. Almoço no Riverhorse.</p></div></div>
+            <div class="spot"><div class="spot-num">D6</div><div class="spot-body"><h4>2 jan · sex · saída</h4><p>Devolve Ski Butlers manhã cedo. Check-out condo. Drive 45min → SLC. Voo SLC → MCO (4h30 de voo direto).</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Park_City_overview.jpg" alt="Main Street Park City" loading="lazy"></div>
@@ -2427,20 +2321,22 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           <div class="city-data-row"><span>Clima</span><span>~22°C · alívio</span></div>
         </div>
         <div class="city-status">
-          <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Hospedagem · 3 dias</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Carros alugados MCO</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Ingressos Epic Universe</span><span class="s-pending">Pendente</span></div>
+          <div class="city-status-label">Reservas & tickets</div>
+          <div class="status-row"><span>Hotel Universal on-site · 3 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Tickets Epic Universe</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Express Unlimited Pass (Epic)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Carros minivan + SUV (MCO)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Drop-off carros MIA (one-way fee)</span><span class="s-pending">Pendente</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>4 spots</span></div>
+          <div class="block-title">Dia a dia <span>4 dias</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Dia 1 · chegada + pool</h4><p>Voo SLC → MCO (~4h30) chega tarde. Hotel perto de Universal, jantar leve em I-Drive, pool à noite pra aliviar a transição da neve pro calor.</p></div></div>
-            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Dia 2 · Orlando Premium Outlets Vineland</h4><p>O melhor dos outlets do Orlando. Luxury brands (Gucci, Prada, Tory Burch, Coach, Tumi) + mainstream (Nike, Adidas, Polo, Levi's). Abre 10h. Pra grupo de 6, dividam em duplas pra cobrir mais. 6-8h lá dentro é realista.</p></div></div>
-            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Dia 3 · Epic Universe</h4><p>Novo parque da Universal (maio/2025). Cinco mundos: Celestial Park, Super Nintendo World, How to Train Your Dragon, Wizarding World — Ministry of Magic, e Dark Universe. Express Pass é OBRIGATÓRIO pra grupo grande em um dia.</p></div></div>
-            <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Com a Louise no Epic</h4><p>Usa o Rider Swap: um adulto fica com bebê enquanto os outros andam; depois trocam sem pegar fila de novo. Várias atrações family-friendly. Celestial Park tem restaurantes bons e shade pra pausas.</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>2 jan · sex · chegada</h4><p>Voo SLC → MCO chega tarde. Hotel on-site Universal (Cabana Bay ou Sapphire Falls) pra ganhar early park admission. Jantar leve em I-Drive, pool à noite pra aliviar a transição da neve pro calor.</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>3 jan · sáb · Outlets Vineland</h4><p><strong>Orlando Premium Outlets Vineland</strong> o dia inteiro. Luxury brands (Gucci, Prada, Tory Burch, Coach, Tumi) + mainstream (Nike, Adidas, Polo, Levi's). Grupo divide em duplas pra cobrir mais. 6-8h realistas. Cartões múltiplos — outlet bloqueia às vezes.</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>4 jan · dom · Epic Universe</h4><p>Parque novo da Universal (5 mundos: Celestial Park, Super Nintendo World, Dragon, Wizarding World Ministry of Magic, Dark Universe). <strong>Express Unlimited Pass é obrigatório</strong> pra grupo grande. Com Louise: Rider Swap — um fica com bebê, outro anda, depois troca sem fila de novo.</p></div></div>
+            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>5 jan · seg · drive Miami</h4><p>Check-out 8h. Drive 3h30 Orlando → Miami pela I-95 (parada em Ft. Lauderdale se precisar). Chega Miami ~12h.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Orlando_Premium_Outlets_-_panoramio_%285%29.jpg" alt="Orlando Outlets" loading="lazy"></div>
@@ -2486,7 +2382,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           <div class="city-data-row"><span>Clima</span><span>~25°C · praia</span></div>
         </div>
         <div class="city-status">
-          <div class="city-status-label">Reservas</div>
+          <div class="city-status-label">Reservas & tickets</div>
           <div class="status-row"><span>Drop-off carros MIA</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Check-in voo Latam</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Almoço South Beach</span><span class="s-pending">Pendente</span></div>
@@ -2494,11 +2390,11 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>3 spots · day trip</span></div>
+          <div class="block-title">Dia a dia <span>1 dia · day trip</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Drive Orlando → Miami (manhã)</h4><p>Sai de Orlando cedo (7h-8h), 3h30 de estrada pela I-95. Parada em Ft. Lauderdale pro café se precisar. Chega em Miami por volta de meio-dia, direto pra South Beach.</p></div></div>
-            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Ocean Drive + almoço (12-15h)</h4><p>Caminhada pelo Ocean Drive art déco, pés na areia, almoço em Joe's Stone Crab (se em temporada) ou Versailles (cubano em Little Havana). Louise vendo o Atlântico.</p></div></div>
-            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Aeroporto + voo (15h30+)</h4><p>Drop-off carros em MIA 15h30, check-in 16h pro voo Latam 18:55. Com bebê, fila family check-in é mais rápida. Aeroporto MIA lotado no inverno — planeja buffer.</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>5 jan · seg · manhã · chegada</h4><p>Chega Miami ~12h vindo de Orlando (drive I-95, 3h30). Direto pra South Beach — estaciona no Ocean Drive, pés na areia, Louise vendo o Atlântico de cima.</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>5 jan · tarde · almoço South Beach</h4><p>Almoço: Joe's Stone Crab (só em temporada, vale a tradição) ou Versailles (cubano em Little Havana, clássico). Walk pelo Ocean Drive art déco. Café em Lincoln Road. Alternativa: Wynwood Walls (street art, 1-2h).</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>5 jan · noite · voo de volta</h4><p>15h30 — drop-off carros em MIA (planeja 30-40min extra pra filas). 16h — check-in voo Latam 18:55 (chega 3h30 antes, fila family com Louise). 18:55 — voo MIA → GRU. Chegam 07 jan 09:45 NVT.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Ocean_drive_day_2009j.JPG" alt="South Beach" loading="lazy"></div>
