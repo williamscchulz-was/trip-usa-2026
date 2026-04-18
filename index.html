@@ -444,6 +444,63 @@
     gap: 32px;
   }
 
+  /* ——— FAMILY ARRIVALS ——— */
+  .family-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .family-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 32px 28px;
+  }
+
+  .family-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 12px;
+  }
+
+  .family-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .family-data-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 10px 0;
+    font-size: 0.86rem;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .family-data-row:last-child { border-bottom: none; }
+  .family-data-row > span:first-child { color: var(--ink-muted); }
+  .family-data-row > span:last-child { color: var(--ink); font-weight: 500; }
+
+  .family-foot {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+
   .flight-card {
     background: var(--paper);
     border: 1px solid var(--border);
@@ -1440,6 +1497,7 @@
     .stat-block:nth-child(even) { padding-right: 0; }
     .section-head { grid-template-columns: 1fr; gap: 20px; margin-bottom: 48px; }
     .flights-grid, .baby-grid, .group-grid { grid-template-columns: 1fr; }
+    .family-grid { grid-template-columns: 1fr; }
 .city-grid { grid-template-columns: 1fr; gap: 40px; }
     .city-meta { position: static; }
     .city-visual { aspect-ratio: 3 / 2; margin-bottom: 48px; }
@@ -1490,7 +1548,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <div class="container nav-inner">
     <div class="nav-brand">SCHULZ <span>·</span> HORN <span>·</span> PITZ</div>
     <div class="nav-links">
-      <a href="#voos">Voos</a>
+      <a href="#voos">Chegadas</a>
       <a href="#itinerario">Itinerário</a>
       <a href="#cidades">Cidades</a>
       <a href="#louise">Louise</a>
@@ -1555,90 +1613,56 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="stat-block">
         <span class="mono">Feriados</span>
         <div class="stat-number">02</div>
-        <div class="stat-desc">Natal em New York, Réveillon em Park City.</div>
+        <div class="stat-desc">Natal em New York, Réveillon em Park City (Utah).</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FLIGHTS -->
+<!-- CHEGADAS -->
 <section class="block" id="voos">
   <div class="container">
     <div class="section-head">
-      <div class="section-index">§ 01 · Voos</div>
+      <div class="section-index">§ 01 · Chegadas</div>
       <div>
-        <h2 class="section-title">Ida pelo <em>nordeste</em>,<br>volta pelo <em>sul</em>.</h2>
-        <p class="section-sub">Duas conexões na ida, apenas uma na volta. Ambos os itinerários operados pela Latam via Guarulhos.</p>
+        <h2 class="section-title">Três famílias,<br>três <em>origens</em>.</h2>
+        <p class="section-sub">Schulz, Pitz e Horn chegando de pontos distintos pra se encontrar em Washington DC. Horários individuais — cada família acerta seu voo.</p>
       </div>
     </div>
-    <div class="flights-grid">
-      <div class="flight-card">
-        <div class="flight-head">
-          <div class="flight-direction">Ida</div>
-          <div class="flight-date">dom · 20 dez 2026</div>
-        </div>
-        <div class="flight-legs">
-          <div class="flight-leg">
-            <div class="flight-time">20:00</div>
-            <div class="flight-info">
-              <div class="flight-code">LA 3411 · NVT → GRU</div>
-              <div class="flight-route">Airbus A320 · Latam</div>
-            </div>
-            <div class="flight-dur">1h 20</div>
-          </div>
-          <div class="flight-layover">Conexão GRU · 1h 20 · apertada</div>
-          <div class="flight-leg">
-            <div class="flight-time">22:40</div>
-            <div class="flight-info">
-              <div class="flight-code">LA 8164 · GRU → BOS</div>
-              <div class="flight-route">Boeing 787-9 · Latam</div>
-            </div>
-            <div class="flight-dur">9h 55</div>
-          </div>
-          <div class="flight-layover">Conexão BOS · 6h 30 · imigração US</div>
-          <div class="flight-leg">
-            <div class="flight-time">13:05</div>
-            <div class="flight-info">
-              <div class="flight-code">LA 5479 · BOS → BWI</div>
-              <div class="flight-route">Embraer 175 · operado Delta</div>
-            </div>
-            <div class="flight-dur">1h 45</div>
-          </div>
-        </div>
-        <div class="flight-foot">
-          <span class="flight-foot-label">Total</span>
-          <span class="flight-foot-val">20h 50 · chega 14:50 BWI</span>
+    <div class="family-grid">
+      <div class="family-card">
+        <div class="family-tag">Família 01</div>
+        <h3 class="family-name">Schulz</h3>
+        <div class="family-data">
+          <div class="family-data-row"><span>Origem</span><span>Navegantes · NVT</span></div>
+          <div class="family-data-row"><span>Destino</span><span>Washington DC</span></div>
+          <div class="family-data-row"><span>Data</span><span>20 dez 2026</span></div>
+          <div class="family-data-row"><span>Horário</span><span class="s-pending">a confirmar</span></div>
         </div>
       </div>
-      <div class="flight-card">
-        <div class="flight-head">
-          <div class="flight-direction">Volta</div>
-          <div class="flight-date">qua · 06 jan 2027</div>
-        </div>
-        <div class="flight-legs">
-          <div class="flight-leg">
-            <div class="flight-time">18:55</div>
-            <div class="flight-info">
-              <div class="flight-code">LA 8191 · MIA → GRU</div>
-              <div class="flight-route">Boeing 777-300 · Latam</div>
-            </div>
-            <div class="flight-dur">8h 25</div>
-          </div>
-          <div class="flight-layover">Conexão GRU · 3h 15 · confortável</div>
-          <div class="flight-leg">
-            <div class="flight-time">08:35</div>
-            <div class="flight-info">
-              <div class="flight-code">LA 3404 · GRU → NVT</div>
-              <div class="flight-route">Airbus A320 · Latam</div>
-            </div>
-            <div class="flight-dur">1h 10</div>
-          </div>
-        </div>
-        <div class="flight-foot">
-          <span class="flight-foot-label">Total</span>
-          <span class="flight-foot-val">12h 50 · chega 09:45 NVT</span>
+      <div class="family-card">
+        <div class="family-tag">Família 02</div>
+        <h3 class="family-name">Pitz</h3>
+        <div class="family-data">
+          <div class="family-data-row"><span>Origem</span><span>a confirmar</span></div>
+          <div class="family-data-row"><span>Destino</span><span>Washington DC</span></div>
+          <div class="family-data-row"><span>Data</span><span>20 dez 2026</span></div>
+          <div class="family-data-row"><span>Horário</span><span class="s-pending">a confirmar</span></div>
         </div>
       </div>
+      <div class="family-card">
+        <div class="family-tag">Família 03</div>
+        <h3 class="family-name">Horn</h3>
+        <div class="family-data">
+          <div class="family-data-row"><span>Origem</span><span>Texas · EUA</span></div>
+          <div class="family-data-row"><span>Destino</span><span>Washington DC</span></div>
+          <div class="family-data-row"><span>Data</span><span>20 dez 2026</span></div>
+          <div class="family-data-row"><span>Horário</span><span class="s-pending">a confirmar</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="family-foot">
+      Ponto de encontro · Washington DC · hotel em Penn Quarter · 20 dez 2026
     </div>
   </div>
 </section>
@@ -1675,7 +1699,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         </div>
         <div class="timeline-stop highlight">
           <div class="timeline-stop-idx">04 · NYE</div>
-          <div class="timeline-stop-city">Park City</div>
+          <div class="timeline-stop-city">Utah · SLC + Park City</div>
           <div class="timeline-stop-dates">28 dez → 02 jan</div>
           <div class="timeline-stop-nights">5 noites</div>
         </div>
@@ -1786,14 +1810,15 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>6 spots</span></div>
+          <div class="block-title">Destaques <span>7 spots</span></div>
           <div class="spots">
             <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Rockefeller Center · a árvore</h4><p>A árvore, a pista de patinação, o Top of the Rock para o pôr-do-sol. Vai muito cedo (8h) ou após 22h pra fugir da multidão. Reserva patinação online.</p></div></div>
             <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Central Park no inverno</h4><p>Bow Bridge, Bethesda Terrace, Strawberry Fields. Se nevar, vira outra coisa. Carriage ride pelo parque (~$100 meia hora) é turistão mas memorável com bebê.</p></div></div>
             <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>The Met · Natural History</h4><p>Dois museus gigantes. O Met pro art & culture; o Natural History pros dinossauros. Ambos com stroller access e cafés internos — dia inteiro fácil.</p></div></div>
             <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Natal (25/dez) · Chinatown + filme</h4><p>Tradição nova-iorquina: quase tudo fecha, exceto restaurantes chineses e cinemas. Dim sum em Chinatown + sessão de cinema é um dia diferente e muito divertido.</p></div></div>
-            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Brooklyn · DUMBO + Brooklyn Bridge</h4><p>Metade atravessa a Ponte do Brooklyn a pé (30 min), metade vai de Uber. Pizza na Juliana's, pôr-do-sol em Brooklyn Bridge Park.</p></div></div>
-            <div class="spot"><div class="spot-num">06</div><div class="spot-body"><h4>Broadway · se der</h4><p>Matinée com 6 adultos é viável (3 ficam com a Louise, 3 vão). Lion King, Wicked, MJ ou Hamilton costumam ter sessões sábado e domingo de tarde.</p></div></div>
+            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Brooklyn · DUMBO + Brooklyn Bridge</h4><p>Atravessa a ponte a pé no começo da manhã (sem fila, luz bonita) — 30 min até DUMBO. Pizza na Juliana's (evita a fila da Grimaldi's ao lado, é a mesma receita original), pôr-do-sol em Brooklyn Bridge Park com skyline de Manhattan.</p></div></div>
+            <div class="spot"><div class="spot-num">06</div><div class="spot-body"><h4>Williamsburg · bairro criativo</h4><p>L-train até Bedford Ave, caminhada pela Wythe + North 6th. Galerias, vintage shops, boutiques independentes. Brunch no Sunday in Brooklyn ou Five Leaves. Se pegar sábado: Smorgasburg (food market outdoor) até tarde. Vista do East River com Manhattan do outro lado.</p></div></div>
+            <div class="spot"><div class="spot-num">07</div><div class="spot-body"><h4>Broadway · se der</h4><p>Matinée com 6 adultos é viável (3 ficam com a Louise, 3 vão). Lion King, Wicked, MJ ou Hamilton costumam ter sessões sábado e domingo de tarde.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Global_Citizen_Festival_Central_Park_New_York_City_from_NYonAir_%2815351915006%29.jpg" alt="Central Park" loading="lazy"></div>
@@ -1846,13 +1871,15 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>5 spots</span></div>
+          <div class="block-title">Destaques <span>7 spots</span></div>
           <div class="spots">
             <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Freedom Trail · parcial</h4><p>Linha vermelha no chão que liga 16 locais históricos. Com bebê e frio, foca no trecho Boston Common → Faneuil Hall (1h, mais urbano e aquecido).</p></div></div>
-            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Harvard + Cambridge</h4><p>Metrô Red Line até Harvard Square. Campus livre pra visitar, Harvard Yard é fotogênico no inverno. Almoço em Felipe's Taqueria ou Mr. Bartley's.</p></div></div>
-            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Quincy Market + Faneuil Hall</h4><p>Food hall histórico. Comece pelo clam chowder na Union Oyster House (1826, mais antigo dos EUA), lobster roll, clássicos.</p></div></div>
-            <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Boston Public Garden + Common</h4><p>O parque público mais antigo dos EUA. No inverno fica mágico, especialmente com neve. Frog Pond vira pista de patinação.</p></div></div>
-            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>North End · jantar italiano</h4><p>Bairro italiano de Boston. Regina Pizzeria (a original, não a do mall), Mike's Pastry pro cannoli. Restaurantes pequenos — reserva ou chega cedo.</p></div></div>
+            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Beacon Hill · Acorn Street</h4><p>O bairro mais fotogênico de Boston. Ruas de paralelepípedo, gas lamps, casas de tijolo federal. Acorn Street é a rua mais fotografada da cidade — vai no começo da manhã pra pegar vazio. Charles Street no pé do morro tem cafés e antiquários.</p></div></div>
+            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Harvard + Cambridge</h4><p>Metrô Red Line até Harvard Square. Campus livre pra visitar, Harvard Yard é fotogênico no inverno. Almoço em Felipe's Taqueria ou Mr. Bartley's.</p></div></div>
+            <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Lobster roll · obrigatório</h4><p>O prato oficial da viagem. <strong>Neptune Oyster</strong> (North End) tem o lobster roll definitivo — chega 11:30 pra garantir mesa, não aceitam reserva, fila dobra a esquina. Alternativas sem fila: James Hook & Co (no porto, casual) ou Saltie Girl (Back Bay, versão gourmet). Peça <em>hot with butter</em>, é como se deve.</p></div></div>
+            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Charles River Esplanade · walk</h4><p>Caminhada pela margem do rio do Back Bay até o MIT. Vista de Cambridge do outro lado, Longfellow Bridge ("Salt and Pepper Bridge"). Se o rio estiver congelado e tiver sol, é uma das imagens mais memoráveis de Boston no inverno. ~40 min relaxado.</p></div></div>
+            <div class="spot"><div class="spot-num">06</div><div class="spot-body"><h4>Boston Public Garden + Common</h4><p>O parque público mais antigo dos EUA. No inverno fica mágico, especialmente com neve. Frog Pond vira pista de patinação.</p></div></div>
+            <div class="spot"><div class="spot-num">07</div><div class="spot-body"><h4>North End · jantar italiano</h4><p>Bairro italiano de Boston. Regina Pizzeria (a original, não a do mall), Mike's Pastry pro cannoli. Restaurantes pequenos — reserva ou chega cedo.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Harvard_Yard_in_autumn%2C_Boston%2C_Massachusetts%2C_2015.jpg" alt="Harvard" loading="lazy"></div>
@@ -1880,26 +1907,27 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     <div class="ph city-visual">
       <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Eagle_Race_Arena_at_Park_City_Resort.jpg" alt="Park City Utah" loading="lazy">
       <div class="ph-caption">
-        <span>Park City · Utah Rockies</span>
+        <span>Utah · Salt Lake City + Park City</span>
         <span>04 / 06</span>
       </div>
     </div>
     <div class="city-grid">
       <div class="city-meta">
         <div class="city-idx">04 · Parada</div>
-        <h3 class="city-name">Park City <strong>Utah.</strong></h3>
-        <p class="city-tagline">Neve, altitude, réveillon. A pausa mais longa do roteiro, no silêncio das Rochosas.</p>
+        <h3 class="city-name"><strong>Utah.</strong></h3>
+        <p class="city-tagline">Cidade + deserto + neve em cinco noites. Três paisagens em uma parada, terminando com Réveillon na montanha.</p>
         <div class="city-data">
           <div class="city-data-row"><span>Datas</span><span>28 dez → 02 jan</span></div>
           <div class="city-data-row"><span>Noites</span><span>5 · inclui Réveillon</span></div>
+          <div class="city-data-row"><span>Paradas</span><span>SLC · Antelope · Park City</span></div>
           <div class="city-data-row"><span>Chegada</span><span>Voo BOS → SLC</span></div>
           <div class="city-data-row"><span>Saída</span><span>Voo SLC → MCO</span></div>
-          <div class="city-data-row"><span>Altitude</span><span>2.100 m</span></div>
-          <div class="city-data-row"><span>Clima</span><span>-5°C a -12°C</span></div>
+          <div class="city-data-row"><span>Clima</span><span>-2°C (SLC) · -10°C (PC)</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas</div>
-          <div class="status-row"><span>Casa/Airbnb · 5 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Hotel SLC · 2 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Casa/condo Park City · 3 noites</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Carros alugados SLC</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Passe de ski + equipamento</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Réveillon jantar</span><span class="s-pending">Pendente</span></div>
@@ -1907,15 +1935,17 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Destaques <span>7 spots</span></div>
+          <div class="block-title">Destaques <span>3 capítulos · 8 spots</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Dia 1 · chegada e aclimatação</h4><p>Vocês chegam exaustos. Nada de esqui no primeiro dia — altitude precisa de 24h, especialmente pra Louise. Main Street pra jantar, early night.</p></div></div>
-            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Park City Mountain Resort</h4><p>Maior ski resort dos EUA (mesclou com The Canyons). 300+ trilhas pra todos os níveis. Ski-in/ski-out do condo muda o jogo. Aulas particulares pra iniciantes.</p></div></div>
-            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Deer Valley · o chique</h4><p>Só esqui, sem snowboard. Mais caro, menos gente, pistas impecáveis, almoço de restaurante de verdade. Vale um dia de escapada.</p></div></div>
-            <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Main Street Park City</h4><p>Rua histórica cheia de restaurantes, galerias e lojas. Riverhorse on Main e High West Saloon (whiskey distillery) são obrigatórios.</p></div></div>
-            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Utah Olympic Park</h4><p>Instalações das Olimpíadas 2002. Bobsled adulto (~$200, adrenalina extrema), ver salto de esqui ao vivo, museu interativo. Dia alternativo pra quem não esquia.</p></div></div>
+            <div class="spot"><div class="spot-num">A</div><div class="spot-body"><h4>Capítulo A · Salt Lake City (2 noites)</h4><p><strong>28 dez:</strong> chegada SLC tarde, hotel downtown. Aclimatação leve — a cidade fica a 1.300m (nada de altitude pesada ainda). Jantar no The Copper Onion ou HSL.</p><p><strong>29 dez:</strong> manhã em <strong>Temple Square</strong> (arquitetura mórmon impressionante, aberto ao público), City Creek Center pra fugir do frio, almoço, e tarde na <strong>Antelope Island</strong>.</p></div></div>
+            <div class="spot"><div class="spot-num">01</div><div class="spot-body"><h4>Temple Square</h4><p>Coração mórmon: templo branco neogótico, tabernáculo com acústica lendária, jardins. Gratuito. Tour guiado em inglês ou só andar. Vale 1h30-2h.</p></div></div>
+            <div class="spot"><div class="spot-num">02</div><div class="spot-body"><h4>Antelope Island State Park · o deserto</h4><p>1h de carro de SLC. Ilha dentro do Great Salt Lake — paisagem marciana, salinas brancas, manadas de bison livres, pôr-do-sol na água salgada. Entrada $15/carro. Dá pra fazer meio-dia: <em>Fielding Garr Ranch</em> + <em>Buffalo Point overlook</em>. Volta pra SLC pro jantar.</p></div></div>
+            <div class="spot"><div class="spot-num">B</div><div class="spot-body"><h4>Capítulo B · Park City (3 noites)</h4><p><strong>30 dez:</strong> sobe 45 min pra Park City (2.100m), chega no condo de manhã, aclimata, primeiro ski leve de meio período.</p><p><strong>31 dez:</strong> ski pela manhã, Réveillon no resort ou Main Street à noite.</p><p><strong>1 jan:</strong> ski ou rest day. <strong>2 jan:</strong> desce pra SLC, voo MCO.</p></div></div>
+            <div class="spot"><div class="spot-num">03</div><div class="spot-body"><h4>Park City Mountain Resort</h4><p>Maior ski resort dos EUA (mesclou com The Canyons). 300+ trilhas pra todos os níveis. Ski-in/ski-out do condo muda o jogo. Aulas particulares pra iniciantes.</p></div></div>
+            <div class="spot"><div class="spot-num">04</div><div class="spot-body"><h4>Deer Valley · o chique</h4><p>Só esqui, sem snowboard. Mais caro, menos gente, pistas impecáveis, almoço de restaurante de verdade. Se tiver 1 dia de ski só, talvez valha esse.</p></div></div>
+            <div class="spot"><div class="spot-num">05</div><div class="spot-body"><h4>Main Street Park City</h4><p>Rua histórica cheia de restaurantes, galerias e lojas. Riverhorse on Main e High West Saloon (whiskey distillery) são obrigatórios.</p></div></div>
             <div class="spot"><div class="spot-num">06</div><div class="spot-body"><h4>Réveillon · 31 de dezembro</h4><p>Opção 1: jantar gourmet no resort + fogos. Opção 2: Main Street (fogos às 20h, depois às 24h + festa). Com Louise, Opção 1 é mais sensata.</p></div></div>
-            <div class="spot"><div class="spot-num">07</div><div class="spot-body"><h4>Pro não-esquiador</h4><p>Dog sledding, snowshoeing, snowmobile tours, spas de resort (Montage, St. Regis). Dá pra preencher dias inteiros sem tocar em esqui.</p></div></div>
+            <div class="spot"><div class="spot-num">07</div><div class="spot-body"><h4>Pro não-esquiador</h4><p>Dog sledding, snowshoeing, snowmobile tours, spas de resort (Montage, St. Regis). Utah Olympic Park (bobsled, museu). Dá pra preencher dias inteiros sem tocar em esqui.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Park_City_overview.jpg" alt="Main Street Park City" loading="lazy"></div>
@@ -1925,12 +1955,14 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <div class="notes">
           <div class="notes-label">Notas do grupo · CRÍTICAS</div>
           <ul>
-            <li><strong>Altitude 2.100m afeta todo mundo.</strong> Bebê especialmente — hidrata muito, umidificador no quarto (ar super seco), evita esforço no primeiro dia. Sinal de alerta: respiração rápida, lábios azulados, sonolência excessiva. Se aparecer, desce pra SLC (1.300m) por uma noite.</li>
-            <li><strong>Hospedagem:</strong> condo 3-4 quartos é o único caminho. Considere Waldorf Astoria Park City, The Lodge at Mountain Village, ou VRBO ski-in/ski-out no Canyons Village. Reserva AGORA — Réveillon fica sold out em setembro.</li>
-            <li><strong>Carro:</strong> dois veículos. Minivan + SUV funciona. Tração 4x4, pneus de neve já incluídos em janeiro. 45 min de SLC até Park City.</li>
+            <li><strong>Split 2+3 noites:</strong> 2 noites em SLC (chegada + deserto) aclimata gradualmente antes da altitude, e 3 noites em Park City cobrem o ski + Réveillon. Mudar de hospedagem 1x no meio parece chato, mas a transição gradual ajuda o grupo (especialmente Louise) a se adaptar a 2.100m.</li>
+            <li><strong>SLC hospedagem:</strong> Kimpton Hotel Monaco, Grand America, Marriott City Creek. Downtown walkable, perto de Temple Square e restaurantes.</li>
+            <li><strong>Antelope Island no inverno:</strong> estrada até a ilha (Davis County Causeway) fica aberta ano inteiro. Causeway + ilha dá pra fazer em ½ dia. Levem água e lanche — ilha não tem comércio. Bonneville Salt Flats fica cogitado mas em dez/jan costuma estar alagado e sem o visual do chão branco — Antelope é o substituto que funciona.</li>
+            <li><strong>Altitude 2.100m em Park City:</strong> as 2 noites em SLC (1.300m) já ajudam, mas hidrata muito, umidificador no quarto, evita esforço no primeiro dia subindo. Sinais de alerta em Louise: respiração rápida, lábios azulados, sonolência excessiva — se aparecer, desce pra SLC.</li>
+            <li><strong>Park City hospedagem:</strong> condo 3-4 quartos é o único caminho. Considere Waldorf Astoria, The Lodge at Mountain Village, ou VRBO ski-in/ski-out no Canyons Village. Reserva AGORA — Réveillon fica sold out em setembro.</li>
+            <li><strong>Carros:</strong> dois veículos SUV 4x4 alugados em SLC. 1h de SLC até Antelope Island, 45 min de SLC até Park City. Pneus de neve já incluídos em janeiro.</li>
             <li><strong>Roupa de esqui:</strong> NÃO compre no Brasil se o grupo não esquia sempre. Ski Butlers entrega no condo, ~$50/dia/pessoa.</li>
-            <li><strong>Reservas:</strong> Réveillon em Riverhorse, Glitretind (Stein Eriksen), St. Regis esgota em outubro. Bloqueia em novembro no mais tardar.</li>
-            <li><strong>Louise:</strong> ski daycare aceita a partir de 6 semanas em alguns resorts. Deer Valley tem programa reconhecido. Mas 5h max/dia — avalia se vale a despedida.</li>
+            <li><strong>Reservas críticas:</strong> Réveillon em Riverhorse, Glitretind (Stein Eriksen), St. Regis esgota em outubro. Bloqueia em novembro no mais tardar.</li>
           </ul>
         </div>
       </div>
