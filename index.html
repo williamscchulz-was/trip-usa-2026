@@ -1694,11 +1694,13 @@
     background: var(--ink);
     color: var(--paper);
     border: none;
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    flex-shrink: 0;
     border-radius: 999px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.1rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2033,10 +2035,19 @@
       width: 100%;
       max-width: 100%;
       height: 85vh;
+      height: 85dvh;
       border-radius: 20px 20px 0 0;
     }
     .chat-fab span.label { display: none; }
     .chat-fab { padding: 14px; }
+    /* Previne zoom do iOS quando focar no input + garante botão enviar clicável */
+    .chat-input { padding: 12px 14px; padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); gap: 8px; }
+    .chat-input input { font-size: 16px; padding: 10px 14px; min-width: 0; }
+    .chat-input button { width: 42px; height: 42px; min-width: 42px; font-size: 1.2rem; }
+    /* Mesma regra pros comentários por cidade */
+    .city-comments-form { gap: 8px; }
+    .city-comments-form input { font-size: 16px; min-width: 0; }
+    .city-comments-form button { padding: 10px 16px; min-width: 72px; flex-shrink: 0; }
   }
 
 
