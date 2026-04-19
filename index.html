@@ -2111,7 +2111,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <!-- NAV -->
 <nav class="nav">
   <div class="container nav-inner">
-    <div class="nav-brand">SCHULZ <span>·</span> HORN <span>·</span> PITZ</div>
+    <div class="nav-brand" id="navBrand">SCHULZ <span>·</span> HORN <span>·</span> PITZ</div>
     <div class="nav-links" id="navLinks"></div>
     <div class="nav-cta">
       <button class="trip-switch-btn" id="tripSwitchBtn" title="Trocar de viagem">Trocar viagem</button>
@@ -3140,6 +3140,9 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     'usa': {
       label: 'North America',
       date: '20.12.26 → 06.01.27',
+      brand: ['SCHULZ', 'HORN', 'PITZ'],
+      footerTitle: 'Até logo, Brasil.',
+      footerSub: 'Família Schulz · Horn · Pitz',
       links: [
         { href: '#itinerario', label: 'Roteiro' },
         { href: '#dc', label: 'Cidades' },
@@ -3150,6 +3153,9 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     'mexico-2026': {
       label: 'México',
       date: '30.10.26 → 08.11.26',
+      brand: ['SCHULZ', 'DEPINÉ', 'POLIDORO', 'LITZ'],
+      footerTitle: 'Hasta luego, México.',
+      footerSub: 'Família Schulz · Depiné · Polidoro · Litz',
       links: [
         { href: '#itinerario-mex', label: 'Roteiro' },
         { href: '#cdmx', label: 'Cidades' },
@@ -3158,6 +3164,11 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       ]
     }
   };
+
+  const navBrand = document.getElementById('navBrand');
+  const footTitleEl = document.querySelector('.foot-title');
+  const footSubEl = document.querySelector('.foot-sub');
+  const footRightEl = document.querySelector('.foot-right');
 
   const navLinks = document.getElementById('navLinks');
   const navDate = document.getElementById('navDate');
@@ -3171,6 +3182,19 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     if (!t) { navLinks.innerHTML = ''; return; }
     navLinks.innerHTML = t.links.map(l => `<a href="${l.href}">${l.label}</a>`).join('');
     navDate.textContent = t.date;
+    if (navBrand) navBrand.innerHTML = t.brand.map((n, i) => i === 0 ? n : '<span>·</span> ' + n).join(' ');
+    if (footTitleEl) {
+      const parts = t.footerTitle.split(',');
+      footTitleEl.innerHTML = parts.length > 1
+        ? `${parts[0]}, <strong>${parts.slice(1).join(',').trim()}</strong>`
+        : `<strong>${t.footerTitle}</strong>`;
+    }
+    if (footSubEl) footSubEl.textContent = t.footerSub;
+    if (footRightEl) {
+      const [start, end] = t.date.split(' → ');
+      const fmt = s => s.split('.').join(' · ');
+      footRightEl.innerHTML = `${fmt(start)} → ${fmt(end)}<br>Versão 04 · multi-trip`;
+    }
   }
 
   function chooseTrip(tripId) {
