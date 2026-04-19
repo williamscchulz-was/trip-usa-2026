@@ -3651,13 +3651,105 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     localStorage.setItem('theme', dark ? 'dark' : 'light');
   });
 
+  let isChatOpen = false;
+  const ORIGINAL_TITLE = document.title;
+
   function toggleChat() {
     const open = drawer.classList.toggle('open');
+    isChatOpen = open;
     fab.style.display = open ? 'none' : 'inline-flex';
-    if (open) setTimeout(() => body.scrollTop = body.scrollHeight, 50);
+    if (open) {
+      setTimeout(() => body.scrollTop = body.scrollHeight, 50);
+      markChatAsRead();
+    }
   }
   window.toggleChat = toggleChat;
   document.getElementById('chatCloseBtn').addEventListener('click', toggleChat);
+
+  // ——— UNREAD TRACKING ———
+  function getLastReadKey() { return `lastRead-${currentTripId}`; }
+  function getLastRead() {
+    const v = localStorage.getItem(getLastReadKey());
+    return v ? parseInt(v, 10) : 0;
+  }
+  function markChatAsRead() {
+    if (!currentTripId) return;
+    localStorage.setItem(getLastReadKey(), String(Date.now()));
+    updateUnreadUI(0);
+  }
+  function updateUnreadUI(count) {
+    const badge = document.getElementById('chatBadge');
+    if (!badge) return;
+    if (count > 0) {
+      badge.textContent = count > 99 ? '99+' : String(count);
+      fab.classList.add('has-unread');
+      document.title = `(${count}) ${ORIGINAL_TITLE}`;
+    } else {
+      fab.classList.remove('has-unread');
+      document.title = ORIGINAL_TITLE;
+    }
+  }
+
+  // ——— PRESENCE (quem está online) ———
+  let heartbeatInterval = null;
+  let unsubscribePresence = null;
+
+  async function updatePresence() {
+    if (!currentUser || !currentTripId) return;
+    try {
+      await setDoc(fsDoc(db, 'trips', currentTripId, 'presence', currentUser.uid), {
+        uid: currentUser.uid,
+        name: currentUser.displayName || 'Anônimo',
+        photo: currentUser.photoURL || '',
+        lastSeen: serverTimestamp()
+      });
+    } catch (e) { /* silent — rules / offline ok */ }
+  }
+
+  function startPresence() {
+    updatePresence();
+    if (heartbeatInterval) clearInterval(heartbeatInterval);
+    heartbeatInterval = setInterval(updatePresence, 30000);
+    document.addEventListener('visibilitychange', onVisibility);
+  }
+
+  function stopPresence() {
+    if (heartbeatInterval) clearInterval(heartbeatInterval);
+    heartbeatInterval = null;
+    document.removeEventListener('visibilitychange', onVisibility);
+  }
+
+  function onVisibility() { if (!document.hidden) updatePresence(); }
+
+  function subscribePresence() {
+    if (!currentTripId) return;
+    const qp = query(collection(db, 'trips', currentTripId, 'presence'));
+    unsubscribePresence = onSnapshot(qp, (snap) => {
+      const now = Date.now();
+      const online = [];
+      snap.forEach(d => {
+        const data = d.data();
+        if (!data.lastSeen || !data.lastSeen.toDate) return;
+        if (now - data.lastSeen.toDate().getTime() < 90000) online.push(data);
+      });
+      renderPresence(online);
+    });
+  }
+
+  function renderPresence(online) {
+    if (!headSub) return;
+    const exclSelf = online.filter(u => u.uid !== currentUser?.uid);
+    if (exclSelf.length === 0) {
+      headSub.innerHTML = '<span class="presence-wrap"><span class="presence-dot"></span>Só você online</span>';
+      return;
+    }
+    const shown = exclSelf.slice(0, 4);
+    const avatars = shown.map(u => u.photo
+      ? `<img class="presence-avatar" src="${escapeHtml(u.photo)}" alt="${escapeHtml(u.name)}" title="${escapeHtml(u.name)}" referrerpolicy="no-referrer">`
+      : ''
+    ).join('');
+    headSub.innerHTML = `<span class="presence-wrap"><span class="presence-avatars">${avatars}</span><span>${exclSelf.length} online</span></span>`;
+  }
 
   loginBtn.addEventListener('click', async () => {
     try { await signInWithPopup(auth, provider); }
