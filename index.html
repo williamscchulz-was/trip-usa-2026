@@ -3347,9 +3347,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     if (!text) return;
     input.value = '';
     try {
-      await addDoc(collection(db, 'cityComments'), {
+      await addDoc(collection(db, 'trips', currentTripId, 'cityComments'), {
         cityId, text,
-        tripId: currentTripId,
         authorUid: currentUser.uid,
         authorName: currentUser.displayName || 'Anônimo',
         authorPhoto: currentUser.photoURL || '',
@@ -3399,8 +3398,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   function subscribeCityComments() {
     if (!currentTripId) return;
     const q = query(
-      collection(db, 'cityComments'),
-      where('tripId', '==', currentTripId),
+      collection(db, 'trips', currentTripId, 'cityComments'),
       orderBy('createdAt', 'asc'),
       limit(1000)
     );
@@ -3476,9 +3474,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     if (!text || !currentUser || !currentTripId) return;
     input.value = '';
     try {
-      await addDoc(collection(db, 'messages'), {
+      await addDoc(collection(db, 'trips', currentTripId, 'messages'), {
         text,
-        tripId: currentTripId,
         uid: currentUser.uid,
         name: currentUser.displayName || 'Anônimo',
         photo: currentUser.photoURL || '',
@@ -3526,8 +3523,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   function subscribeMessages() {
     if (!currentTripId) return;
     const q = query(
-      collection(db, 'messages'),
-      where('tripId', '==', currentTripId),
+      collection(db, 'trips', currentTripId, 'messages'),
       orderBy('createdAt', 'asc'),
       limit(500)
     );
