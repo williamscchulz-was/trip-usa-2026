@@ -1856,6 +1856,24 @@
 
   body.dark .trip-card:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.4); }
 
+  .trip-card.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    filter: grayscale(0.6);
+  }
+
+  .trip-card.disabled::after {
+    content: '🔒 Sem acesso';
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 8px;
+  }
+
   .trip-card-date {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.66rem;
@@ -3143,6 +3161,14 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       brand: ['SCHULZ', 'HORN', 'PITZ'],
       footerTitle: 'Até logo, Brasil.',
       footerSub: 'Família Schulz · Horn · Pitz',
+      members: [
+        'williamscchulz@gmail.com',
+        'abnerthorn@gmail.com',
+        'flavia.vasquez@gmail.com',
+        'karoline.sza@gmail.com',
+        'karolynehorn@gmail.com',
+        'brunolpitz97@gmail.com'
+      ],
       links: [
         { href: '#itinerario', label: 'Roteiro' },
         { href: '#dc', label: 'Cidades' },
@@ -3156,6 +3182,14 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       brand: ['SCHULZ', 'DEPINÉ', 'POLIDORO', 'LITZ'],
       footerTitle: 'Hasta luego, México.',
       footerSub: 'Família Schulz · Depiné · Polidoro · Litz',
+      members: [
+        'williamscchulz@gmail.com',
+        'flavia.vasquez@gmail.com',
+        'amanda.ks98@gmail.com',
+        'lg.polidoro@gmail.com',
+        'crislitz69@gmail.com',
+        'isoldedepine04@gmail.com'
+      ],
       links: [
         { href: '#itinerario-mex', label: 'Roteiro' },
         { href: '#cdmx', label: 'Cidades' },
@@ -3164,6 +3198,22 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       ]
     }
   };
+
+  function userAllowedForTrip(user, tripId) {
+    if (!user || !user.email) return false;
+    const t = TRIPS[tripId];
+    if (!t) return false;
+    return t.members.includes(user.email.toLowerCase());
+  }
+
+  function applyTripCardAccess() {
+    document.querySelectorAll('.trip-card[data-choose]').forEach(btn => {
+      const tripId = btn.dataset.choose;
+      const ok = userAllowedForTrip(currentUser, tripId);
+      btn.classList.toggle('disabled', !ok);
+      btn.disabled = !ok;
+    });
+  }
 
   const navBrand = document.getElementById('navBrand');
   const footTitleEl = document.querySelector('.foot-title');
@@ -3199,6 +3249,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 
   function chooseTrip(tripId) {
     if (!TRIPS[tripId]) return;
+    if (currentUser && !userAllowedForTrip(currentUser, tripId)) {
+      alert('Sua conta Google não está na lista dessa viagem. Contate o organizador pra ser adicionado.');
+      return;
+    }
     localStorage.setItem('activeTrip', tripId);
     document.body.dataset.activeTrip = tripId;
     currentTripId = tripId;
@@ -3516,7 +3570,11 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       signoutBtn.style.display = 'inline-flex';
       headSub.textContent = user.displayName || user.email;
       body.innerHTML = '<div class="chat-empty">Carregando…</div>';
-      if (currentTripId) {
+      applyTripCardAccess();
+      // Se localStorage tem um trip ao qual user não tem acesso, limpa
+      if (currentTripId && !userAllowedForTrip(user, currentTripId)) {
+        switchTrip();
+      } else if (currentTripId) {
         if (!unsubscribeMessages) subscribeMessages();
         if (!unsubscribeCityComments) subscribeCityComments();
       }
