@@ -1539,14 +1539,82 @@
   }
 
   .chat-fab .badge {
-    background: var(--paper);
-    color: var(--ink);
+    background: #E74C3C;
+    color: #fff;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.66rem;
-    font-weight: 500;
+    font-weight: 600;
     padding: 2px 7px;
     border-radius: 999px;
     letter-spacing: 0.04em;
+    min-width: 18px;
+    text-align: center;
+    display: none;
+  }
+
+  .chat-fab.has-unread .badge { display: inline-block; }
+
+  .chat-fab.has-unread {
+    animation: fabAttention 1.8s ease-in-out infinite;
+  }
+
+  @keyframes fabAttention {
+    0%, 100% { transform: translateY(0); box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
+    50% { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(231,76,60,0.3); }
+  }
+
+  /* Presence avatars no header do chat */
+  .presence-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .presence-avatars {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .presence-avatar {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--paper);
+    object-fit: cover;
+    margin-left: -5px;
+  }
+
+  .presence-avatar:first-child { margin-left: 0; }
+
+  .presence-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7ED957;
+    display: inline-block;
+  }
+
+  /* Divisor de mensagens não-lidas na lista */
+  .unread-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #E74C3C;
+    font-weight: 600;
+  }
+
+  .unread-divider::before,
+  .unread-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #E74C3C;
+    opacity: 0.4;
   }
 
   .chat-drawer {
@@ -3216,7 +3284,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <button class="chat-fab" id="chatFab" onclick="toggleChat()">
   <span class="dot"></span>
   <span class="label">Conversa</span>
-  <span class="badge">3</span>
+  <span class="badge" id="chatBadge">0</span>
 </button>
 
 <!-- CHAT DRAWER -->
@@ -3250,7 +3318,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, setDoc, doc as fsDoc, onSnapshot, query, orderBy, where, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDJQBeEHuQtDmqdAgeBuky20MoXV7nH4X8",
@@ -3416,9 +3484,13 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   function resubscribeAll() {
     if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
     if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
+    if (unsubscribePresence) { unsubscribePresence(); unsubscribePresence = null; }
+    stopPresence();
     if (currentUser && currentTripId) {
       subscribeMessages();
       subscribeCityComments();
+      subscribePresence();
+      startPresence();
     }
   }
 
@@ -3656,10 +3728,14 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     unsubscribeMessages = onSnapshot(q, (snap) => {
       if (snap.empty) {
         body.innerHTML = '<div class="chat-empty">Seja o primeiro a escrever 👋</div>';
+        updateUnreadUI(0);
         return;
       }
+      const lastRead = getLastRead();
       let html = '';
       let lastDay = '';
+      let unreadCount = 0;
+      let unreadDividerRendered = false;
       snap.forEach((doc) => {
         const m = doc.data();
         const day = fmtDay(m.createdAt);
@@ -3668,6 +3744,13 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           lastDay = day;
         }
         const isSelf = currentUser && m.uid === currentUser.uid;
+        const ts = m.createdAt && m.createdAt.toDate ? m.createdAt.toDate().getTime() : 0;
+        const isUnread = !isSelf && ts > lastRead && lastRead > 0;
+        if (isUnread && !unreadDividerRendered && !isChatOpen) {
+          html += `<div class="unread-divider">não lidas</div>`;
+          unreadDividerRendered = true;
+        }
+        if (isUnread) unreadCount++;
         const time = fmtTime(m.createdAt);
         const name = (m.name || 'Anônimo').split(' ')[0];
         const avatar = m.photo ? `<img class="msg-avatar" src="${m.photo}" alt="" referrerpolicy="no-referrer">` : '';
@@ -3678,6 +3761,11 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       });
       body.innerHTML = html;
       body.scrollTop = body.scrollHeight;
+      if (isChatOpen) {
+        markChatAsRead();
+      } else {
+        updateUnreadUI(unreadCount);
+      }
     }, (err) => {
       body.innerHTML = `<div class="chat-empty">Erro ao carregar: ${escapeHtml(err.message)}</div>`;
     });
@@ -3699,6 +3787,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       } else if (currentTripId) {
         if (!unsubscribeMessages) subscribeMessages();
         if (!unsubscribeCityComments) subscribeCityComments();
+        if (!unsubscribePresence) subscribePresence();
+        startPresence();
       }
       setCityFormsEnabled(true);
     } else {
@@ -3710,6 +3800,9 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       authBtn.disabled = false;
       if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
       if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
+      if (unsubscribePresence) { unsubscribePresence(); unsubscribePresence = null; }
+      stopPresence();
+      updateUnreadUI(0);
       body.innerHTML = '<div class="chat-empty">Entra pra ver as mensagens</div>';
       setCityFormsEnabled(false);
     }
