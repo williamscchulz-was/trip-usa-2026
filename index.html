@@ -6,7 +6,7 @@
 <title>USA · Schulz, Horn & Pitz · Dez 2026 — Jan 2027</title>
 <meta name="description" content="Roteiro de viagem em família — 17 dias atravessando os EUA entre dez 2026 e jan 2027.">
 <meta property="og:title" content="USA · Schulz, Horn & Pitz · 2026 — 27">
-<meta property="og:description" content="17 dias atravessando os EUA. Do Natal em NYC ao Réveillon na neve de Utah.">
+<meta property="og:description" content="16 noites atravessando os EUA. Do Natal em NYC ao Réveillon na Vegas Strip.">
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
@@ -556,6 +556,46 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 32px;
+  }
+
+  /* ——— INTERESSES (3 cards do grupo) ——— */
+  .interests-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 0;
+  }
+
+  .interest-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 32px 28px;
+    text-align: left;
+  }
+
+  .interest-icon {
+    font-size: 1.8rem;
+    margin-bottom: 14px;
+  }
+
+  .interest-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .interest-desc {
+    font-size: 0.88rem;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .interests-grid { grid-template-columns: 1fr; gap: 14px; }
+    .interest-card { padding: 24px; }
   }
 
   /* ——— FAMILY ARRIVALS ——— */
@@ -2293,10 +2333,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <h1 class="trip-selector-title">Você participa<br>de qual viagem?</h1>
   <div class="trip-cards">
     <button class="trip-card" type="button" data-choose="usa">
-      <div class="trip-card-date">20.12.26 → 06.01.27</div>
+      <div class="trip-card-date">20.12.26 → 07.01.27</div>
       <div class="trip-card-title">North America</div>
-      <div class="trip-card-meta">Schulz · Horn · Pitz<br>17 dias · 6 paradas</div>
-      <div class="trip-card-footer">Natal em NYC · Réveillon em Utah</div>
+      <div class="trip-card-meta">Schulz · Horn · Pitz<br>16 noites · 6 paradas</div>
+      <div class="trip-card-footer">Natal em NYC · Réveillon em Vegas</div>
     </button>
     <button class="trip-card" type="button" data-choose="mexico-2026">
       <div class="trip-card-date">30.10.26 → 08.11.26</div>
@@ -2344,7 +2384,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <section class="hero">
   <div class="hero-inner">
     <h1 class="hero-title">North America<span class="dot">.</span></h1>
-    <p class="hero-sub">Christmas in New York. New Year's in Utah. Seventeen days across the US — Schulz · Horn · Pitz.</p>
+    <p class="hero-sub">Christmas in New York. New Year's on the Vegas Strip. Sixteen nights, six stops — Schulz · Horn · Pitz.</p>
     <div class="hero-ctas">
       <a class="hero-cta primary" href="#itinerario">See the route →</a>
     </div>
@@ -2352,7 +2392,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <div class="hero-photo" id="heroPhoto">
     <img class="hero-slide active" src="https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg" alt="New York City" data-caption="New York · Times Square" loading="eager">
     <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg" alt="Washington DC" data-caption="Washington · Lincoln Memorial" loading="lazy">
-    <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Park_City_Utah_Aerial_View_in_Winter_2024.jpg" alt="Utah winter" data-caption="Utah · Park City vista aérea no inverno" loading="lazy">
+    <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Las_Vegas_Strip_09_2017_4897.jpg" alt="Las Vegas Strip" data-caption="Las Vegas · Strip à noite" loading="lazy">
     <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Snowy_Manhattan_-_Flickr_-_Joi.jpg" alt="Snowy Manhattan" data-caption="New York · Manhattan no inverno" loading="lazy">
     <div class="hero-photo-caption active" id="heroCaption">New York · Times Square</div>
     <div class="hero-dots" id="heroDots">
@@ -2369,48 +2409,70 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <div class="container">
     <div class="pipeline">
       <a class="pipe-card" href="#dc">
-        <div class="pipe-idx">01 · 20—22 dez</div>
+        <div class="pipe-idx">01 · 21—22 dez</div>
         <div class="pipe-city">Washington DC</div>
-        <div class="pipe-summary">Mall, Smithsonian, monumentos à noite.</div>
-        <div class="pipe-times">2 dias · chega 15h · sai 9h</div>
+        <div class="pipe-summary">National Mall, Air & Space, Smithsonian, Georgetown.</div>
+        <div class="pipe-times">2 noites · chega BWI 14h50</div>
       </a>
       <a class="pipe-card highlight" href="#nyc">
         <span class="pipe-tag">Natal</span>
-        <div class="pipe-idx">02 · 22—26 dez</div>
+        <div class="pipe-idx">02 · 23—27 dez</div>
         <div class="pipe-city">New York City</div>
-        <div class="pipe-summary">Rockefeller, Central Park, Brooklyn, Williamsburg.</div>
-        <div class="pipe-times">4 dias · chega 12h · sai 10h</div>
+        <div class="pipe-summary">Rockefeller, Central Park, Brooklyn, Intrepid.</div>
+        <div class="pipe-times">5 noites · inclui Christmas Eve</div>
       </a>
       <a class="pipe-card" href="#boston">
-        <div class="pipe-idx">03 · 26—28 dez</div>
+        <div class="pipe-idx">03 · 28—29 dez</div>
         <div class="pipe-city">Boston</div>
-        <div class="pipe-summary">Beacon Hill, Harvard, Charles River, lobster roll.</div>
-        <div class="pipe-times">2 dias · chega 13h · sai 8h</div>
+        <div class="pipe-summary">Freedom Trail, Quincy Market, Arnold Arboretum.</div>
+        <div class="pipe-times">2 noites · voa 30/12 LAS</div>
       </a>
-      <a class="pipe-card highlight" href="#utah">
+      <a class="pipe-card highlight" href="#vegas">
         <span class="pipe-tag">Réveillon</span>
-        <div class="pipe-idx">04 · 28 dez — 2 jan</div>
-        <div class="pipe-city">Utah</div>
-        <div class="pipe-summary">SLC, Antelope Island, ski em Park City.</div>
-        <div class="pipe-times">5 dias · chega 14h · sai 11h</div>
+        <div class="pipe-idx">04 · 30 dez — 2 jan</div>
+        <div class="pipe-city">Las Vegas</div>
+        <div class="pipe-summary">Strip, Réveillon, Grand Canyon, ski Lee Canyon.</div>
+        <div class="pipe-times">4 noites · voa 3/01 MCO</div>
       </a>
       <a class="pipe-card" href="#orlando">
-        <div class="pipe-idx">05 · 2—5 jan</div>
+        <div class="pipe-idx">05 · 3—5 jan</div>
         <div class="pipe-city">Orlando</div>
         <div class="pipe-summary">Premium Outlets + Epic Universe.</div>
-        <div class="pipe-times">3 dias · chega 17h · sai 8h</div>
+        <div class="pipe-times">3 noites · sai Brightline 6/01</div>
       </a>
       <a class="pipe-card daytrip" href="#miami">
         <span class="pipe-tag">Day trip</span>
-        <div class="pipe-idx">06 · 5 jan</div>
+        <div class="pipe-idx">06 · 6 jan</div>
         <div class="pipe-city">Miami</div>
-        <div class="pipe-summary">South Beach, almoço, voo de volta 18h55.</div>
-        <div class="pipe-times">1 dia · chega 12h · voa 18h55</div>
+        <div class="pipe-summary">Brightline desde MCO, South Beach, voo 18h55.</div>
+        <div class="pipe-times">sem overnight</div>
       </a>
     </div>
   </div>
 </section>
 
+<!-- INTERESSES DO GRUPO -->
+<section class="block" id="interesses">
+  <div class="container">
+    <div class="interests-grid">
+      <div class="interest-card">
+        <div class="interest-icon">☕</div>
+        <div class="interest-title">Café specialty</div>
+        <div class="interest-desc">Coffee shops curados em cada cidade — Compass (DC), Joe / Blue Bottle / Stumptown (NYC), George Howell (BOS), Mothership / Vesta (LAS), Lineage (Orlando).</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">🌲</div>
+        <div class="interest-title">Natureza</div>
+        <div class="interest-desc">Central Park, Charles River Esplanade, Arnold Arboretum, Grand Canyon, Red Rock Canyon, Lee Canyon — pausas verdes entre as cidades.</div>
+      </div>
+      <div class="interest-card">
+        <div class="interest-icon">🚀</div>
+        <div class="interest-title">Air & Space</div>
+        <div class="interest-desc">Smithsonian Air &amp; Space (DC) + Intrepid Sea, Air &amp; Space (NYC) — dois museus icônicos da história da aviação e espaço em duas cidades.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- CITY 01 · DC -->
 <section class="city" id="dc">
@@ -2426,12 +2488,12 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="city-meta">
         <div class="city-idx">01 · Parada</div>
         <h3 class="city-name">Washington <strong>DC.</strong></h3>
-        <p class="city-tagline">O mármore da república, monumentos iluminados, museus de graça.</p>
+        <p class="city-tagline">Chegada da viagem. Mall, Air &amp; Space, Capitólio em um dia bem cheio.</p>
         <div class="city-data">
-          <div class="city-data-row"><span>Datas</span><span>20 → 22 dez</span></div>
-          <div class="city-data-row"><span>Dias</span><span>2</span></div>
-          <div class="city-data-row"><span>Chegada</span><span>BWI · 14:50</span></div>
-          <div class="city-data-row"><span>Saída</span><span>Amtrak → NYC</span></div>
+          <div class="city-data-row"><span>Datas</span><span>21 → 22 dez</span></div>
+          <div class="city-data-row"><span>Noites</span><span>2</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>BWI · 14:50 (21/12)</span></div>
+          <div class="city-data-row"><span>Saída</span><span>23/12 → New York</span></div>
           <div class="city-data-row"><span>Clima</span><span>~2°C · frio seco</span></div>
         </div>
         <div class="city-status">
@@ -2439,17 +2501,18 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           <div class="status-row"><span>Hospedagem Penn Quarter · 2 noites</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Timed-entry Smithsonian Air &amp; Space</span><span class="s-pending">Pendente</span></div>
           <div class="status-row"><span>Tour Capitólio (free, reserva online)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Uber XL BWI → hotel</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Passagem Amtrak DC → NYC</span><span class="s-pending">Pendente</span></div>
+        </div>
+        <div class="city-status">
+          <div class="city-status-label">Decisões em aberto</div>
+          <div class="status-row"><span>Transfer BWI → DC (7 pax + bagagem)</span><span class="s-wip">Em debate</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Dia a dia <span>3 dias</span></div>
+          <div class="block-title">Dia a dia <span>21 → 22 dez</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>20 dez · sáb · chegada</h4><p>Chega BWI 14h50, Uber XL pro hotel em Penn Quarter, jantar leve de delivery no quarto, todo mundo dorme cedo (viagem internacional).</p></div></div>
-            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>21 dez · dom · Mall inteiro</h4><p><strong>Manhã:</strong> walk pelo National Mall (Capitólio → Washington Monument → Lincoln Memorial, 2h com pausas). <strong>Tarde:</strong> Smithsonian Air &amp; Space Museum (grátis, reserva timed-entry antes). <strong>Noite:</strong> monumentos iluminados — Lincoln + WWII + MLK + Jefferson de Uber.</p></div></div>
-            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>22 dez · seg · saída</h4><p>Manhã no Capitólio + Library of Congress (tour grátis reservado). Almoço rápido em Georgetown ou Eastern Market. Amtrak Union Station 13h → Penn Station NYC (3h).</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>21/12 · dom · chegada (noite morta)</h4><p>BWI 14h50 depois da imigração em Boston. Transfer pro hotel Penn Quarter. Jantar leve (delivery), todo mundo recupera o sono. Sem agenda — primeiro dia internacional cansa.</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>22/12 · seg · dia inteiro DC</h4><p>Fluxo fluido a pé pelo Mall:</p><p><strong>Manhã:</strong> National Mall — Lincoln, WWII, Washington Monument. <strong>Pausa ☕</strong> Compass Coffee.</p><p><strong>Meio:</strong> Air &amp; Space Museum (1h focado em destaques — Wright Brothers, Apollo 11, Spirit of St. Louis). Tour Capitólio + Botanic Garden.</p><p><strong>Tarde:</strong> Natural History Museum + Georgetown pra jantar com vista do rio.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Capitol_Building_Full_View.jpg" alt="Capitol" loading="lazy"></div>
@@ -2457,12 +2520,18 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           </div>
         </div>
         <div class="notes">
-          <div class="notes-label">Notas do grupo</div>
+          <div class="notes-label">Pontos fortes & fracos · transfer BWI → DC</div>
           <ul>
-            <li>BWI → DC: trem MARC ($10/pessoa, 35min até Union Station) ou dois Uber XL (~$80, 45min). Com 6 adultos + bebê + bagagens, Uber mais tranquilo.</li>
-            <li><strong>Hotel:</strong> Penn Quarter ou perto do Mall. Considerem Sonder/Placemakr com 2-3 studios conectados, ou Hyatt House / Residence Inn com suítes.</li>
-            <li>Jantar do primeiro dia deve ser leve — vocês chegam exaustos da viagem. Delivery no quarto.</li>
-            <li>Capitólio costuma ter tour em português — vale reservar pelo site oficial com antecedência.</li>
+            <li><strong>Van transfer pré-agendado:</strong> ✓ um veículo só pros 7 + bagagens, motorista esperando, preço fixo. ✗ precisa reservar antes, ~$200-300.</li>
+            <li><strong>2 Uber XL/Suburban:</strong> ✓ flexível, sem reserva. ✗ caça por carro disponível com bagagem volumosa pode dar dor de cabeça; pico de demanda 14h-15h em BWI.</li>
+            <li><strong>Trem MARC ($10/pax, 35min até Union Station):</strong> ✗ bagagem volumosa de 7 pessoas + bebê em trem é um sofrimento. Não recomendado.</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <div class="notes-label">Coffee specialty · DC</div>
+          <ul>
+            <li><strong>Compass Coffee</strong> · espresso forte, várias unidades pelo Mall — parada natural entre museus</li>
+            <li><strong>Vigilante Coffee</strong> · roastery em Hyattsville, vale se sobrar tempo</li>
           </ul>
         </div>
       </div>
@@ -2484,33 +2553,37 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="city-meta">
         <div class="city-idx">02 · Parada</div>
         <h3 class="city-name">New York <strong>City.</strong></h3>
-        <p class="city-tagline">Natal na cidade que não dorme. Quatro dias para caminhar, patinar, comer.</p>
+        <p class="city-tagline">Natal, Central Park, Brooklyn, Intrepid. Cinco dias e o que sobrar.</p>
         <div class="city-data">
-          <div class="city-data-row"><span>Datas</span><span>22 → 26 dez</span></div>
-          <div class="city-data-row"><span>Dias</span><span>4 · inclui Natal</span></div>
-          <div class="city-data-row"><span>Chegada</span><span>Amtrak Acela · 3h</span></div>
-          <div class="city-data-row"><span>Saída</span><span>Voo → BOS</span></div>
+          <div class="city-data-row"><span>Datas</span><span>23 → 27 dez</span></div>
+          <div class="city-data-row"><span>Noites</span><span>5 · inclui Christmas Eve</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>23/12 · de DC</span></div>
+          <div class="city-data-row"><span>Saída</span><span>28/12 → Boston</span></div>
           <div class="city-data-row"><span>Clima</span><span>~0°C · possível neve</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas & tickets</div>
-          <div class="status-row"><span>Hospedagem Midtown · 4 noites</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Tickets Top of the Rock</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Patinação Bryant Park / Rockefeller</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Dim sum reserva 25 dez (Chinatown)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Broadway matinée (opcional)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Voo NYC → BOS · 26 dez</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Hospedagem Midtown · 5 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Tickets Rockefeller / Top of the Rock</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>American Museum of Natural History</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Intrepid Air &amp; Space Museum</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>9/11 Memorial &amp; Museum</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Staten Island Ferry (free)</span><span class="s-ok">Free</span></div>
+        </div>
+        <div class="city-status">
+          <div class="city-status-label">Decisões em aberto</div>
+          <div class="status-row"><span>DC → NYC (23/12) · carro vs Amtrak</span><span class="s-wip">Em debate</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Dia a dia <span>5 dias</span></div>
+          <div class="block-title">Dia a dia <span>23 → 27 dez</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>22 dez · seg · chegada</h4><p>Amtrak chega Penn Station ~16h30. Check-in em Midtown. Jantar leve, walk pela Times Square à noite (luzes de Natal bombando).</p></div></div>
-            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>23 dez · ter · Rockefeller</h4><p><strong>Manhã:</strong> árvore de Natal do Rockefeller cedo (8h, sem multidão). <strong>Tarde:</strong> Top of the Rock pro pôr-do-sol. <strong>Noite:</strong> patinação Bryant Park (reservado).</p></div></div>
-            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>24 dez · qua · Central Park + museu</h4><p>Manhã no Central Park (Bow Bridge, Bethesda Terrace). Almoço. Tarde em museu — Met ou Natural History (dinossauros pra Louise). Ceia leve early — muitos lugares fecham cedo véspera de Natal.</p></div></div>
-            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>25 dez · qui · Natal à nova-iorquina</h4><p>Dim sum em Chinatown (quase tudo fecha no Natal, exceto chinês). Sessão de cinema à tarde. Tradição local que vira history pra contar. Jantar simples.</p></div></div>
-            <div class="spot"><div class="spot-num">D5</div><div class="spot-body"><h4>26 dez · sex · Brooklyn + saída</h4><p><strong>Manhã:</strong> atravessa a Ponte do Brooklyn a pé (30min), pizza Juliana's em DUMBO. Opcional: Williamsburg (Bedford Ave, Smorgasburg se sábado). <strong>Tarde:</strong> LGA voo → BOS (1h30).</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>23/12 · ter · DC → NYC</h4><p>Saída de DC pós-almoço. Chegada em NYC final da tarde. Check-in Midtown, jantar no bairro, descanso. Times Square pra ver as luzes de Natal antes de dormir.</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>24/12 · qua · Christmas Eve</h4><p><strong>Manhã:</strong> Rockefeller Center (a árvore, patinação, Top of the Rock). <strong>Pausa ☕:</strong> Joe Coffee.</p><p><strong>Tarde:</strong> 5ª Avenida (Saks, vitrines de Natal), Times Square, jantar Christmas Eve cedo.</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>25/12 · qui · Natal</h4><p>Café da manhã calmo no hotel. <strong>Tarde:</strong> Central Park (Bow Bridge, Bethesda Terrace, Strawberry Fields) + <strong>American Museum of Natural History</strong> (dinossauros, planetário — perfeito pra Louise).</p><p>Quase tudo fecha pro Natal exceto restaurantes chineses e cinemas. Jantar dim sum em Chinatown e/ou cinema.</p></div></div>
+            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>26/12 · sex · Air &amp; Space + Chelsea</h4><p><strong>Manhã:</strong> <strong>Intrepid Air, Space &amp; Sea Museum</strong> (porta-aviões + jato espacial Enterprise — combina com Air &amp; Space de DC). <strong>Pausa ☕:</strong> Stumptown.</p><p><strong>Tarde:</strong> walk pela High Line (parque elevado) terminando em Chelsea Market pra lanches e compras.</p></div></div>
+            <div class="spot"><div class="spot-num">D5</div><div class="spot-body"><h4>27/12 · sáb · Brooklyn + Downtown</h4><p><strong>Manhã:</strong> Brooklyn Bridge a pé até DUMBO (30 min), pizza Juliana's, Brooklyn Bridge Park.</p><p><strong>Tarde:</strong> 9/11 Memorial + Staten Island Ferry (grátis, vista da Estátua da Liberdade). <strong>Pausa ☕:</strong> Blue Bottle Bryant Park.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Global_Citizen_Festival_Central_Park_New_York_City_from_NYonAir_%2815351915006%29.jpg" alt="Central Park" loading="lazy"></div>
@@ -2518,13 +2591,19 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           </div>
         </div>
         <div class="notes">
-          <div class="notes-label">Notas do grupo</div>
+          <div class="notes-label">Pontos fortes & fracos · DC → NYC</div>
           <ul>
-            <li><strong>Hotel:</strong> Midtown (Times Square, Bryant Park, Columbus Circle). Pro grupo de 7: duas suítes no mesmo andar ou Airbnb de 3 quartos em Midtown/UES.</li>
-            <li>Metrô com stroller é ruim (escadas, lotação). Ande a pé ou Uber XL. Reserve com antecedência — perto de hotéis a demanda fica caótica.</li>
-            <li>Restaurantes bons precisam de <strong>reserva 3-4 semanas antes</strong>. Use Resy e OpenTable. Pra grupo de 6, liga direto.</li>
-            <li>Ver a árvore do Rockefeller com menos multidão: vá entre 6h e 8h da manhã. Vale acordar cedo um dia.</li>
-            <li>Se nevar: compra um trenó pequeno no Amazon pra entregar no hotel. Central Park com trenó é inesquecível.</li>
+            <li><strong>🚗 Carro:</strong> ✓ flexibilidade total, fácil com a bagagem volumosa de 7 pessoas, pode parar em Filadélfia no caminho. ✗ exige van/Suburban grande (~$200/dia + gás), NY é péssima pra dirigir, estacionamento em Manhattan custa $60-70/dia.</li>
+            <li><strong>🚆 Amtrak Acela (~3h):</strong> ✓ sem motorista, sem parking, confortável, Wi-Fi. ✗ gerenciar bagagem volumosa de 7 + bebê no trem é o ponto crítico — embarque e desembarque com tanta mala em pouco tempo de parada.</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <div class="notes-label">Coffee specialty · NYC</div>
+          <ul>
+            <li><strong>Joe Coffee</strong> · várias unidades, espresso clássico</li>
+            <li><strong>Blue Bottle</strong> · Bryant Park, Brooklyn — pour over icônico</li>
+            <li><strong>Stumptown</strong> · Ace Hotel Midtown, vibe Portland</li>
+            <li><strong>Devoción</strong> · Williamsburg, café colombiano fresh-roasted</li>
           </ul>
         </div>
       </div>
@@ -2546,30 +2625,33 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="city-meta">
         <div class="city-idx">03 · Parada</div>
         <h3 class="city-name"><strong>Boston.</strong></h3>
-        <p class="city-tagline">Onde a América começou. Dois dias de história, mar e comida puritana.</p>
+        <p class="city-tagline">Freedom Trail, lobster roll, e o frio mais cortante da viagem.</p>
         <div class="city-data">
-          <div class="city-data-row"><span>Datas</span><span>26 → 28 dez</span></div>
-          <div class="city-data-row"><span>Dias</span><span>2</span></div>
-          <div class="city-data-row"><span>Chegada</span><span>Voo 1h30 ou Amtrak 4h</span></div>
-          <div class="city-data-row"><span>Saída</span><span>Voo → SLC</span></div>
-          <div class="city-data-row"><span>Clima</span><span>~-2°C · cortante</span></div>
+          <div class="city-data-row"><span>Datas</span><span>28 → 29 dez</span></div>
+          <div class="city-data-row"><span>Noites</span><span>2</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>28/12 · de NYC</span></div>
+          <div class="city-data-row"><span>Saída</span><span>30/12 manhã → Las Vegas</span></div>
+          <div class="city-data-row"><span>Clima</span><span>0°C a -5°C · cortante</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas & tickets</div>
           <div class="status-row"><span>Hospedagem Back Bay · 2 noites</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Almoço Neptune Oyster (chegar 11h30)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Jantar Regina Pizzeria (reserva)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Harvard Yard tour (grátis, opcional)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Voo BOS → SLC · 28 dez</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Lobster roll Neptune Oyster (chegar 11h30)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Aquário New England</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Voo BOS → LAS (30/12 manhã)</span><span class="s-wip">Comprar</span></div>
+        </div>
+        <div class="city-status">
+          <div class="city-status-label">Decisões em aberto</div>
+          <div class="status-row"><span>NYC → Boston (28/12) · carro vs Amtrak</span><span class="s-wip">Em debate</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Dia a dia <span>3 dias</span></div>
+          <div class="block-title">Dia a dia <span>28 → 29 dez</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>26 dez · sex · chegada</h4><p>Voo NYC → BOS chega tarde. Check-in em Back Bay. Jantar no <strong>North End</strong> — Regina Pizzeria (a original) + Mike's Pastry pro cannoli. Reserva antes ou chega cedo.</p></div></div>
-            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>27 dez · sáb · dia cheio</h4><p><strong>Manhã:</strong> Beacon Hill — Acorn Street (a rua mais fotografada) + Boston Common. <strong>Almoço:</strong> lobster roll no <strong>Neptune Oyster</strong> (chegar 11h30, fila dobra a esquina; peça <em>hot with butter</em>). <strong>Tarde:</strong> Harvard + Cambridge (Red Line). <strong>Noite:</strong> volta pelo Freedom Trail iluminado.</p></div></div>
-            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>28 dez · dom · saída</h4><p>Walk pela Charles River Esplanade com café (vista de Cambridge, rio possivelmente congelado). Uber XL pro Logan. Voo → SLC (5h de voo, com conexão ~8h total).</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>28/12 · dom · NYC → Boston</h4><p>Trajeto pela manhã/tarde (4-5h). Chegada Back Bay. Jantar no <strong>North End</strong> — Regina Pizzeria + Mike's Pastry pro cannoli.</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>29/12 · seg · dia inteiro Boston</h4><p><strong>Manhã:</strong> Freedom Trail — Boston Common, Massachusetts State House, Park Street Church, Faneuil Hall. <strong>Pausa ☕:</strong> George Howell Coffee.</p><p><strong>Almoço:</strong> Quincy Market — lobster roll no Neptune Oyster (chegar 11h30) ou Saltie Girl.</p><p><strong>Tarde:</strong> New England Aquarium (bom pra Louise, climatizado, pinguins). Walk pelo <strong>Arnold Arboretum</strong> (Harvard, 280 acres mesmo no inverno é lindo).</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>30/12 · ter · voa pra Vegas</h4><p>Uber XL pro Logan (20 min do centro). Voo BOS → LAS (~6h direto). Chega Vegas tarde — checkin hotel na Strip.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Harvard_Yard_in_autumn%2C_Boston%2C_Massachusetts%2C_2015.jpg" alt="Harvard" loading="lazy"></div>
@@ -2577,13 +2659,19 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           </div>
         </div>
         <div class="notes">
-          <div class="notes-label">Notas do grupo</div>
+          <div class="notes-label">Pontos fortes & fracos · NYC → Boston</div>
           <ul>
-            <li>Voo NYC → BOS (1h30) > Amtrak (4h) pro grupo com bebê. Mais caro, muito mais cômodo.</li>
-            <li><strong>Hotel:</strong> Back Bay ou Downtown. Residence Inn Downtown Seaport tem suítes com kitchenette — ótimo pra grupo com bebê.</li>
-            <li>Boston é caminhável no centro, mas no inverno quase ninguém anda. Uber entre zonas.</li>
-            <li>Se sobrar tempo: MFA (Museum of Fine Arts) é excepcional. Climatizado, café bom.</li>
-            <li>Dia 28: voo pra SLC sai cedo. Uber XL pro Logan — 20 min do centro.</li>
+            <li><strong>🚗 Carro:</strong> ✓ bagagem volumosa de 7 fácil. ✗ Boston é uma das piores cidades dos EUA pra dirigir — uma vez lá, o carro não é usado dentro da cidade (caminha tudo). Vai gastar com aluguel + parking pra ficar parado.</li>
+            <li><strong>🚆 Amtrak Acela (~3.5h):</strong> ✓ chega no centro de Boston (South Station), sem carro/parking, Boston extremamente caminhável depois. ✗ mesmo problema de bagagem volumosa no trem.</li>
+            <li><strong>⚠️ Frio intenso:</strong> planeja pausas em ambientes fechados com a Louise. Aquário, MFA, Quincy Market (food hall) são bons pra aquecer.</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <div class="notes-label">Coffee specialty · Boston</div>
+          <ul>
+            <li><strong>George Howell Coffee</strong> · Godfrey Hotel + Boston Public Market — referência</li>
+            <li><strong>Tatte Bakery &amp; Café</strong> · várias unidades, pão fresco + café bom</li>
+            <li><strong>Render Coffee</strong> · South End, vibe local</li>
           </ul>
         </div>
       </div>
@@ -2591,67 +2679,72 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   </div>
 </section>
 
-<!-- CITY 04 · UTAH -->
-<section class="city" id="utah">
+<!-- CITY 04 · LAS VEGAS -->
+<section class="city" id="vegas">
   <div class="container">
     <div class="ph city-visual">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Park_City_Utah_Aerial_View_in_Winter_2024.jpg" alt="Park City Utah aerial winter" loading="lazy">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Las_Vegas_Strip_09_2017_4897.jpg" alt="Las Vegas Strip" loading="lazy">
       <div class="ph-caption">
-        <span>Utah · Salt Lake City + Park City</span>
+        <span>Las Vegas · Strip à noite</span>
         <span>04 / 06</span>
       </div>
     </div>
     <div class="city-grid">
       <div class="city-meta">
         <div class="city-idx">04 · Parada</div>
-        <h3 class="city-name"><strong>Utah.</strong></h3>
-        <p class="city-tagline">Cidade + deserto + neve em cinco dias. Três paisagens em uma parada, terminando com Réveillon na montanha.</p>
+        <h3 class="city-name">Las <strong>Vegas.</strong></h3>
+        <p class="city-tagline">Réveillon na Strip + day trips épicos: Grand Canyon e ski em Lee Canyon.</p>
         <div class="city-data">
-          <div class="city-data-row"><span>Datas</span><span>28 dez → 02 jan</span></div>
-          <div class="city-data-row"><span>Dias</span><span>5 · inclui Réveillon</span></div>
-          <div class="city-data-row"><span>Paradas</span><span>SLC · Antelope · Park City</span></div>
-          <div class="city-data-row"><span>Chegada</span><span>Voo BOS → SLC</span></div>
-          <div class="city-data-row"><span>Saída</span><span>Voo SLC → MCO</span></div>
-          <div class="city-data-row"><span>Clima</span><span>-2°C (SLC) · -10°C (PC)</span></div>
+          <div class="city-data-row"><span>Datas</span><span>30 dez → 02 jan</span></div>
+          <div class="city-data-row"><span>Noites</span><span>4 · inclui Réveillon</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>30/12 · voo BOS → LAS</span></div>
+          <div class="city-data-row"><span>Saída</span><span>3/01 manhã · voo LAS → MCO</span></div>
+          <div class="city-data-row"><span>Clima</span><span>~10°C dia / 4°C noite</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas & tickets</div>
-          <div class="status-row"><span>Hotel SLC downtown · 2 noites</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Condo Park City ski-in/out · 3 noites</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Carros SUV 4x4 SLC (x2)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Passes de ski (Epic / Ikon)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Ski Butlers · entrega equipamento</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Réveillon 31/12 · jantar (Riverhorse/Glitretind)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Voo SLC → MCO · 2 jan</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Hotel Strip · 4 noites</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Aluguel SUV/van em LAS (day trips)</span><span class="s-wip">Comprar</span></div>
+          <div class="status-row"><span>Réveillon 31/12 · jantar + show Strip</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Grand Canyon · helicóptero ou Skywalk</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Ski Lee Canyon · ingressos + equipamento</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Voo LAS → MCO (3/01 manhã)</span><span class="s-wip">Comprar</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Dia a dia <span>6 dias</span></div>
+          <div class="block-title">Dia a dia <span>30 dez → 3 jan</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>28 dez · dom · chegada SLC</h4><p>Voo chega SLC tarde. Hotel downtown (1.300m — altitude leve). Jantar no <strong>The Copper Onion</strong> ou HSL. Cedo pra dormir, dia foi longo.</p></div></div>
-            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>29 dez · seg · deserto</h4><p><strong>Manhã:</strong> Temple Square (templo mórmon + tabernáculo, grátis, 1h30). <strong>Tarde:</strong> drive 1h até <strong>Antelope Island</strong> — paisagem marciana, bisões livres, pôr-do-sol no Great Salt Lake. Volta pra SLC pro jantar.</p></div></div>
-            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>30 dez · ter · sobe Park City</h4><p>Drive 45min SLC → Park City (2.100m). Check-in condo. Aclimatação: ski leve meio período à tarde, sem exagero. Ski Butlers entrega equipamento no condo. Jantar na Main Street.</p></div></div>
-            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>31 dez · qua · Réveillon</h4><p>Ski de manhã (Park City Mountain ou Deer Valley). Retorno pro condo descansar. <strong>Jantar:</strong> resort gourmet (Riverhorse, Glitretind) — com Louise, mais sensato que Main Street. Fogos à meia-noite no resort.</p></div></div>
-            <div class="spot"><div class="spot-num">D5</div><div class="spot-body"><h4>1 jan · qui · rest day</h4><p>Primeiro dia do ano = ressaca + cansaço de ski. Opções: ski leve meio período, spa no resort (Montage, St. Regis), dog sledding ou snowshoeing pros não-esquiadores. Almoço no Riverhorse.</p></div></div>
-            <div class="spot"><div class="spot-num">D6</div><div class="spot-body"><h4>2 jan · sex · saída</h4><p>Devolve Ski Butlers manhã cedo. Check-out condo. Drive 45min → SLC. Voo SLC → MCO (4h30 de voo direto).</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>30/12 · ter · chegada</h4><p>Voo BOS → LAS chega tarde. Check-in no hotel da Strip. <strong>Noite:</strong> walk pela Strip — fontes do <strong>Bellagio</strong> (show a cada 30min), cassinos icônicos (Caesars, Venetian, Wynn). Jantar leve.</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>31/12 · qua · Réveillon na Strip</h4><p><strong>Dia:</strong> piscina do hotel ou Mob Museum / Neon Museum (se quiser fugir do cassino). <strong>Pausa ☕:</strong> Mothership Coffee no downtown.</p><p><strong>Noite:</strong> jantar Strip (reserva crítica), Réveillon ao ar livre — fogos sobre a Strip à meia-noite é dos maiores dos EUA. <em>Atenção: Strip fecha pra carros, chega caminhando.</em></p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>1/01 · qui · Grand Canyon</h4><p>Day trip pro <strong>Grand Canyon</strong>. <strong>Opção A:</strong> tour de helicóptero saindo de LAS (~$400/pax, 4h round-trip, espetacular). <strong>Opção B:</strong> drive 2h30 até <strong>Grand Canyon West / Skywalk</strong> (passarela de vidro, mais acessível). Volta no fim do dia.</p></div></div>
+            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>2/01 · sex · neve + deserto</h4><p><strong>Manhã:</strong> ski em <strong>Lee Canyon</strong> (45min da Strip — sim, neve a uma hora de Vegas!). Aluguel de equipamento no resort, pistas pra iniciante e intermediário.</p><p><strong>Tarde:</strong> <strong>Red Rock Canyon</strong> — drive cênico de 20 milhas, paisagem marciana, contraste total com a Strip. <strong>Noite:</strong> última jantar em Vegas.</p></div></div>
+            <div class="spot"><div class="spot-num">D5</div><div class="spot-body"><h4>3/01 · sáb · voa pra Orlando</h4><p>Check-out cedo. Devolve carro alugado. Voo LAS → MCO (~4h30 direto). Chega Orlando à noite.</p></div></div>
           </div>
           <div class="city-gallery">
-            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Park_City_overview.jpg" alt="Main Street Park City" loading="lazy"></div>
-            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Deer_Valley_Ski_Resort_Park_City_Utah_photo_D_Ramey_Logan.jpg" alt="Deer Valley" loading="lazy"></div>
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Las_Vegas_Strip_09_2017_4897.jpg" alt="Vegas Strip" loading="lazy"></div>
+            <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Park_City_Utah_Aerial_View_in_Winter_2024.jpg" alt="Mountains" loading="lazy"></div>
           </div>
         </div>
         <div class="notes">
-          <div class="notes-label">Notas do grupo · CRÍTICAS</div>
+          <div class="notes-label">Pontos fortes & fracos</div>
           <ul>
-            <li><strong>Split 2+3 dias:</strong> 2 dias em SLC (chegada + deserto) aclimata gradualmente antes da altitude, e 3 dias em Park City cobrem o ski + Réveillon. Mudar de hospedagem 1x no meio parece chato, mas a transição gradual ajuda o grupo (especialmente Louise) a se adaptar a 2.100m.</li>
-            <li><strong>SLC hospedagem:</strong> Kimpton Hotel Monaco, Grand America, Marriott City Creek. Downtown walkable, perto de Temple Square e restaurantes.</li>
-            <li><strong>Antelope Island no inverno:</strong> estrada até a ilha (Davis County Causeway) fica aberta ano inteiro. Causeway + ilha dá pra fazer em ½ dia. Levem água e lanche — ilha não tem comércio. Bonneville Salt Flats fica cogitado mas em dez/jan costuma estar alagado e sem o visual do chão branco — Antelope é o substituto que funciona.</li>
-            <li><strong>Altitude 2.100m em Park City:</strong> as 2 dias em SLC (1.300m) já ajudam, mas hidrata muito, umidificador no quarto, evita esforço no primeiro dia subindo. Sinais de alerta em Louise: respiração rápida, lábios azulados, sonolência excessiva — se aparecer, desce pra SLC.</li>
-            <li><strong>Park City hospedagem:</strong> condo 3-4 quartos é o único caminho. Considere Waldorf Astoria, The Lodge at Mountain Village, ou VRBO ski-in/ski-out no Canyons Village. Reserva AGORA — Réveillon fica sold out em setembro.</li>
-            <li><strong>Carros:</strong> dois veículos SUV 4x4 alugados em SLC. 1h de SLC até Antelope Island, 45 min de SLC até Park City. Pneus de neve já incluídos em janeiro.</li>
-            <li><strong>Roupa de esqui:</strong> NÃO compre no Brasil se o grupo não esquia sempre. Ski Butlers entrega no condo, ~$50/dia/pessoa.</li>
-            <li><strong>Reservas críticas:</strong> Réveillon em Riverhorse, Glitretind (Stein Eriksen), St. Regis esgota em outubro. Bloqueia em novembro no mais tardar.</li>
+            <li><strong>Grand Canyon helicóptero vs Skywalk:</strong>
+              <br>✓ <strong>Heli:</strong> vista aérea épica de uma das maravilhas naturais, ~4h total, leva no hotel pega de volta. ✗ Caro (~$400/pax × 7 = $2.800). Bebês <2 anos podem voar (assento de colo).
+              <br>✓ <strong>Skywalk:</strong> passarela de vidro projetada sobre o desfiladeiro, experiência única, mais barato (~$70/pax). ✗ 2h30 de carro cada trecho, mais cansativo com Louise.
+            </li>
+            <li><strong>Ski em Vegas é viável:</strong> Lee Canyon (~45min) tem neve seca de boa qualidade. Não esperem Aspen, mas dá pra esquiar de manhã e voltar pra Strip no almoço.</li>
+            <li><strong>Réveillon na Strip:</strong> aprox 300k pessoas. Strip fecha pra carros 18h-2h. Hotel ON Strip é essencial — chega caminhando. Riskiest pra Louise: barulho, multidão, fogos. Considerem rooftop do hotel pra ver de cima.</li>
+            <li><strong>Hospedagem:</strong> Caesars, Venetian, Wynn, Aria. Suítes pra família de 6+1 acomodam bem. Reserva em outubro/novembro — Réveillon é o pico.</li>
+            <li><strong>Carro:</strong> aluga SUV/van em LAS pros day trips (Grand Canyon, Lee Canyon, Red Rock). Na Strip não precisa — caminhe ou monorail.</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <div class="notes-label">Coffee specialty · Vegas</div>
+          <ul>
+            <li><strong>Mothership Coffee Roasters</strong> · downtown, o melhor da cidade</li>
+            <li><strong>Vesta Coffee Roasters</strong> · arts district, micro-roastery</li>
+            <li><strong>Sunrise Coffee</strong> · vegan, vibe community</li>
           </ul>
         </div>
       </div>
@@ -2673,31 +2766,31 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="city-meta">
         <div class="city-idx">05 · Parada</div>
         <h3 class="city-name"><strong>Orlando.</strong></h3>
-        <p class="city-tagline">Outlet, parque novo, mudança de clima. O respiro da família antes do voo de volta.</p>
+        <p class="city-tagline">Outlet, parque novo, alívio térmico. Última parada com overnight antes do voo de volta.</p>
         <div class="city-data">
-          <div class="city-data-row"><span>Datas</span><span>02 → 05 jan</span></div>
-          <div class="city-data-row"><span>Dias</span><span>3</span></div>
-          <div class="city-data-row"><span>Chegada</span><span>Voo SLC → MCO</span></div>
-          <div class="city-data-row"><span>Saída</span><span>Drive → Miami 3h30</span></div>
+          <div class="city-data-row"><span>Datas</span><span>3 → 5 jan</span></div>
+          <div class="city-data-row"><span>Noites</span><span>3</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>3/01 noite · voo LAS → MCO</span></div>
+          <div class="city-data-row"><span>Saída</span><span>6/01 manhã · Brightline pra Miami</span></div>
           <div class="city-data-row"><span>Clima</span><span>~22°C · alívio</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas & tickets</div>
           <div class="status-row"><span>Hotel Universal on-site · 3 noites</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Tickets Epic Universe</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Express Unlimited Pass (Epic)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Carros minivan + SUV (MCO)</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Drop-off carros MIA (one-way fee)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Tickets Epic Universe</span><span class="s-wip">Comprar</span></div>
+          <div class="status-row"><span>Express Unlimited Pass (Epic)</span><span class="s-wip">Comprar</span></div>
+          <div class="status-row"><span>Aluguel carro MCO (devolve MCO 6/01)</span><span class="s-wip">Comprar</span></div>
+          <div class="status-row"><span>Brightline MCO → Miami (6/01)</span><span class="s-wip">Comprar</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Dia a dia <span>4 dias</span></div>
+          <div class="block-title">Dia a dia <span>3 → 5 jan</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>2 jan · sex · chegada</h4><p>Voo SLC → MCO chega tarde. Hotel on-site Universal (Cabana Bay ou Sapphire Falls) pra ganhar early park admission. Jantar leve em I-Drive, pool à noite pra aliviar a transição da neve pro calor.</p></div></div>
-            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>3 jan · sáb · Outlets Vineland</h4><p><strong>Orlando Premium Outlets Vineland</strong> o dia inteiro. Luxury brands (Gucci, Prada, Tory Burch, Coach, Tumi) + mainstream (Nike, Adidas, Polo, Levi's). Grupo divide em duplas pra cobrir mais. 6-8h realistas. Cartões múltiplos — outlet bloqueia às vezes.</p></div></div>
-            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>4 jan · dom · Epic Universe</h4><p>Parque novo da Universal (5 mundos: Celestial Park, Super Nintendo World, Dragon, Wizarding World Ministry of Magic, Dark Universe). <strong>Express Unlimited Pass é obrigatório</strong> pra grupo grande. Com Louise: Rider Swap — um fica com bebê, outro anda, depois troca sem fila de novo.</p></div></div>
-            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>5 jan · seg · drive Miami</h4><p>Check-out 8h. Drive 3h30 Orlando → Miami pela I-95 (parada em Ft. Lauderdale se precisar). Chega Miami ~12h.</p></div></div>
+            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>3/01 · sáb · chegada noturna</h4><p>Voo LAS → MCO chega à noite. Hotel on-site Universal (Cabana Bay ou Sapphire Falls). Jantar leve, pool, descansa. Mudança brusca de clima (neve de Vegas pro calor da Flórida).</p></div></div>
+            <div class="spot"><div class="spot-num">D2</div><div class="spot-body"><h4>4/01 · dom · Outlets dia inteiro</h4><p><strong>Vineland Premium Outlets + International Premium Outlets</strong> — combo. Luxury (Gucci, Prada, Tory Burch, Coach, Tumi) + mainstream (Nike, Adidas, Polo, Levi's). Grupo divide em duplas. 6-8h fáceis. <strong>Pausa ☕:</strong> Lineage Coffee Roasters (Orlando).</p></div></div>
+            <div class="spot"><div class="spot-num">D3</div><div class="spot-body"><h4>5/01 · seg · Epic Universe</h4><p>Parque novo da Universal (5 mundos: Celestial Park, Super Nintendo World, How to Train Your Dragon, Wizarding World Ministry of Magic, Dark Universe). <strong>Express Unlimited Pass é obrigatório</strong> pra grupo grande. Com Louise: Rider Swap — um fica com bebê, outro anda, depois troca sem fila de novo. Dia inteiro lá.</p></div></div>
+            <div class="spot"><div class="spot-num">D4</div><div class="spot-body"><h4>6/01 · ter · Brightline pra Miami</h4><p>Check-out cedo. Devolve carro em MCO. <strong>Brightline</strong> sai dentro do próprio MCO (estação no aeroporto). Trem de alta velocidade chega em MiamiCentral em ~3h — sem dirigir, sem parking, conforto absoluto pra bagagem e Louise.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Orlando_Premium_Outlets_-_panoramio_%285%29.jpg" alt="Orlando Outlets" loading="lazy"></div>
@@ -2708,11 +2801,19 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           <div class="notes-label">Notas do grupo</div>
           <ul>
             <li><strong>Hotel:</strong> Universal on-site (Cabana Bay, Sapphire Falls, Dockside) dá early park admission pro Epic Universe + shuttle grátis. Cabana Bay Family Suite acomoda até 6 — precisam de 2.</li>
+            <li><strong>Brightline em vez de drive:</strong> sair de Orlando direto pra Miami sem alugar van. Trem alta velocidade, sai DENTRO do MCO. Bilhetes ~$30-80/pax dependendo da classe. Premium tem snack/bebida grátis. <strong>Game changer pra família com bagagem + bebê.</strong></li>
             <li><strong>Ingresso Epic:</strong> compra 2-3 semanas antes pelo site da Universal. Express Unlimited pro grupo inteiro.</li>
-            <li><strong>Carro:</strong> minivan + SUV em MCO. Devolvem em Miami (one-way fee ~$100-200 total, vale a pena).</li>
-            <li><strong>Outlet pagamento:</strong> cartão crédito sem IOF (Wise, Nomad) e mais de um. Lojas às vezes limitam valor por cartão.</li>
-            <li><strong>Louise no outlet:</strong> Vineland tem fraldário e área pra trocar. Leva ergobaby + stroller, alterna entre os dois.</li>
-            <li><strong>Epic Universe Express Pass:</strong> $150-250/pessoa. Parece caro, mas sem ele vocês fazem 4-5 atrações no dia inteiro com grupo grande.</li>
+            <li><strong>Outlets:</strong> cartão crédito sem IOF (Wise, Nomad), e mais de um. Lojas limitam valor por cartão às vezes.</li>
+            <li><strong>Louise no outlet/Epic:</strong> Vineland tem fraldário e área pra trocar. Leva ergobaby + stroller, alterna. Epic Universe tem Rider Swap.</li>
+            <li><strong>Express Pass:</strong> $150-250/pessoa. Caro mas sem ele faz 4-5 atrações no dia inteiro com grupo grande.</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <div class="notes-label">Coffee specialty · Orlando</div>
+          <ul>
+            <li><strong>Lineage Coffee Roasters</strong> · East End Market, o melhor da cidade</li>
+            <li><strong>Foxtail Coffee</strong> · várias unidades, cold brew</li>
+            <li><strong>Vespr Craft Coffee &amp; Allures</strong> · ambiente diferente, café decente</li>
           </ul>
         </div>
       </div>
@@ -2734,28 +2835,29 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="city-meta">
         <div class="city-idx">06 · Parada</div>
         <h3 class="city-name"><strong>Miami.</strong></h3>
-        <p class="city-tagline">Um dia só, sem overnight. Drive de Orlando, manhã de praia, voo à noite.</p>
+        <p class="city-tagline">Day trip via Brightline. Praia, almoço, e voo de volta sem stress.</p>
         <div class="city-data">
-          <div class="city-data-row"><span>Data</span><span>05 jan</span></div>
-          <div class="city-data-row"><span>Modo</span><span>Day trip · sem overnight</span></div>
-          <div class="city-data-row"><span>Chegada</span><span>Drive 3h30 de MCO · 12h</span></div>
-          <div class="city-data-row"><span>Saída</span><span>Voo MIA · 18:55</span></div>
+          <div class="city-data-row"><span>Data</span><span>6 jan</span></div>
+          <div class="city-data-row"><span>Modo</span><span>Day trip · Brightline</span></div>
+          <div class="city-data-row"><span>Chegada</span><span>Brightline MiamiCentral ~ meio-dia</span></div>
+          <div class="city-data-row"><span>Saída</span><span>Voo MIA · 18:55 (LATAM OPGKDQ)</span></div>
           <div class="city-data-row"><span>Clima</span><span>~25°C · praia</span></div>
         </div>
         <div class="city-status">
           <div class="city-status-label">Reservas & tickets</div>
-          <div class="status-row"><span>Drop-off carros MIA</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Check-in voo Latam</span><span class="s-pending">Pendente</span></div>
-          <div class="status-row"><span>Almoço South Beach</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Brightline Premium · 7 pax</span><span class="s-wip">Comprar</span></div>
+          <div class="status-row"><span>Rideshare XL MiamiCentral → MIA</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Almoço South Beach (Joe's / Versailles)</span><span class="s-pending">Pendente</span></div>
+          <div class="status-row"><span>Check-in voo LATAM (já comprado)</span><span class="s-ok">Confirmado</span></div>
         </div>
       </div>
       <div class="city-body">
         <div>
-          <div class="block-title">Dia a dia <span>1 dia · day trip</span></div>
+          <div class="block-title">Dia a dia <span>6 jan · day trip</span></div>
           <div class="spots">
-            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>5 jan · seg · manhã · chegada</h4><p>Chega Miami ~12h vindo de Orlando (drive I-95, 3h30). Direto pra South Beach — estaciona no Ocean Drive, pés na areia, Louise vendo o Atlântico de cima.</p></div></div>
-            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>5 jan · tarde · almoço South Beach</h4><p>Almoço: Joe's Stone Crab (só em temporada, vale a tradição) ou Versailles (cubano em Little Havana, clássico). Walk pelo Ocean Drive art déco. Café em Lincoln Road. Alternativa: Wynwood Walls (street art, 1-2h).</p></div></div>
-            <div class="spot"><div class="spot-num">D1</div><div class="spot-body"><h4>5 jan · noite · voo de volta</h4><p>15h30 — drop-off carros em MIA (planeja 30-40min extra pra filas). 16h — check-in voo Latam 18:55 (chega 3h30 antes, fila family com Louise). 18:55 — voo MIA → GRU. Chegam 07 jan 09:45 NVT.</p></div></div>
+            <div class="spot"><div class="spot-num">M</div><div class="spot-body"><h4>Manhã · Orlando → Miami via Brightline</h4><p>Check-out cedo do hotel em Orlando, transfer pro MCO. <strong>Brightline</strong> sai da estação dentro do próprio aeroporto — pegada genial. Trem de alta velocidade, ~3h até MiamiCentral. Sem dirigir, sem parking, sem estresse com bagagem. Conforto Premium tem snacks e bebidas.</p></div></div>
+            <div class="spot"><div class="spot-num">T</div><div class="spot-body"><h4>Tarde · South Beach + almoço</h4><p>Rideshare XL de MiamiCentral pra South Beach. Walk pelo Ocean Drive art déco. <strong>Almoço:</strong> Joe's Stone Crab (só em temporada, vale a tradição) ou Versailles em Little Havana (cubano clássico). Café em Lincoln Road. Alternativa: Wynwood Walls (street art, 1-2h).</p></div></div>
+            <div class="spot"><div class="spot-num">N</div><div class="spot-body"><h4>Noite · voo de volta</h4><p>15h30 rideshare XL pro MIA. 16h check-in voo LATAM 18:55 (chega 3h antes, fila family com Louise). Voo MIA → GRU 18:55. Conexão GRU. Chegam <strong>07/01 09h45 em NVT</strong>.</p></div></div>
           </div>
           <div class="city-gallery">
             <div class="ph"><img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Ocean_drive_day_2009j.JPG" alt="South Beach" loading="lazy"></div>
@@ -2765,12 +2867,12 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <div class="notes">
           <div class="notes-label">Notas do grupo</div>
           <ul>
-            <li><strong>Sem overnight em Miami:</strong> ganham 1 dia extra em Orlando (4 dias em vez de 3) e simplifica logística — cola a noite de Orlando à chegada no Brasil sem mudança extra de hotel. Trade-off: tarde em Miami fica curtinha (~4h).</li>
-            <li><strong>Drive de Orlando:</strong> I-95 sul, 3h30-4h com trânsito típico. Saindo 7h-8h chega antes do almoço.</li>
-            <li><strong>Check-in voo internacional:</strong> chega 3h30 antes. MIA lotado no inverno. Com bebê, aproveita fila de family check-in da Latam.</li>
-            <li><strong>Carro devolve:</strong> em MIA planeja 30-40 min extra (filas + shuttle pro terminal). Se alugou em MCO, tem fee one-way ~$100-200 — já contar no budget.</li>
-            <li><strong>Se der tempo:</strong> Walgreens/CVS pra últimas coisas (fraldas Pampers Swaddlers, vitaminas, skincare). Diferencial de preço vs Brasil justifica parada rápida.</li>
-            <li><strong>Wynwood Walls:</strong> se quiser menos praia, troca a tarde por Wynwood (street art, 1-2h resolvidas). Vale se pegou 2 dias de praia em outras cidades.</li>
+            <li><strong>Brightline > drive:</strong> sem aluguel de van, sem motorista cansado, sem estacionamento em Miami. ~3h de trem com Wi-Fi e mesa pra bebê. Premium ~$80/pax vs Smart ~$30. Vale a pena Premium na ida.</li>
+            <li><strong>Bagagem na Brightline:</strong> 2 bagagens de mão + 1 despachada por pax sem custo extra. Vagão tem espaço pra mala grande.</li>
+            <li><strong>MiamiCentral → MIA:</strong> 20min de rideshare XL ($45-60). Trânsito de Miami é caótico — planeja 1h de folga.</li>
+            <li><strong>Check-in voo internacional:</strong> chega 3h antes. MIA lotado no inverno. Family check-in da LATAM é mais rápido com Louise.</li>
+            <li><strong>Se der tempo:</strong> Walgreens/CVS perto do MIA pra últimas compras (fraldas Pampers Swaddlers, vitaminas, skincare). Diferencial de preço vs Brasil compensa parada rápida.</li>
+            <li><strong>Wynwood vs South Beach:</strong> tarde curta (~4h). Se Louise tiver paciência, dá pra fazer ambos — Wynwood antes do almoço, South Beach depois.</li>
           </ul>
         </div>
       </div>
@@ -2785,7 +2887,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="section-index">§ 03 · Louise</div>
       <div>
         <h2 class="section-title">A bebê tem <em>10 meses</em>,<br>e seis responsáveis.</h2>
-        <p class="section-sub">Considerações específicas pra nossa viajante mais jovem — do voo internacional à altitude em Utah, da alimentação ao sono em fuso diferente.</p>
+        <p class="section-sub">Considerações específicas pra nossa viajante mais jovem — do voo internacional aos day trips em Vegas, da alimentação ao sono em fuso diferente.</p>
       </div>
     </div>
     <div class="baby-grid">
@@ -2795,14 +2897,14 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <p>Lap infant nos dois PNRs (ida + volta). Pede bassinet no GRU → BOS (9h55) e MIA → GRU (8h25) — primeiros a ligar pegam. Mamadeira na decolagem e aterrissagem ajuda com pressão. Ergobaby salva nas conexões.</p>
       </div>
       <div class="baby-card">
-        <div class="baby-card-num">02 · Altitude</div>
-        <h4>Utah a 2.100 metros</h4>
-        <p>Altitude afeta bebês. Primeiras 24h: zero esqui, muito líquido, umidificador no quarto. Sinal de alerta: respiração muito rápida, lábios azulados, sonolência excessiva. Se aparecer, desce pra SLC (1.300m) por uma noite.</p>
+        <div class="baby-card-num">02 · Vegas + Grand Canyon</div>
+        <h4>Day trips épicos com bebê</h4>
+        <p>Strip é barulhenta — protetor auricular pra Réveillon. Grand Canyon helicóptero: bebês &lt;2 anos voam de colo (sem assento extra), levam protetor auricular reforçado. Lee Canyon (ski 45min de LAS): chega na hora de almoço, fica até 16h pra evitar o frio noturno do deserto.</p>
       </div>
       <div class="baby-card">
         <div class="baby-card-num">03 · Frio</div>
         <h4>Vestir por camadas</h4>
-        <p>NE americano em dezembro: -2 a 5°C. Utah: -12°C de manhã. Layer system: body manga longa + fleece + macacão de neve + gorro + luvas + botinha. Marcas: Columbia, Reima, Patagonia Baby.</p>
+        <p>NE americano em dezembro: -2 a 5°C. Boston: -5°C cortante. Lee Canyon: ~-5°C. Layer system: body manga longa + fleece + macacão de neve + gorro + luvas + botinha. Marcas: Columbia, Reima, Patagonia Baby.</p>
       </div>
       <div class="baby-card">
         <div class="baby-card-num">04 · Sono</div>
@@ -2838,20 +2940,20 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <h4>Hospedagem</h4>
         <p>Grupo de 7 raramente cabe em um quarto. <strong>Três opções:</strong></p>
         <p><strong>(a)</strong> Três quartos duplos no hotel, Louise com um dos casais. Mais privacidade, menos convivência.</p>
-        <p><strong>(b)</strong> Airbnb/VRBO de 3-4 quartos. Melhor pra grupo, cozinha útil pra café e mamadeira. Utah funciona assim obrigatoriamente.</p>
+        <p><strong>(b)</strong> Airbnb/VRBO de 3-4 quartos. Melhor pra grupo, cozinha útil pra café e mamadeira. Para Vegas Strip, hotel-cassino é mais conveniente (suítes family de 2 quartos).</p>
         <p><strong>(c)</strong> Hotel com suítes family (Residence Inn, Homewood Suites, Sonder). Quartos maiores + kitchenette.</p>
       </div>
       <div class="group-card">
         <h4>Carros e deslocamento</h4>
         <p>Grupo de 7 + bagagens precisa de <strong>minivan + SUV</strong> ou <strong>SUV grande + SUV médio</strong>. Num carro só não cabe.</p>
         <p><strong>DC / NYC / Boston:</strong> sem carro. Uber XL (até 6 pax) ou Uber Black SUV. Metrô só em rotas simples sem stroller.</p>
-        <p><strong>Utah:</strong> aluga em SLC, dois carros 4x4 com pneus de neve.</p>
+        <p><strong>Las Vegas:</strong> aluga SUV/van em LAS pros day trips (Grand Canyon, Lee Canyon, Red Rock). Na Strip não usa — caminha ou monorail.</p>
         <p><strong>Orlando / Miami:</strong> minivan + SUV, one-way drop-off em MIA.</p>
       </div>
       <div class="group-card">
         <h4>Restaurantes · reserva</h4>
-        <p>Mesa pra 6 adultos em restaurante bom precisa de <strong>3-4 semanas</strong> de antecedência mínima — pior ainda em NYC no Natal e Park City no Réveillon.</p>
-        <p>Use Resy e OpenTable. Para lugares sem sistema online (Boston North End, Main Street Park City), liga direto e fala que é grupo de 6 + bebê de colo.</p>
+        <p>Mesa pra 6 adultos em restaurante bom precisa de <strong>3-4 semanas</strong> de antecedência mínima — pior ainda em NYC no Natal e Vegas no Réveillon.</p>
+        <p>Use Resy e OpenTable. Para lugares sem sistema online (Boston North End, restaurantes locais), liga direto e fala que é grupo de 6 + bebê de colo.</p>
         <p>Se a viagem for planejada em novembro, bloqueia as reservas grandes imediatamente.</p>
       </div>
       <div class="group-card">
@@ -2868,7 +2970,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       <div class="group-card">
         <h4>Telefone · eSIM</h4>
         <p>Ativa <strong>eSIM</strong> por pessoa (Airalo, Holafly, US Mobile). $25-40 pra 17 dias com dados ilimitados. Evita roaming Vivo/Tim que custa uma fortuna.</p>
-        <p>Um membro do grupo fica com plano "unlimited hotspot" pra servir de backup em áreas remotas (Utah).</p>
+        <p>Um membro do grupo fica com plano "unlimited hotspot" pra servir de backup em áreas remotas (Grand Canyon, Lee Canyon, Red Rock).</p>
       </div>
     </div>
   </div>
