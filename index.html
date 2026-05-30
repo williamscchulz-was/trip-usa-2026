@@ -1202,10 +1202,11 @@
     padding: 20px 20px 22px;
     position: relative;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.18s cubic-bezier(.2,.8,.2,1), box-shadow 0.2s ease, border-color 0.2s ease;
     text-decoration: none;
     color: inherit;
     display: block;
+    will-change: transform;
   }
 
   .pipe-card:hover {
@@ -2179,6 +2180,45 @@
     .city-comments-form button { padding: 10px 16px; min-width: 72px; flex-shrink: 0; }
   }
 
+
+  /* ——— MICROINTERAÇÕES ——— */
+  /* Reveal no scroll (classes adicionadas via JS — sem JS, conteúdo fica visível) */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* Press tátil em elementos clicáveis */
+  .hero-cta:active, .nav-btn:active, .trip-card:active, .pipe-btn:active,
+  .chat-login:active, .auth-btn:active, .theme-toggle:active,
+  .chat-input button:active, .chat-fab:active, .vote-btn:active,
+  .city-comments-form button:active { transform: scale(.96); }
+
+  /* Hover sutil de elevação em cards de conteúdo */
+  .interest-card, .group-card, .baby-card, .family-card {
+    transition: transform .22s cubic-bezier(.2,.8,.2,1), border-color .2s ease, box-shadow .2s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .interest-card:hover, .group-card:hover, .family-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--ink);
+      box-shadow: 0 10px 26px rgba(0,0,0,.06);
+    }
+    body.dark .interest-card:hover, body.dark .group-card:hover, body.dark .family-card:hover {
+      box-shadow: 0 10px 26px rgba(0,0,0,.4);
+    }
+    /* Underline animado nos links do nav */
+    .nav-links a { position: relative; }
+    .nav-links a::after {
+      content: ''; position: absolute; left: 14px; right: 14px; bottom: 4px;
+      height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left;
+      transition: transform .25s cubic-bezier(.2,.8,.2,1);
+    }
+    .nav-links a:hover::after { transform: scaleX(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1 !important; transform: none !important; }
+    * { scroll-behavior: auto !important; }
+  }
 
   /* ——— Responsive ——— */
   @media (max-width: 900px) {
@@ -4075,6 +4115,58 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
   }
+</script>
+
+<script>
+  // ——— MICROINTERAÇÕES ———
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    // 1. Reveal no scroll — classes só via JS (no-JS = tudo visível).
+    if (!reduce && 'IntersectionObserver' in window) {
+      var sel = '.interest-card, .group-card, .baby-card, .family-card, .spot, .notes, .city-visual, .stat-block, .flight-card';
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+      document.querySelectorAll(sel).forEach(function (el) {
+        // stagger leve entre irmãos do mesmo grupo
+        var sibs = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
+        el.style.transitionDelay = Math.min(sibs % 6, 5) * 45 + 'ms';
+        el.classList.add('reveal');
+        io.observe(el);
+      });
+    }
+
+    // 2. Dock magnification — escala/eleva cards do roteiro por proximidade do cursor.
+    if (fine && !reduce) {
+      document.querySelectorAll('.pipeline').forEach(function (pipe) {
+        var cards = Array.prototype.slice.call(pipe.querySelectorAll('.pipe-card'));
+        var raf = null, lastX = 0;
+        function apply() {
+          raf = null;
+          cards.forEach(function (card) {
+            var r = card.getBoundingClientRect();
+            var d = Math.abs(lastX - (r.left + r.width / 2));
+            var t = Math.max(0, 1 - d / 240);          // raio de influência
+            card.style.transform = 'translateY(' + (t * -6).toFixed(2) + 'px) scale(' + (1 + t * 0.045).toFixed(3) + ')';
+            card.style.boxShadow = t > 0.03 ? '0 ' + (t * 14).toFixed(0) + 'px ' + (t * 32).toFixed(0) + 'px rgba(0,0,0,' + (t * 0.13).toFixed(2) + ')' : '';
+            card.style.zIndex = t > 0.5 ? '2' : '';
+          });
+        }
+        pipe.addEventListener('pointermove', function (e) {
+          lastX = e.clientX;
+          if (!raf) raf = requestAnimationFrame(apply);
+        });
+        pipe.addEventListener('pointerleave', function () {
+          if (raf) { cancelAnimationFrame(raf); raf = null; }
+          cards.forEach(function (card) { card.style.transform = ''; card.style.boxShadow = ''; card.style.zIndex = ''; });
+        });
+      });
+    }
+  })();
 </script>
 
 </body>
