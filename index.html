@@ -2215,8 +2215,102 @@
     .nav-links a:hover::after { transform: scaleX(1); }
   }
 
+  /* Barra de progresso de leitura */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0; height: 2px; width: 0;
+    background: var(--ink); z-index: 60; transition: width .12s linear;
+    pointer-events: none;
+  }
+  body.dark .scroll-progress { background: var(--paper); }
+
+  /* Hero — entrada escalonada (roda quando o trip-body vira visível) */
+  @keyframes heroUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+  .trip-body .hero-tag,
+  .trip-body .hero-title,
+  .trip-body .hero-sub,
+  .trip-body .hero-ctas { animation: heroUp .7s cubic-bezier(.2,.8,.2,1) both; }
+  .trip-body .hero-title { animation-delay: .06s; }
+  .trip-body .hero-sub   { animation-delay: .13s; }
+  .trip-body .hero-ctas  { animation-delay: .2s; }
+  .trip-body .hero-photo { animation: heroUp .85s cubic-bezier(.2,.8,.2,1) .12s both; }
+
+  /* Ken Burns lento no slide ativo */
+  @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.07); } }
+  .hero-slide.active { animation: kenburns 14s ease-out both; }
+
+  /* Carousel dots — ativo vira pill, hover escala */
+  .hero-dot { transition: transform .2s ease, background .2s ease, width .3s cubic-bezier(.2,.8,.2,1); }
+  .hero-dot:hover { transform: scale(1.35); }
+  .hero-dot.active { width: 22px; }
+
+  /* Hero CTA — seta desliza */
+  .hero-cta { transition: transform .2s ease, background .2s ease, color .2s ease, box-shadow .2s ease; }
+
+  /* Ícone dos interesses reage */
+  .interest-icon { display: inline-block; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+  @media (hover: hover) and (pointer: fine) {
+    .interest-card:hover .interest-icon { transform: scale(1.18) rotate(-6deg); }
+  }
+
+  /* Spot (dia-a-dia) — número reage no hover da linha */
+  .spot-num { transition: transform .22s cubic-bezier(.2,.8,.2,1), background .22s ease, color .22s ease; }
+  @media (hover: hover) and (pointer: fine) {
+    .spot:hover .spot-num { transform: scale(1.1); background: var(--ink); color: var(--paper); }
+  }
+
+  /* Linhas de dados / status / reservas — highlight sutil */
+  @media (hover: hover) and (pointer: fine) {
+    .city-data-row, .status-row {
+      transition: background .2s ease; border-radius: 7px;
+      margin: 0 -10px; padding-left: 10px; padding-right: 10px;
+    }
+    .city-data-row:hover, .status-row:hover { background: var(--bg-2); }
+  }
+  .status-row .s-pending, .status-row .s-wip,
+  .status-row .s-ok, .status-row .s-debate { transition: transform .15s ease; }
+  @media (hover: hover) and (pointer: fine) {
+    .status-row:hover .s-pending, .status-row:hover .s-wip,
+    .status-row:hover .s-ok, .status-row:hover .s-debate { transform: scale(1.06); }
+  }
+
+  /* Galeria — leve realce na borda além do zoom da imagem */
+  .city-gallery .ph { transition: box-shadow .25s ease; }
+  @media (hover: hover) and (pointer: fine) {
+    .city-gallery .ph:hover { box-shadow: 0 12px 30px rgba(0,0,0,.12); }
+    body.dark .city-gallery .ph:hover { box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+  }
+
+  /* Theme toggle — gira no hover */
+  .theme-toggle svg { transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+  @media (hover: hover) and (pointer: fine) {
+    .theme-toggle:hover svg { transform: rotate(25deg); }
+  }
+
+  /* Nav brand — dim sutil */
+  .nav-brand { transition: opacity .2s ease; }
+  @media (hover: hover) and (pointer: fine) { .nav-brand:hover { opacity: .6; } }
+
+  /* Scroll-spy: link ativo destacado */
+  .nav-links a.active { color: var(--ink); }
+  .nav-links a.active::after { transform: scaleX(1); }
+
+  /* City name — sublinhado do strong cresce no hover da seção */
+  .city-name strong { background-image: linear-gradient(var(--ink),var(--ink)); background-size: 0% 2px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size .4s cubic-bezier(.2,.8,.2,1); padding-bottom: 2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .city:hover .city-name strong { background-size: 100% 2px; }
+  }
+
+  /* Foco visível (teclado) — craft + acessibilidade */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px;
+  }
+  body.dark a:focus-visible, body.dark button:focus-visible,
+  body.dark input:focus-visible, body.dark select:focus-visible { outline-color: var(--paper); }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1 !important; transform: none !important; }
+    .hero-slide.active, .trip-body .hero-tag, .trip-body .hero-title,
+    .trip-body .hero-sub, .trip-body .hero-ctas, .trip-body .hero-photo { animation: none !important; }
     * { scroll-behavior: auto !important; }
   }
 
@@ -2378,6 +2472,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </style>
 </head>
 <body>
+
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
 <script>
   (function () {
@@ -4164,6 +4260,39 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           if (raf) { cancelAnimationFrame(raf); raf = null; }
           cards.forEach(function (card) { card.style.transform = ''; card.style.boxShadow = ''; card.style.zIndex = ''; });
         });
+      });
+    }
+
+    // 3. Barra de progresso de leitura (rAF-throttled)
+    var bar = document.getElementById('scrollProgress');
+    if (bar) {
+      var ticking = false;
+      function updateBar() {
+        ticking = false;
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(updateBar); }
+      }, { passive: true });
+      updateBar();
+    }
+
+    // 4. Scroll-spy — destaca no nav a seção visível
+    if ('IntersectionObserver' in window) {
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var id = en.target.id;
+          document.querySelectorAll('.nav-links a').forEach(function (a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+          });
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      ['itinerario', 'interesses', 'cidades', 'louise', 'grupo',
+       'itinerario-mex', 'cidades-mex', 'louise-mex', 'grupo-mex'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) spy.observe(el);
       });
     }
   })();
