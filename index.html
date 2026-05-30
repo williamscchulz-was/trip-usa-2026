@@ -3662,12 +3662,16 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 
   let unsubscribeCityComments = null;
 
+  // Redireciona cityIds antigos pros novos (preserva comentários em renames)
+  const CITY_ID_MAP = { 'utah': 'vegas' };
+
   function renderCityComments(snap) {
     const groups = {};
     snap.forEach((docSnap) => {
       const d = docSnap.data();
-      if (!groups[d.cityId]) groups[d.cityId] = [];
-      groups[d.cityId].push(d);
+      const cityId = CITY_ID_MAP[d.cityId] || d.cityId;
+      if (!groups[cityId]) groups[cityId] = [];
+      groups[cityId].push(d);
     });
     document.querySelectorAll('.city-comments').forEach(widget => {
       const cityId = widget.dataset.city;
