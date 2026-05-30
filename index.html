@@ -73,7 +73,6 @@
   body.dark .chat-input button { background: var(--accent-bg); color: var(--accent-fg); }
   body.dark .chat-input button:hover { background: #fff; }
   body.dark .msg.self .msg-bubble { background: var(--accent-bg); color: var(--accent-fg); border-color: var(--accent-bg); }
-  body.dark .s-ok { background: var(--accent-bg); color: var(--accent-fg); }
 
   .theme-toggle {
     border: none;
@@ -1466,6 +1465,7 @@
 
   .status-row .s-pending,
   .status-row .s-wip,
+  .status-row .s-debate,
   .status-row .s-ok {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
@@ -1473,25 +1473,24 @@
     text-transform: uppercase;
     padding: 4px 10px;
     border-radius: 999px;
-    font-weight: 500;
+    font-weight: 600;
+    white-space: nowrap;
   }
 
-  .s-pending {
-    color: var(--ink-muted);
-    background: var(--bg-2);
-  }
-
-  .s-wip {
+  /* Semantic status — único lugar com cor além do B&W editorial */
+  .s-pending { color: #9A6B1E; background: #FBF0DD; }     /* aguardando */
+  .s-wip     { color: #2D5BB7; background: #E4ECFB; }     /* comprar / ação */
+  .s-ok      { color: #1F7A3D; background: #E2F1E6; }     /* confirmado / free */
+  .s-debate  {                                            /* decisão em aberto */
     color: var(--ink);
     background: transparent;
     border: 1px dashed var(--ink-muted);
     padding: 3px 9px;
   }
 
-  .s-ok {
-    color: var(--paper);
-    background: var(--ink);
-  }
+  body.dark .s-pending { color: #E3B25C; background: rgba(214,158,46,.16); }
+  body.dark .s-wip     { color: #9DBDF5; background: rgba(95,133,219,.20); }
+  body.dark .s-ok      { color: #87D866; background: rgba(126,217,87,.16); }
 
   /* ——— FOOTER ——— */
   footer {
@@ -2504,7 +2503,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         </div>
         <div class="city-status">
           <div class="city-status-label">Decisões em aberto</div>
-          <div class="status-row"><span>Transfer BWI → DC (7 pax + bagagem)</span><span class="s-wip">Em debate</span></div>
+          <div class="status-row"><span>Transfer BWI → DC (7 pax + bagagem)</span><span class="s-debate">Em debate</span></div>
         </div>
       </div>
       <div class="city-body">
@@ -2572,7 +2571,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         </div>
         <div class="city-status">
           <div class="city-status-label">Decisões em aberto</div>
-          <div class="status-row"><span>DC → NYC (23/12) · carro vs Amtrak</span><span class="s-wip">Em debate</span></div>
+          <div class="status-row"><span>DC → NYC (23/12) · carro vs Amtrak</span><span class="s-debate">Em debate</span></div>
         </div>
       </div>
       <div class="city-body">
@@ -2642,7 +2641,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         </div>
         <div class="city-status">
           <div class="city-status-label">Decisões em aberto</div>
-          <div class="status-row"><span>NYC → Boston (28/12) · carro vs Amtrak</span><span class="s-wip">Em debate</span></div>
+          <div class="status-row"><span>NYC → Boston (28/12) · carro vs Amtrak</span><span class="s-debate">Em debate</span></div>
         </div>
       </div>
       <div class="city-body">
