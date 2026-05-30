@@ -65,14 +65,7 @@
   body.dark .hero-cta.ghost:hover { background: var(--ink); color: var(--paper); }
   body.dark .auth-btn { background: var(--accent-bg); color: var(--accent-fg); }
   body.dark .auth-btn:hover { background: #fff; }
-  body.dark .chat-fab { background: var(--accent-bg); color: var(--accent-fg); }
-  body.dark .chat-fab:hover { background: #fff; }
-  body.dark .chat-fab .badge { background: var(--accent-fg); color: var(--accent-bg); }
-  body.dark .chat-login { background: var(--accent-bg); color: var(--accent-fg); }
-  body.dark .chat-login:hover { background: #fff; }
-  body.dark .chat-input button { background: var(--accent-bg); color: var(--accent-fg); }
-  body.dark .chat-input button:hover { background: #fff; }
-  body.dark .msg.self .msg-bubble { background: var(--accent-bg); color: var(--accent-fg); border-color: var(--accent-bg); }
+  body.dark .cc-react.on { background: var(--accent-bg); border-color: var(--accent-bg); }
 
   .theme-toggle {
     border: none;
@@ -1562,355 +1555,50 @@
     line-height: 1.8;
   }
 
-  /* ——— CHAT WIDGET (mockup) ——— */
-  .chat-fab {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 100;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--ink);
-    color: var(--paper);
-    border: none;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 14px 22px;
-    border-radius: 999px;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
-    transition: transform 0.2s ease, background 0.2s ease;
+  /* ——— COMENTÁRIOS · edição, ações e reações ——— */
+  .city-comment-meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+  .cc-act {
+    border: none; background: transparent; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted);
+    padding: 3px 6px; border-radius: 6px; transition: background .18s ease, color .18s ease;
   }
+  .cc-act:hover { background: var(--bg-2); color: var(--ink); }
+  .cc-del:hover { color: #c0392b; }
 
-  .chat-fab:hover { background: #000; transform: translateY(-2px); }
-
-  .chat-fab .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #7ED957;
-    box-shadow: 0 0 0 0 rgba(126, 217, 87, 0.7);
-    animation: pulse 2s infinite;
+  /* Edição inline */
+  .cc-edit-form { display: flex; flex-direction: column; gap: 8px; margin: 4px 0; }
+  .cc-edit-input {
+    width: 100%; border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px 12px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    color: var(--ink); background: var(--paper); outline: none; resize: vertical; min-height: 56px;
+    transition: border-color .2s ease;
   }
-
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(126, 217, 87, 0.7); }
-    50% { box-shadow: 0 0 0 6px rgba(126, 217, 87, 0); }
+  .cc-edit-input:focus { border-color: var(--ink); }
+  .cc-edit-actions { display: flex; justify-content: flex-end; gap: 8px; }
+  .cc-edit-actions button {
+    border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    font-weight: 500; padding: 7px 16px; border-radius: 999px; transition: background .2s ease, transform .15s ease;
   }
+  .cc-edit-actions .cc-cancel { background: transparent; color: var(--ink-muted); }
+  .cc-edit-actions .cc-cancel:hover { background: var(--bg-2); color: var(--ink); }
+  .cc-edit-actions button[type="submit"] { background: var(--accent-bg); color: var(--accent-fg); }
+  .cc-edit-actions button:active { transform: scale(.96); }
 
-  .chat-fab .badge {
-    background: #E74C3C;
-    color: #fff;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.66rem;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 999px;
-    letter-spacing: 0.04em;
-    min-width: 18px;
-    text-align: center;
-    display: none;
+  /* Reações / votação */
+  .cc-reactions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .cc-react {
+    display: inline-flex; align-items: center; gap: 5px;
+    border: 1px solid var(--border); background: var(--paper); cursor: pointer;
+    padding: 3px 10px; border-radius: 999px; font-size: 0.84rem; line-height: 1.4;
+    color: var(--ink); transition: transform .15s ease, border-color .18s ease, background .18s ease;
   }
-
-  .chat-fab.has-unread .badge { display: inline-block; }
-
-  .chat-fab.has-unread {
-    animation: fabAttention 1.8s ease-in-out infinite;
-  }
-
-  @keyframes fabAttention {
-    0%, 100% { transform: translateY(0); box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
-    50% { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(231,76,60,0.3); }
-  }
-
-  /* Presence avatars no header do chat */
-  .presence-wrap {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .presence-avatars {
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .presence-avatar {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 2px solid var(--paper);
-    object-fit: cover;
-    margin-left: -5px;
-  }
-
-  .presence-avatar:first-child { margin-left: 0; }
-
-  .presence-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #7ED957;
-    display: inline-block;
-  }
-
-  /* Divisor de mensagens não-lidas na lista */
-  .unread-divider {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 8px 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #E74C3C;
-    font-weight: 600;
-  }
-
-  .unread-divider::before,
-  .unread-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #E74C3C;
-    opacity: 0.4;
-  }
-
-  .chat-drawer {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 380px;
-    max-width: calc(100vw - 48px);
-    height: min(640px, calc(100vh - 120px));
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
-    z-index: 101;
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    transform: translateY(12px);
-    opacity: 0;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-  }
-
-  .chat-drawer.open {
-    display: flex;
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  .chat-head {
-    padding: 18px 22px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .chat-head-title {
-    font-size: 0.95rem;
-    font-weight: 500;
-  }
-
-  .chat-head-sub {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.64rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    margin-top: 2px;
-  }
-
-  .chat-close {
-    width: 32px;
-    height: 32px;
-    border: none;
-    background: transparent;
-    color: var(--ink-muted);
-    cursor: pointer;
-    font-size: 1.2rem;
-    border-radius: 999px;
-    transition: background 0.2s ease;
-  }
-
-  .chat-close:hover { background: var(--bg-2); color: var(--ink); }
-
-  .chat-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    background: var(--bg);
-  }
-
-  .msg {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    max-width: 88%;
-  }
-
-  .msg.self { align-self: flex-end; align-items: flex-end; }
-
-  .msg-head {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    display: flex;
-    gap: 10px;
-  }
-
-  .msg-bubble {
-    background: var(--paper);
-    border: 1px solid var(--border);
-    padding: 10px 14px;
-    border-radius: 14px;
-    font-size: 0.9rem;
-    line-height: 1.45;
-    color: var(--ink);
-  }
-
-  .msg.self .msg-bubble {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-  }
-
-  .chat-day {
-    align-self: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    padding: 6px 0;
-  }
-
-  .chat-input {
-    padding: 14px 16px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    background: var(--paper);
-  }
-
-  .chat-input input {
-    flex: 1;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 10px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    color: var(--ink);
-    background: var(--paper);
-    outline: none;
-    transition: border-color 0.2s ease;
-  }
-
-  .chat-input input:focus { border-color: var(--ink); }
-
-  .chat-input button {
-    background: var(--ink);
-    color: var(--paper);
-    border: none;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    flex-shrink: 0;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease;
-  }
-
-  .chat-input button:hover { background: #000; }
-  .chat-input button:disabled { background: var(--ink-muted); cursor: not-allowed; }
-
-  .chat-head-actions { display: flex; align-items: center; gap: 4px; }
-
-  .chat-signout {
-    border: none;
-    background: transparent;
-    color: var(--ink-muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    cursor: pointer;
-    padding: 6px 10px;
-    border-radius: 999px;
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-
-  .chat-signout:hover { background: var(--bg-2); color: var(--ink); }
-
-  .chat-login-wrap {
-    padding: 20px;
-    border-top: 1px solid var(--border);
-    background: var(--paper);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .chat-login {
-    width: 100%;
-    background: var(--ink);
-    color: var(--paper);
-    border: none;
-    padding: 12px 18px;
-    border-radius: 999px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-
-  .chat-login:hover { background: #000; transform: translateY(-1px); }
-
-  .chat-login-note {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    text-align: center;
-  }
-
-  .chat-empty {
-    margin: auto;
-    color: var(--ink-muted);
-    font-size: 0.88rem;
-    text-align: center;
-  }
-
-  .msg-avatar {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    object-fit: cover;
-    vertical-align: middle;
-    margin-right: 6px;
-  }
+  .cc-react span { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; font-weight: 600; color: var(--ink-muted); }
+  .cc-react:hover { transform: translateY(-1px) scale(1.05); border-color: var(--ink); }
+  .cc-react:active { transform: scale(.94); }
+  .cc-react.on { background: var(--accent-bg); border-color: var(--accent-bg); }
+  .cc-react.on span { color: var(--accent-fg); }
 
   /* ——— TRIP SELECTOR ——— */
   .trip-selector {
@@ -1933,9 +1621,7 @@
   body[data-active-trip="mexico-2026"] .trip-body[data-trip="usa"] { display: none; }
   body:not([data-active-trip]) .trip-body,
   body:not([data-active-trip]) .nav,
-  body:not([data-active-trip]) footer,
-  body:not([data-active-trip]) .chat-fab,
-  body:not([data-active-trip]) .chat-drawer { display: none !important; }
+  body:not([data-active-trip]) footer { display: none !important; }
 
   .trip-selector-head {
     font-family: 'JetBrains Mono', monospace;
@@ -2158,26 +1844,11 @@
   }
 
   @media (max-width: 520px) {
-    .chat-drawer {
-      bottom: 0;
-      right: 0;
-      left: 0;
-      width: 100%;
-      max-width: 100%;
-      height: 85vh;
-      height: 85dvh;
-      border-radius: 20px 20px 0 0;
-    }
-    .chat-fab span.label { display: none; }
-    .chat-fab { padding: 14px; }
-    /* Previne zoom do iOS quando focar no input + garante botão enviar clicável */
-    .chat-input { padding: 12px 14px; padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); gap: 8px; }
-    .chat-input input { font-size: 16px; padding: 10px 14px; min-width: 0; }
-    .chat-input button { width: 42px; height: 42px; min-width: 42px; font-size: 1.2rem; }
-    /* Mesma regra pros comentários por cidade */
+    /* Previne zoom do iOS no input + botão enviar clicável */
     .city-comments-form { gap: 8px; }
     .city-comments-form input { font-size: 16px; min-width: 0; }
     .city-comments-form button { padding: 10px 16px; min-width: 72px; flex-shrink: 0; }
+    .cc-edit-input { font-size: 16px; }
   }
 
 
@@ -2188,9 +1859,8 @@
 
   /* Press tátil em elementos clicáveis */
   .hero-cta:active, .nav-btn:active, .trip-card:active, .pipe-btn:active,
-  .chat-login:active, .auth-btn:active, .theme-toggle:active,
-  .chat-input button:active, .chat-fab:active, .vote-btn:active,
-  .city-comments-form button:active { transform: scale(.96); }
+  .auth-btn:active, .theme-toggle:active,
+  .city-comments-form button:active, .cc-react:active { transform: scale(.96); }
 
   /* Hover sutil de elevação em cards de conteúdo */
   .interest-card, .group-card, .baby-card, .family-card {
@@ -2436,10 +2106,8 @@
     .city-comments-title { font-size: 0.64rem; }
     .city-comment { padding: 12px 14px; }
     .city-comment-text { font-size: 0.86rem; }
-
-    /* Chat FAB */
-    .chat-fab { bottom: 16px; right: 16px; padding: 12px 18px; font-size: 0.82rem; }
-    .chat-fab .badge { font-size: 0.6rem; padding: 2px 6px; }
+    .cc-reactions { gap: 5px; }
+    .cc-react { padding: 4px 9px; }
   }
 
   /* ——— Very small (≤ 380px) ——— */
@@ -2456,7 +2124,8 @@
   @media print {
     @page { margin: 16mm 14mm; }
     body { font-size: 11pt; }
-    .nav, .chat-fab, .chat-drawer, .auth-gate { display: none !important; }
+    .nav, .auth-gate, .scroll-progress { display: none !important; }
+    .city-comments { display: none !important; }
     .hero { padding-top: 20px; page-break-after: always; }
     .hero-ctas, .hero-tag::before, .hero-tag::after { display: none; }
     .hero-title { font-size: 3.5rem; }
@@ -3583,45 +3252,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   </div>
 </footer>
 
-<!-- CHAT FAB -->
-<button class="chat-fab" id="chatFab" onclick="toggleChat()">
-  <span class="dot"></span>
-  <span class="label">Conversa</span>
-  <span class="badge" id="chatBadge">0</span>
-</button>
-
-<!-- CHAT DRAWER -->
-<div class="chat-drawer" id="chatDrawer">
-  <div class="chat-head">
-    <div>
-      <div class="chat-head-title">Conversa do grupo</div>
-      <div class="chat-head-sub" id="chatHeadSub">Entra com Google pra conversar</div>
-    </div>
-    <div class="chat-head-actions">
-      <button class="chat-signout" id="chatSignout" style="display:none" aria-label="Sair">Sair</button>
-      <button class="chat-close" id="chatCloseBtn" aria-label="Fechar">×</button>
-    </div>
-  </div>
-  <div class="chat-body" id="chatBody">
-    <div class="chat-empty" id="chatEmpty">Carregando…</div>
-  </div>
-  <div class="chat-login-wrap" id="chatLoginWrap">
-    <button class="chat-login" id="chatLogin">
-      <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.3 6.3 29.4 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.3 6.3 29.4 4 24 4 16.3 4 9.6 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.3 0 10.1-2 13.7-5.3l-6.3-5.3c-2 1.5-4.5 2.4-7.4 2.4-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.3 5.3C41.5 36.1 44 30.5 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
-      Entrar com Google
-    </button>
-    <div class="chat-login-note">só pra falar · ninguém vê quem não participa</div>
-  </div>
-  <form class="chat-input" id="chatForm" style="display:none">
-    <input type="text" id="chatText" placeholder="Escreve aí…" autocomplete="off" maxlength="2000" aria-label="Mensagem">
-    <button type="submit" id="chatSend" aria-label="Enviar">→</button>
-  </form>
-</div>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, setDoc, doc as fsDoc, onSnapshot, query, orderBy, where, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, doc as fsDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, onSnapshot, query, orderBy, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDJQBeEHuQtDmqdAgeBuky20MoXV7nH4X8",
@@ -3636,17 +3270,6 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   const auth = getAuth(app);
   const db = getFirestore(app);
   const provider = new GoogleAuthProvider();
-
-  const fab = document.getElementById('chatFab');
-  const drawer = document.getElementById('chatDrawer');
-  const body = document.getElementById('chatBody');
-  const empty = document.getElementById('chatEmpty');
-  const headSub = document.getElementById('chatHeadSub');
-  const loginWrap = document.getElementById('chatLoginWrap');
-  const loginBtn = document.getElementById('chatLogin');
-  const signoutBtn = document.getElementById('chatSignout');
-  const form = document.getElementById('chatForm');
-  const input = document.getElementById('chatText');
 
   let currentUser = null;
 
@@ -3767,7 +3390,6 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     currentTripId = null;
     navLinks.innerHTML = '';
     navDate.textContent = '';
-    if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
     if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
   }
 
@@ -3786,32 +3408,33 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   }
 
   function resubscribeAll() {
-    if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
     if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
-    if (unsubscribePresence) { unsubscribePresence(); unsubscribePresence = null; }
-    stopPresence();
     if (currentUser && currentTripId) {
-      subscribeMessages();
       subscribeCityComments();
-      subscribePresence();
-      startPresence();
     }
   }
 
-  // ——— CITY COMMENTS (Google Sheets style) ———
+  // ——— COMENTÁRIOS POR CIDADE (editar · apagar · reações/votação) ———
+  const REACTIONS = ['👍', '👎', '❤️', '✅'];
+  const CITY_ID_MAP = { 'utah': 'vegas' };
+  const commentCache = {};   // cityId -> [{id, ...}]
+  let editingId = null;
+  let unsubscribeCityComments = null;
+
+  function commentsCol() { return collection(db, 'trips', currentTripId, 'cityComments'); }
+
   (function mountCityComments() {
     document.querySelectorAll('.city[id]').forEach(c => {
-      const id = c.id;
       const container = c.querySelector(':scope > .container');
       if (!container || container.querySelector('.city-comments')) return;
       const widget = document.createElement('div');
       widget.className = 'city-comments';
-      widget.dataset.city = id;
+      widget.dataset.city = c.id;
       widget.dataset.open = 'false';
       widget.innerHTML = `
         <div class="city-comments-head">
           <div class="city-comments-title">
-            <span>💬 Comentários</span>
+            <span>💬 Comentários & decisões</span>
             <span class="city-comments-count">0</span>
           </div>
           <button class="city-comments-toggle" aria-expanded="false" aria-label="Abrir comentários">▼</button>
@@ -3819,7 +3442,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         <div class="city-comments-body" hidden>
           <div class="city-comments-list"></div>
           <form class="city-comments-form">
-            <input type="text" class="city-comments-input" placeholder="Comenta algo sobre esta cidade…" maxlength="1000" autocomplete="off" disabled>
+            <input type="text" class="city-comments-input" placeholder="Comenta ou propõe algo…" maxlength="1000" autocomplete="off" disabled>
             <button type="submit" disabled>Enviar</button>
           </form>
         </div>`;
@@ -3827,98 +3450,164 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     });
   })();
 
-  document.addEventListener('click', (e) => {
-    const head = e.target.closest('.city-comments-head');
-    if (!head) return;
-    const widget = head.closest('.city-comments');
-    const body = widget.querySelector('.city-comments-body');
-    const open = widget.dataset.open === 'true';
-    widget.dataset.open = open ? 'false' : 'true';
-    body.hidden = open;
-  });
-
-  document.addEventListener('submit', async (e) => {
-    const form = e.target.closest('.city-comments-form');
-    if (!form) return;
-    e.preventDefault();
-    if (!currentUser || !currentTripId) return;
-    const widget = form.closest('.city-comments');
-    const cityId = widget.dataset.city;
-    const input = form.querySelector('.city-comments-input');
-    const text = input.value.trim();
-    if (!text) return;
-    input.value = '';
-    try {
-      await addDoc(collection(db, 'trips', currentTripId, 'cityComments'), {
-        cityId, text,
-        authorUid: currentUser.uid,
-        authorName: currentUser.displayName || 'Anônimo',
-        authorPhoto: currentUser.photoURL || '',
-        createdAt: serverTimestamp()
-      });
-    } catch (err) {
-      alert('Erro: ' + err.message);
-      input.value = text;
+  function findComment(id) {
+    for (const k in commentCache) {
+      const f = commentCache[k].find(c => c.id === id);
+      if (f) return f;
     }
-  });
+    return null;
+  }
 
-  let unsubscribeCityComments = null;
+  function renderComment(c) {
+    const uid = currentUser && currentUser.uid;
+    const mine = uid && c.authorUid === uid;
+    const date = (c.createdAt && c.createdAt.toDate)
+      ? c.createdAt.toDate().toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
+      : 'agora';
+    const edited = c.editedAt ? ' · editado' : '';
+    const avatar = c.authorPhoto ? `<img src="${c.authorPhoto}" alt="" referrerpolicy="no-referrer">` : '';
+    const name = escapeHtml((c.authorName || 'Anônimo').split(' ')[0]);
+    const reactions = c.reactions || {};
+    const reactHtml = REACTIONS.map(em => {
+      const arr = reactions[em] || [];
+      const mineR = uid && arr.indexOf(uid) !== -1;
+      return `<button class="cc-react${mineR ? ' on' : ''}" data-id="${c.id}" data-emoji="${em}">${em}${arr.length ? `<span>${arr.length}</span>` : ''}</button>`;
+    }).join('');
+    const actions = mine
+      ? `<button class="cc-act cc-edit" data-id="${c.id}">editar</button><button class="cc-act cc-del" data-id="${c.id}">apagar</button>`
+      : '';
+    const bodyHtml = (editingId === c.id)
+      ? `<form class="cc-edit-form" data-id="${c.id}">
+           <textarea class="cc-edit-input" maxlength="1000">${escapeHtml(c.text)}</textarea>
+           <div class="cc-edit-actions"><button type="button" class="cc-cancel">cancelar</button><button type="submit">salvar</button></div>
+         </form>`
+      : `<div class="city-comment-text">${escapeHtml(c.text)}</div>`;
+    return `<div class="city-comment" data-id="${c.id}">
+      <div class="city-comment-head">
+        <div class="city-comment-author">${avatar}<strong>${name}</strong></div>
+        <div class="city-comment-meta"><span class="city-comment-date">${date}${edited}</span>${actions}</div>
+      </div>
+      ${bodyHtml}
+      <div class="cc-reactions">${reactHtml}</div>
+    </div>`;
+  }
 
-  // Redireciona cityIds antigos pros novos (preserva comentários em renames)
-  const CITY_ID_MAP = { 'utah': 'vegas' };
-
-  function renderCityComments(snap) {
-    const groups = {};
-    snap.forEach((docSnap) => {
-      const d = docSnap.data();
-      const cityId = CITY_ID_MAP[d.cityId] || d.cityId;
-      if (!groups[cityId]) groups[cityId] = [];
-      groups[cityId].push(d);
-    });
+  function renderAllComments() {
     document.querySelectorAll('.city-comments').forEach(widget => {
       const cityId = widget.dataset.city;
       const list = widget.querySelector('.city-comments-list');
       const count = widget.querySelector('.city-comments-count');
-      const comments = groups[cityId] || [];
+      const comments = commentCache[cityId] || [];
       count.textContent = comments.length;
       count.classList.toggle('has', comments.length > 0);
-      if (!comments.length) {
-        list.innerHTML = '<div class="city-comments-empty">Sem comentários ainda — seja o primeiro.</div>';
-        return;
-      }
-      list.innerHTML = comments.map(c => {
-        const date = (c.createdAt && c.createdAt.toDate) ? c.createdAt.toDate().toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : '';
-        const avatar = c.authorPhoto ? `<img src="${c.authorPhoto}" alt="" referrerpolicy="no-referrer">` : '';
-        const name = escapeHtml((c.authorName || 'Anônimo').split(' ')[0]);
-        return `<div class="city-comment">
-          <div class="city-comment-head">
-            <div class="city-comment-author">${avatar}<strong>${name}</strong></div>
-            <div class="city-comment-date">${date}</div>
-          </div>
-          <div class="city-comment-text">${escapeHtml(c.text)}</div>
-        </div>`;
-      }).join('');
+      list.innerHTML = comments.length
+        ? comments.map(renderComment).join('')
+        : '<div class="city-comments-empty">Nada ainda — comenta ou propõe algo.</div>';
     });
   }
 
   function subscribeCityComments() {
     if (!currentTripId) return;
-    const q = query(
-      collection(db, 'trips', currentTripId, 'cityComments'),
-      orderBy('createdAt', 'asc'),
-      limit(1000)
-    );
-    unsubscribeCityComments = onSnapshot(q, renderCityComments);
+    const q = query(commentsCol(), orderBy('createdAt', 'asc'), limit(1000));
+    unsubscribeCityComments = onSnapshot(q, snap => {
+      for (const k in commentCache) delete commentCache[k];
+      snap.forEach(docSnap => {
+        const d = docSnap.data();
+        const cid = CITY_ID_MAP[d.cityId] || d.cityId;
+        (commentCache[cid] = commentCache[cid] || []).push(Object.assign({ id: docSnap.id }, d));
+      });
+      renderAllComments();
+    }, err => {
+      document.querySelectorAll('.city-comments-list').forEach(l => {
+        l.innerHTML = `<div class="city-comments-empty">Erro: ${escapeHtml(err.message)}</div>`;
+      });
+    });
   }
 
   function setCityFormsEnabled(enabled) {
-    document.querySelectorAll('.city-comments-form input, .city-comments-form button').forEach(el => {
-      el.disabled = !enabled;
-    });
+    document.querySelectorAll('.city-comments-form input, .city-comments-form button').forEach(el => el.disabled = !enabled);
     document.querySelectorAll('.city-comments-input').forEach(inp => {
-      inp.placeholder = enabled ? 'Comenta algo sobre esta cidade…' : 'Entra com Google pra comentar';
+      inp.placeholder = enabled ? 'Comenta ou propõe algo…' : 'Entra com Google pra participar';
     });
   }
+
+  // Abrir/fechar a seção de comentários
+  document.addEventListener('click', (e) => {
+    const head = e.target.closest('.city-comments-head');
+    if (!head) return;
+    const widget = head.closest('.city-comments');
+    const cbody = widget.querySelector('.city-comments-body');
+    const open = widget.dataset.open === 'true';
+    widget.dataset.open = open ? 'false' : 'true';
+    cbody.hidden = open;
+  });
+
+  // Novo comentário
+  document.addEventListener('submit', async (e) => {
+    const f = e.target.closest('.city-comments-form');
+    if (!f) return;
+    e.preventDefault();
+    if (!currentUser || !currentTripId) return;
+    const inp = f.querySelector('.city-comments-input');
+    const text = inp.value.trim();
+    if (!text) return;
+    inp.value = '';
+    try {
+      await addDoc(commentsCol(), {
+        cityId: f.closest('.city-comments').dataset.city,
+        text,
+        authorUid: currentUser.uid,
+        authorName: currentUser.displayName || 'Anônimo',
+        authorPhoto: currentUser.photoURL || '',
+        reactions: {},
+        createdAt: serverTimestamp()
+      });
+    } catch (err) { alert('Erro: ' + err.message); inp.value = text; }
+  });
+
+  // Salvar edição
+  document.addEventListener('submit', async (e) => {
+    const f = e.target.closest('.cc-edit-form');
+    if (!f) return;
+    e.preventDefault();
+    const text = f.querySelector('.cc-edit-input').value.trim();
+    if (!text) return;
+    try {
+      await updateDoc(fsDoc(commentsCol(), f.dataset.id), { text, editedAt: serverTimestamp() });
+      editingId = null;
+      renderAllComments();
+    } catch (err) { alert('Erro ao editar: ' + err.message); }
+  });
+
+  // Editar / apagar / cancelar / reagir
+  document.addEventListener('click', async (e) => {
+    const editBtn = e.target.closest('.cc-edit');
+    const delBtn = e.target.closest('.cc-del');
+    const cancelBtn = e.target.closest('.cc-cancel');
+    const reactBtn = e.target.closest('.cc-react');
+    if (editBtn) { editingId = editBtn.dataset.id; renderAllComments(); return; }
+    if (cancelBtn) { editingId = null; renderAllComments(); return; }
+    if (delBtn) {
+      if (!confirm('Apagar este comentário?')) return;
+      try { await deleteDoc(fsDoc(commentsCol(), delBtn.dataset.id)); }
+      catch (err) { alert('Erro ao apagar: ' + err.message); }
+      return;
+    }
+    if (reactBtn) {
+      if (!currentUser) return;
+      const c = findComment(reactBtn.dataset.id);
+      if (!c) return;
+      const em = reactBtn.dataset.emoji;
+      const arr = (c.reactions && c.reactions[em]) || [];
+      const has = arr.indexOf(currentUser.uid) !== -1;
+      try {
+        await updateDoc(fsDoc(commentsCol(), reactBtn.dataset.id), {
+          ['reactions.' + em]: has ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid)
+        });
+      } catch (err) { alert('Erro na reação: ' + err.message); }
+      return;
+    }
+  });
 
   // ——— HERO CAROUSEL (per hero-photo) ———
   (function initCarousels() {
@@ -3959,133 +3648,6 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     localStorage.setItem('theme', dark ? 'dark' : 'light');
   });
 
-  let isChatOpen = false;
-  const ORIGINAL_TITLE = document.title;
-
-  function toggleChat() {
-    const open = drawer.classList.toggle('open');
-    isChatOpen = open;
-    fab.style.display = open ? 'none' : 'inline-flex';
-    if (open) {
-      setTimeout(() => body.scrollTop = body.scrollHeight, 50);
-      markChatAsRead();
-    }
-  }
-  window.toggleChat = toggleChat;
-  document.getElementById('chatCloseBtn').addEventListener('click', toggleChat);
-
-  // ——— UNREAD TRACKING ———
-  function getLastReadKey() { return `lastRead-${currentTripId}`; }
-  function getLastRead() {
-    const v = localStorage.getItem(getLastReadKey());
-    return v ? parseInt(v, 10) : 0;
-  }
-  function markChatAsRead() {
-    if (!currentTripId) return;
-    localStorage.setItem(getLastReadKey(), String(Date.now()));
-    updateUnreadUI(0);
-  }
-  function updateUnreadUI(count) {
-    const badge = document.getElementById('chatBadge');
-    if (!badge) return;
-    if (count > 0) {
-      badge.textContent = count > 99 ? '99+' : String(count);
-      fab.classList.add('has-unread');
-      document.title = `(${count}) ${ORIGINAL_TITLE}`;
-    } else {
-      fab.classList.remove('has-unread');
-      document.title = ORIGINAL_TITLE;
-    }
-  }
-
-  // ——— PRESENCE (quem está online) ———
-  let heartbeatInterval = null;
-  let unsubscribePresence = null;
-
-  async function updatePresence() {
-    if (!currentUser || !currentTripId) return;
-    try {
-      await setDoc(fsDoc(db, 'trips', currentTripId, 'presence', currentUser.uid), {
-        uid: currentUser.uid,
-        name: currentUser.displayName || 'Anônimo',
-        photo: currentUser.photoURL || '',
-        lastSeen: serverTimestamp()
-      });
-    } catch (e) { /* silent — rules / offline ok */ }
-  }
-
-  function startPresence() {
-    updatePresence();
-    if (heartbeatInterval) clearInterval(heartbeatInterval);
-    heartbeatInterval = setInterval(updatePresence, 30000);
-    document.addEventListener('visibilitychange', onVisibility);
-  }
-
-  function stopPresence() {
-    if (heartbeatInterval) clearInterval(heartbeatInterval);
-    heartbeatInterval = null;
-    document.removeEventListener('visibilitychange', onVisibility);
-  }
-
-  function onVisibility() { if (!document.hidden) updatePresence(); }
-
-  function subscribePresence() {
-    if (!currentTripId) return;
-    const qp = query(collection(db, 'trips', currentTripId, 'presence'));
-    unsubscribePresence = onSnapshot(qp, (snap) => {
-      const now = Date.now();
-      const online = [];
-      snap.forEach(d => {
-        const data = d.data();
-        if (!data.lastSeen || !data.lastSeen.toDate) return;
-        if (now - data.lastSeen.toDate().getTime() < 90000) online.push(data);
-      });
-      renderPresence(online);
-    });
-  }
-
-  function renderPresence(online) {
-    if (!headSub) return;
-    const exclSelf = online.filter(u => u.uid !== currentUser?.uid);
-    if (exclSelf.length === 0) {
-      headSub.innerHTML = '<span class="presence-wrap"><span class="presence-dot"></span>Só você online</span>';
-      return;
-    }
-    const shown = exclSelf.slice(0, 4);
-    const avatars = shown.map(u => u.photo
-      ? `<img class="presence-avatar" src="${escapeHtml(u.photo)}" alt="${escapeHtml(u.name)}" title="${escapeHtml(u.name)}" referrerpolicy="no-referrer">`
-      : ''
-    ).join('');
-    headSub.innerHTML = `<span class="presence-wrap"><span class="presence-avatars">${avatars}</span><span>${exclSelf.length} online</span></span>`;
-  }
-
-  loginBtn.addEventListener('click', async () => {
-    try { await signInWithPopup(auth, provider); }
-    catch (e) { alert('Erro no login: ' + e.message); }
-  });
-
-  signoutBtn.addEventListener('click', () => signOut(auth));
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const text = input.value.trim();
-    if (!text || !currentUser || !currentTripId) return;
-    input.value = '';
-    try {
-      await addDoc(collection(db, 'trips', currentTripId, 'messages'), {
-        text,
-        uid: currentUser.uid,
-        name: currentUser.displayName || 'Anônimo',
-        photo: currentUser.photoURL || '',
-        email: currentUser.email || '',
-        createdAt: serverTimestamp()
-      });
-    } catch (err) {
-      alert('Erro ao enviar: ' + err.message);
-      input.value = text;
-    }
-  });
-
   const authBtn = document.getElementById('authBtn');
   const authError = document.getElementById('authError');
 
@@ -4101,109 +3663,22 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     }
   });
 
-  function fmtTime(ts) {
-    if (!ts || !ts.toDate) return '';
-    const d = ts.toDate();
-    return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  }
-
-  function fmtDay(ts) {
-    if (!ts || !ts.toDate) return '';
-    const d = ts.toDate();
-    const today = new Date();
-    const isToday = d.toDateString() === today.toDateString();
-    if (isToday) return 'Hoje';
-    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', weekday: 'short' });
-  }
-
-  let unsubscribeMessages = null;
-
-  function subscribeMessages() {
-    if (!currentTripId) return;
-    const q = query(
-      collection(db, 'trips', currentTripId, 'messages'),
-      orderBy('createdAt', 'asc'),
-      limit(500)
-    );
-    unsubscribeMessages = onSnapshot(q, (snap) => {
-      if (snap.empty) {
-        body.innerHTML = '<div class="chat-empty">Seja o primeiro a escrever 👋</div>';
-        updateUnreadUI(0);
-        return;
-      }
-      const lastRead = getLastRead();
-      let html = '';
-      let lastDay = '';
-      let unreadCount = 0;
-      let unreadDividerRendered = false;
-      snap.forEach((doc) => {
-        const m = doc.data();
-        const day = fmtDay(m.createdAt);
-        if (day && day !== lastDay) {
-          html += `<div class="chat-day">${day}</div>`;
-          lastDay = day;
-        }
-        const isSelf = currentUser && m.uid === currentUser.uid;
-        const ts = m.createdAt && m.createdAt.toDate ? m.createdAt.toDate().getTime() : 0;
-        const isUnread = !isSelf && ts > lastRead && lastRead > 0;
-        if (isUnread && !unreadDividerRendered && !isChatOpen) {
-          html += `<div class="unread-divider">não lidas</div>`;
-          unreadDividerRendered = true;
-        }
-        if (isUnread) unreadCount++;
-        const time = fmtTime(m.createdAt);
-        const name = (m.name || 'Anônimo').split(' ')[0];
-        const avatar = m.photo ? `<img class="msg-avatar" src="${m.photo}" alt="" referrerpolicy="no-referrer">` : '';
-        const headHtml = isSelf
-          ? `<span>${time}</span><strong>Você</strong>`
-          : `${avatar}<strong>${escapeHtml(name)}</strong><span>${time}</span>`;
-        html += `<div class="msg${isSelf ? ' self' : ''}"><div class="msg-head">${headHtml}</div><div class="msg-bubble">${escapeHtml(m.text)}</div></div>`;
-      });
-      body.innerHTML = html;
-      body.scrollTop = body.scrollHeight;
-      if (isChatOpen) {
-        markChatAsRead();
-      } else {
-        updateUnreadUI(unreadCount);
-      }
-    }, (err) => {
-      body.innerHTML = `<div class="chat-empty">Erro ao carregar: ${escapeHtml(err.message)}</div>`;
-    });
-  }
-
   onAuthStateChanged(auth, (user) => {
     currentUser = user;
     if (user) {
       document.body.classList.add('authed');
-      loginWrap.style.display = 'none';
-      form.style.display = 'flex';
-      signoutBtn.style.display = 'inline-flex';
-      headSub.textContent = user.displayName || user.email;
-      body.innerHTML = '<div class="chat-empty">Carregando…</div>';
       applyTripCardAccess();
       // Se localStorage tem um trip ao qual user não tem acesso, limpa
       if (currentTripId && !userAllowedForTrip(user, currentTripId)) {
         switchTrip();
       } else if (currentTripId) {
-        if (!unsubscribeMessages) subscribeMessages();
         if (!unsubscribeCityComments) subscribeCityComments();
-        if (!unsubscribePresence) subscribePresence();
-        startPresence();
       }
       setCityFormsEnabled(true);
     } else {
       document.body.classList.remove('authed');
-      loginWrap.style.display = 'flex';
-      form.style.display = 'none';
-      signoutBtn.style.display = 'none';
-      headSub.textContent = 'Entra com Google pra conversar';
       authBtn.disabled = false;
-      if (unsubscribeMessages) { unsubscribeMessages(); unsubscribeMessages = null; }
       if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
-      if (unsubscribePresence) { unsubscribePresence(); unsubscribePresence = null; }
-      stopPresence();
-      updateUnreadUI(0);
-      body.innerHTML = '<div class="chat-empty">Entra pra ver as mensagens</div>';
       setCityFormsEnabled(false);
     }
   });
