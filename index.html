@@ -1555,6 +1555,47 @@
     line-height: 1.8;
   }
 
+  /* ——— SINO DE NOVIDADES ——— */
+  .nav-bell {
+    position: relative; border: none; background: transparent; cursor: pointer;
+    color: var(--ink); padding: 7px; border-radius: 999px; display: none;
+    align-items: center; justify-content: center; transition: background .2s ease;
+  }
+  .nav-bell svg { width: 18px; height: 18px; display: block; }
+  .nav-bell:hover { background: var(--bg-2); }
+  .nav-bell.has-news { display: inline-flex; }
+  .nav-bell.has-news svg { animation: bellRing 1.6s ease-in-out 1; transform-origin: top center; }
+  @keyframes bellRing {
+    0%,100% { transform: rotate(0); } 15% { transform: rotate(14deg); }
+    30% { transform: rotate(-12deg); } 45% { transform: rotate(8deg); } 60% { transform: rotate(-5deg); }
+  }
+  .nav-bell-badge {
+    position: absolute; top: -1px; right: -1px; min-width: 16px; height: 16px;
+    padding: 0 4px; border-radius: 999px; background: #E74C3C; color: #fff;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--paper);
+  }
+  body.dark .nav-bell-badge { border-color: var(--paper); }
+
+  /* badge "N novos" no header de comentários da cidade */
+  .city-comments-new {
+    display: none; align-items: center; gap: 5px;
+    background: #E74C3C; color: #fff;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px;
+  }
+  .city-comments-new.show { display: inline-flex; }
+
+  /* comentário novo desde a última visita */
+  .city-comment.is-new { position: relative; }
+  .city-comment.is-new::before {
+    content: ''; position: absolute; left: -10px; top: 4px; bottom: 4px; width: 3px;
+    background: #E74C3C; border-radius: 999px;
+  }
+
+  @media (max-width: 600px) { .nav-bell svg { width: 16px; height: 16px; } }
+
   /* ——— COMENTÁRIOS · edição, ações e reações ——— */
   .city-comment-meta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 
@@ -2223,6 +2264,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     <div class="nav-cta">
       <button class="trip-switch-btn" id="tripSwitchBtn" title="Trocar de viagem">Trocar viagem</button>
       <span class="nav-date" id="navDate">20.12.26 → 06.01.27</span>
+      <button class="nav-bell" id="navBell" title="Novidades" aria-label="Novidades">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="nav-bell-badge" id="navBellBadge">0</span>
+      </button>
       <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -3436,6 +3481,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           <div class="city-comments-title">
             <span>💬 Comentários & decisões</span>
             <span class="city-comments-count">0</span>
+            <span class="city-comments-new">novos</span>
           </div>
           <button class="city-comments-toggle" aria-expanded="false" aria-label="Abrir comentários">▼</button>
         </div>
@@ -3458,9 +3504,29 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     return null;
   }
 
-  function renderComment(c) {
-    const uid = currentUser && currentUser.uid;
+  // ——— NOVIDADES (desde a última visita, por cidade) ———
+  const navBell = document.getElementById('navBell');
+  const navBellBadge = document.getElementById('navBellBadge');
+
+  function tsMs(t) { return (t && t.toDate) ? t.toDate().getTime() : 0; }
+  function activityMs(c) { return Math.max(tsMs(c.createdAt), tsMs(c.editedAt), tsMs(c.lastReactionAt)); }
+  function seenKey(cityId) { return `seen-${currentTripId}-${cityId}`; }
+  function getSeen(cityId) {
+    const v = localStorage.getItem(seenKey(cityId));
+    if (v === null) { const now = Date.now(); localStorage.setItem(seenKey(cityId), String(now)); return now; }
+    return parseInt(v, 10);
+  }
+  function markCitySeen(cityId) { localStorage.setItem(seenKey(cityId), String(Date.now() + 4000)); }
+
+  function isCommentNew(c, seen, uid) {
+    if (activityMs(c) <= seen) return false;
+    if (c.authorUid === uid) return tsMs(c.lastReactionAt) > seen; // só reações de outros no meu comentário
+    return true;
+  }
+
+  function renderComment(c, seen, uid) {
     const mine = uid && c.authorUid === uid;
+    const isNew = isCommentNew(c, seen, uid);
     const date = (c.createdAt && c.createdAt.toDate)
       ? c.createdAt.toDate().toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
       : 'agora';
@@ -3482,7 +3548,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
            <div class="cc-edit-actions"><button type="button" class="cc-cancel">cancelar</button><button type="submit">salvar</button></div>
          </form>`
       : `<div class="city-comment-text">${escapeHtml(c.text)}</div>`;
-    return `<div class="city-comment" data-id="${c.id}">
+    return `<div class="city-comment${isNew ? ' is-new' : ''}" data-id="${c.id}">
       <div class="city-comment-head">
         <div class="city-comment-author">${avatar}<strong>${name}</strong></div>
         <div class="city-comment-meta"><span class="city-comment-date">${date}${edited}</span>${actions}</div>
@@ -3493,18 +3559,47 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   }
 
   function renderAllComments() {
+    const uid = currentUser && currentUser.uid;
+    let totalNew = 0;
     document.querySelectorAll('.city-comments').forEach(widget => {
       const cityId = widget.dataset.city;
       const list = widget.querySelector('.city-comments-list');
       const count = widget.querySelector('.city-comments-count');
+      const newBadge = widget.querySelector('.city-comments-new');
       const comments = commentCache[cityId] || [];
+      const seen = getSeen(cityId);
+      const newN = comments.filter(c => isCommentNew(c, seen, uid)).length;
+      totalNew += newN;
       count.textContent = comments.length;
       count.classList.toggle('has', comments.length > 0);
+      if (newBadge) {
+        newBadge.textContent = newN + (newN === 1 ? ' novo' : ' novos');
+        newBadge.classList.toggle('show', newN > 0);
+      }
+      widget.dataset.new = newN > 0 ? '1' : '';
       list.innerHTML = comments.length
-        ? comments.map(renderComment).join('')
+        ? comments.map(c => renderComment(c, seen, uid)).join('')
         : '<div class="city-comments-empty">Nada ainda — comenta ou propõe algo.</div>';
     });
+    if (navBell && navBellBadge) {
+      navBellBadge.textContent = totalNew > 99 ? '99+' : String(totalNew);
+      navBell.classList.toggle('has-news', totalNew > 0);
+    }
   }
+
+  // Sino → vai pra primeira cidade com novidade
+  if (navBell) navBell.addEventListener('click', () => {
+    const target = document.querySelector('.city-comments[data-new="1"]');
+    if (!target) return;
+    const widget = target;
+    if (widget.dataset.open !== 'true') {
+      widget.dataset.open = 'true';
+      widget.querySelector('.city-comments-body').hidden = false;
+      markCitySeen(widget.dataset.city);
+      renderAllComments();
+    }
+    widget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 
   function subscribeCityComments() {
     if (!currentTripId) return;
@@ -3531,7 +3626,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     });
   }
 
-  // Abrir/fechar a seção de comentários
+  // Abrir/fechar a seção de comentários (ao abrir, marca como visto)
   document.addEventListener('click', (e) => {
     const head = e.target.closest('.city-comments-head');
     if (!head) return;
@@ -3540,6 +3635,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     const open = widget.dataset.open === 'true';
     widget.dataset.open = open ? 'false' : 'true';
     cbody.hidden = open;
+    if (!open) { markCitySeen(widget.dataset.city); renderAllComments(); }
   });
 
   // Novo comentário
@@ -3552,9 +3648,11 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     const text = inp.value.trim();
     if (!text) return;
     inp.value = '';
+    const cityId = f.closest('.city-comments').dataset.city;
+    markCitySeen(cityId);   // não notifica o autor sobre o próprio comentário
     try {
       await addDoc(commentsCol(), {
-        cityId: f.closest('.city-comments').dataset.city,
+        cityId,
         text,
         authorUid: currentUser.uid,
         authorName: currentUser.displayName || 'Anônimo',
@@ -3600,9 +3698,12 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       const em = reactBtn.dataset.emoji;
       const arr = (c.reactions && c.reactions[em]) || [];
       const has = arr.indexOf(currentUser.uid) !== -1;
+      const cid = CITY_ID_MAP[c.cityId] || c.cityId;
+      markCitySeen(cid);   // minha própria reação não me notifica
       try {
         await updateDoc(fsDoc(commentsCol(), reactBtn.dataset.id), {
-          ['reactions.' + em]: has ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid)
+          ['reactions.' + em]: has ? arrayRemove(currentUser.uid) : arrayUnion(currentUser.uid),
+          lastReactionAt: serverTimestamp()
         });
       } catch (err) { alert('Erro na reação: ' + err.message); }
       return;
