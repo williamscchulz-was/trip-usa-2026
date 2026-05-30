@@ -7,7 +7,7 @@
 <meta name="description" content="Roteiro de viagem em família — 17 dias atravessando os EUA entre dez 2026 e jan 2027.">
 <meta property="og:title" content="USA · Schulz, Horn & Pitz · 2026 — 27">
 <meta property="og:description" content="16 noites atravessando os EUA. Do Natal em NYC ao Réveillon na Vegas Strip.">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg">
+<meta property="og:image" content="https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg&w=1200&h=630&fit=cover&output=jpg&q=82">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗽</text></svg>">
@@ -2326,6 +2326,35 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </script>
 <style>html.pre-dark body { background: #15171C; color: #E9EBEF; }</style>
 
+<script>
+  // ——— IMAGE PROXY (wsrv.nl): resize + WebP, ~10x menor. Fallback ao original. ———
+  (function () {
+    function widthFor(img) {
+      if (img.closest('.city-visual') || img.closest('.hero-photo')) return 1600;
+      if (img.closest('.ph')) return 800;
+      return 1200;
+    }
+    function proxify(img) {
+      var s = img.getAttribute('src') || '';
+      if (s.indexOf('https://upload.wikimedia.org/') !== 0) return;
+      img.dataset.orig = s;
+      img.src = 'https://wsrv.nl/?url=' + s.slice(8) + '&w=' + widthFor(img) + '&output=webp&q=82';
+    }
+    function run() {
+      document.querySelectorAll('img[src^="https://upload.wikimedia.org/"]').forEach(proxify);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+    else run();
+    // Se o proxy falhar em qualquer imagem, volta pro original Wikimedia
+    document.addEventListener('error', function (e) {
+      var img = e.target;
+      if (img && img.tagName === 'IMG' && img.dataset.orig && img.src.indexOf('wsrv.nl') !== -1) {
+        img.src = img.dataset.orig;
+      }
+    }, true);
+  })();
+</script>
+
 <!-- TRIP SELECTOR -->
 <div class="trip-selector" id="tripSelector">
   <div class="trip-selector-head">— Qual viagem —</div>
@@ -2389,7 +2418,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     </div>
   </div>
   <div class="hero-photo" id="heroPhoto">
-    <img class="hero-slide active" src="https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg" alt="New York City" data-caption="New York · Times Square" loading="eager">
+    <img class="hero-slide active" src="https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg&w=1600&output=webp&q=82" data-orig="https://upload.wikimedia.org/wikipedia/commons/4/47/New_york_times_square-terabass.jpg" alt="New York City" data-caption="New York · Times Square" loading="eager" fetchpriority="high">
     <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/7/78/Aerial_view_of_Lincoln_Memorial_-_east_side_EDIT.jpeg" alt="Washington DC" data-caption="Washington · Lincoln Memorial" loading="lazy">
     <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Las_Vegas_Strip_09_2017_4897.jpg" alt="Las Vegas Strip" data-caption="Las Vegas · Strip à noite" loading="lazy">
     <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Snowy_Manhattan_-_Flickr_-_Joi.jpg" alt="Snowy Manhattan" data-caption="New York · Manhattan no inverno" loading="lazy">
@@ -2990,7 +3019,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     </div>
   </div>
   <div class="hero-photo" id="heroPhotoMex">
-    <img class="hero-slide active" src="https://upload.wikimedia.org/wikipedia/commons/5/58/Teotihuac%C3%A1n-5973.JPG" alt="Teotihuacán" data-caption="Ciudad de México · Teotihuacán" loading="eager">
+    <img class="hero-slide active" src="https://wsrv.nl/?url=upload.wikimedia.org/wikipedia/commons/5/58/Teotihuac%C3%A1n-5973.JPG&w=1600&output=webp&q=82" data-orig="https://upload.wikimedia.org/wikipedia/commons/5/58/Teotihuac%C3%A1n-5973.JPG" alt="Teotihuacán" data-caption="Ciudad de México · Teotihuacán" loading="eager" fetchpriority="high">
     <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Chichen_Itza_3.jpg" alt="Chichén Itzá" data-caption="Yucatán · Chichén Itzá" loading="lazy">
     <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/8/85/Tulum_2.jpg" alt="Tulum" data-caption="Tulum · ruínas no Caribe" loading="lazy">
     <img class="hero-slide" src="https://upload.wikimedia.org/wikipedia/commons/6/68/Catrina_3.jpg" alt="Dia dos Mortos" data-caption="Día de los Muertos · Catrina" loading="lazy">
