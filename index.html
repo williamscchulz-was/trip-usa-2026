@@ -1587,6 +1587,48 @@
   }
   .city-comments-new.show { display: inline-flex; }
 
+  /* comentário vencedor (mais votado) */
+  .city-comment.is-winner {
+    border-left: 3px solid var(--ink);
+    padding-left: 13px; margin-left: -16px;
+    background: linear-gradient(90deg, var(--bg-2), transparent 60%);
+    border-radius: 8px;
+  }
+  body.dark .city-comment.is-winner { border-left-color: var(--paper); }
+  .cc-winner-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.56rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--accent-bg); color: var(--accent-fg);
+    padding: 3px 9px; border-radius: 999px; margin-left: 8px;
+  }
+
+  /* ——— RESUMO DE DECISÕES ——— */
+  .decisions-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .decision-row {
+    display: grid; grid-template-columns: 150px 1fr auto; gap: 20px; align-items: center;
+    background: var(--paper); padding: 18px 22px; text-decoration: none; color: inherit;
+    transition: background .2s ease;
+  }
+  @media (hover: hover) and (pointer: fine) { .decision-row:hover { background: var(--bg-2); } }
+  .decision-city {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-muted);
+  }
+  .decision-text { font-size: 0.96rem; color: var(--ink); line-height: 1.45; }
+  .decision-text .who { color: var(--ink-muted); font-size: 0.8rem; }
+  .decision-open { display: none; }
+  .decision-votes {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 600;
+    color: var(--ink); white-space: nowrap;
+  }
+  .decision-row.pending .decision-text { color: var(--ink-muted); font-style: italic; }
+  .decision-row.pending .decision-votes { color: var(--ink-muted); }
+  @media (max-width: 700px) {
+    .decision-row { grid-template-columns: 1fr auto; gap: 6px 14px; }
+    .decision-city { grid-column: 1 / -1; }
+  }
+
   /* comentário novo desde a última visita */
   .city-comment.is-new { position: relative; }
   .city-comment.is-new::before {
@@ -2883,6 +2925,20 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   </div>
 </section>
 
+<!-- DECISÕES (resumo) -->
+<section class="block" id="decisoes">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-index">§ 06 · Decisões</div>
+      <div>
+        <h2 class="section-title">O que o grupo <em>decidiu</em>.</h2>
+        <p class="section-sub">O comentário mais votado (👍) de cada cidade. Atualiza sozinho conforme vocês votam.</p>
+      </div>
+    </div>
+    <div class="decisions-list" data-trip="usa"></div>
+  </div>
+</section>
+
 </div>
 <!-- END TRIP: USA -->
 
@@ -3280,6 +3336,20 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   </div>
 </section>
 
+<!-- DECISÕES MEXICO (resumo) -->
+<section class="block" id="decisoes-mex">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-index">§ 05 · Decisões</div>
+      <div>
+        <h2 class="section-title">O que o grupo <em>decidiu</em>.</h2>
+        <p class="section-sub">O comentário mais votado (👍) de cada cidade. Atualiza sozinho conforme vocês votam.</p>
+      </div>
+    </div>
+    <div class="decisions-list" data-trip="mexico-2026"></div>
+  </div>
+</section>
+
 </div>
 <!-- END TRIP: MEXICO -->
 
@@ -3339,7 +3409,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         { href: '#interesses', label: 'Interesses' },
         { href: '#cidades', label: 'Cidades' },
         { href: '#louise', label: 'Louise' },
-        { href: '#grupo', label: 'Grupo' }
+        { href: '#grupo', label: 'Grupo' },
+        { href: '#decisoes', label: 'Decisões' }
       ]
     },
     'mexico-2026': {
@@ -3360,7 +3431,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         { href: '#itinerario-mex', label: 'Roteiro' },
         { href: '#cidades-mex', label: 'Cidades' },
         { href: '#louise-mex', label: 'Louise' },
-        { href: '#grupo-mex', label: 'Grupo' }
+        { href: '#grupo-mex', label: 'Grupo' },
+        { href: '#decisoes-mex', label: 'Decisões' }
       ]
     }
   };
@@ -3524,9 +3596,23 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     return true;
   }
 
-  function renderComment(c, seen, uid) {
+  function upCount(c) { return ((c.reactions || {})['👍'] || []).length; }
+  function downCount(c) { return ((c.reactions || {})['👎'] || []).length; }
+
+  // Comentário "vencedor" = mais 👍 (desempate por saldo 👍−👎); precisa de ≥1 👍
+  function topComment(comments) {
+    let best = null, bestUp = 0, bestNet = -1e9;
+    (comments || []).forEach(c => {
+      const up = upCount(c), net = up - downCount(c);
+      if (up >= 1 && (up > bestUp || (up === bestUp && net > bestNet))) { best = c; bestUp = up; bestNet = net; }
+    });
+    return best;
+  }
+
+  function renderComment(c, seen, uid, winnerId) {
     const mine = uid && c.authorUid === uid;
     const isNew = isCommentNew(c, seen, uid);
+    const isWinner = winnerId && c.id === winnerId;
     const date = (c.createdAt && c.createdAt.toDate)
       ? c.createdAt.toDate().toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
       : 'agora';
@@ -3548,9 +3634,10 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
            <div class="cc-edit-actions"><button type="button" class="cc-cancel">cancelar</button><button type="submit">salvar</button></div>
          </form>`
       : `<div class="city-comment-text">${escapeHtml(c.text)}</div>`;
-    return `<div class="city-comment${isNew ? ' is-new' : ''}" data-id="${c.id}">
+    const winnerBadge = isWinner ? `<span class="cc-winner-badge">🏆 mais votado</span>` : '';
+    return `<div class="city-comment${isNew ? ' is-new' : ''}${isWinner ? ' is-winner' : ''}" data-id="${c.id}">
       <div class="city-comment-head">
-        <div class="city-comment-author">${avatar}<strong>${name}</strong></div>
+        <div class="city-comment-author">${avatar}<strong>${name}</strong>${winnerBadge}</div>
         <div class="city-comment-meta"><span class="city-comment-date">${date}${edited}</span>${actions}</div>
       </div>
       ${bodyHtml}
@@ -3577,14 +3664,49 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         newBadge.classList.toggle('show', newN > 0);
       }
       widget.dataset.new = newN > 0 ? '1' : '';
+      const winner = topComment(comments);
+      const winnerId = winner ? winner.id : null;
       list.innerHTML = comments.length
-        ? comments.map(c => renderComment(c, seen, uid)).join('')
+        ? comments.map(c => renderComment(c, seen, uid, winnerId)).join('')
         : '<div class="city-comments-empty">Nada ainda — comenta ou propõe algo.</div>';
     });
     if (navBell && navBellBadge) {
       navBellBadge.textContent = totalNew > 99 ? '99+' : String(totalNew);
       navBell.classList.toggle('has-news', totalNew > 0);
     }
+    renderDecisions();
+  }
+
+  // Resumo de decisões: vencedor de cada cidade da viagem ativa
+  function renderDecisions() {
+    if (!currentTripId) return;
+    const wrap = document.querySelector('.decisions-list[data-trip="' + currentTripId + '"]');
+    if (!wrap) return;
+    const body = document.querySelector('.trip-body[data-trip="' + currentTripId + '"]');
+    const cities = body ? Array.from(body.querySelectorAll('.city[id]')) : [];
+    let html = '';
+    cities.forEach(cityEl => {
+      const cityId = cityEl.id;
+      const nameEl = cityEl.querySelector('.city-name');
+      const cityName = (nameEl ? nameEl.textContent : cityId).replace(/\.$/, '').trim();
+      const winner = topComment(commentCache[cityId]);
+      if (winner) {
+        const who = escapeHtml((winner.authorName || 'Anônimo').split(' ')[0]);
+        const txt = escapeHtml(winner.text.length > 120 ? winner.text.slice(0, 120) + '…' : winner.text);
+        html += `<a class="decision-row" href="#${cityId}">
+          <span class="decision-city">${escapeHtml(cityName)}</span>
+          <span class="decision-text">"${txt}" <span class="who">— ${who}</span></span>
+          <span class="decision-votes">👍 ${upCount(winner)}</span>
+        </a>`;
+      } else {
+        html += `<a class="decision-row pending" href="#${cityId}">
+          <span class="decision-city">${escapeHtml(cityName)}</span>
+          <span class="decision-text">ainda em aberto — ninguém votou</span>
+          <span class="decision-votes">—</span>
+        </a>`;
+      }
+    });
+    wrap.innerHTML = html || '<div class="city-comments-empty">Sem cidades.</div>';
   }
 
   // Sino → vai pra primeira cidade com novidade
@@ -3896,8 +4018,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           });
         });
       }, { rootMargin: '-45% 0px -50% 0px' });
-      ['itinerario', 'interesses', 'cidades', 'louise', 'grupo',
-       'itinerario-mex', 'cidades-mex', 'louise-mex', 'grupo-mex'].forEach(function (id) {
+      ['itinerario', 'interesses', 'cidades', 'louise', 'grupo', 'decisoes',
+       'itinerario-mex', 'cidades-mex', 'louise-mex', 'grupo-mex', 'decisoes-mex'].forEach(function (id) {
         var el = document.getElementById(id);
         if (el) spy.observe(el);
       });
