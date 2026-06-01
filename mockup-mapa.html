@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup · Rota glamour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#26282B;--ink2:#353941;--muted:#8E939C;--paper:#fff;--bg:#FAFBFC;--border:#E6E9EE}
+  body.dark{--ink:#E9EBEF;--ink2:#C2C6CD;--muted:#7A7F88;--paper:#15171C;--bg:#0F1013;--border:#2A2D33}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding:36px 20px;transition:.3s}
+  .top{display:flex;justify-content:space-between;align-items:center;max-width:920px;margin:0 auto 28px}
+  .top h1{font-size:1.05rem;font-weight:700}
+  .toggle{border:1px solid var(--border);background:var(--paper);color:var(--ink);border-radius:999px;padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .card{max-width:920px;margin:0 auto 26px;background:var(--paper);border:1px solid var(--border);border-radius:22px;padding:40px 30px;position:relative;overflow:hidden}
+  .vlabel{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
+  .replay{position:absolute;top:14px;right:16px;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:999px;padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+
+  /* ===== A · PAINEL DE EMBARQUE (split-flap) ===== */
+  .board{background:var(--ink);border-radius:14px;padding:22px 20px;color:#fff}
+  body.dark .board{background:#0a0b0e;border:1px solid var(--border)}
+  .board-head{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:6px}
+  .leg{display:grid;grid-template-columns:26px 1fr 16px 1fr 96px;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+  .leg:last-child{border-bottom:none}
+  .leg .idx{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.4)}
+  .leg .city{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:1.05rem;letter-spacing:.04em}
+  .leg .arrow{color:rgba(255,255,255,.5);text-align:center}
+  .leg .date{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:rgba(255,255,255,.55);text-align:right;letter-spacing:.06em}
+  .flap{display:inline-block;opacity:0;transform:rotateX(-90deg);transform-origin:top;animation:flap .5s cubic-bezier(.3,1.4,.5,1) forwards}
+  .run .flap{}
+  @keyframes flap{to{opacity:1;transform:none}}
+
+  /* ===== B · O VOO DESENHA A ROTA ===== */
+  .fly-wrap{position:relative}
+  .fly-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+  .grid-l{stroke:var(--border);stroke-width:.25;opacity:0;transition:opacity 1s ease}
+  .run .grid-l{opacity:.6}
+  .trail{fill:none;stroke:url(#grad);stroke-width:1.1;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+  .run .trail{animation:draw 4.2s cubic-bezier(.5,0,.2,1) forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .plane{fill:var(--ink);opacity:0}
+  .run .plane{opacity:1}
+  .stamp{opacity:0}
+  .run .stamp{animation:stamp .6s cubic-bezier(.2,1.5,.4,1) forwards}
+  @keyframes stamp{0%{opacity:0;transform:scale(2.4) rotate(-12deg)}60%{opacity:1}100%{opacity:1;transform:scale(1) rotate(var(--rot,0deg))}}
+  .stamp-ring{fill:none;stroke:var(--ink);stroke-width:.5}
+  .stamp-dot{fill:var(--ink)}
+  .stamp-code{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:2.7px;fill:var(--ink);text-anchor:middle}
+  .stamp-date{font-family:'JetBrains Mono',monospace;font-size:1.7px;fill:var(--muted);text-anchor:middle}
+  body.dark .plane,body.dark .stamp-dot{fill:var(--paper)} body.dark .stamp-ring{stroke:var(--paper)} body.dark .stamp-code{fill:var(--paper)}
+</style>
+</head>
+<body>
+  <div class="top"><h1>Rota · 2 conceitos glamour</h1><button class="toggle" id="toggle">🌙 / ☀️ tema</button></div>
+
+  <div class="card">
+    <div class="vlabel">A · painel de embarque (split-flap)</div>
+    <button class="replay" data-v="A">↻ replay</button>
+    <div class="board" id="boardWrap"></div>
+  </div>
+
+  <div class="card">
+    <div class="vlabel">B · o voo desenha a rota + carimba as cidades</div>
+    <button class="replay" data-v="B">↻ replay</button>
+    <div class="fly-wrap" id="flyWrap"></div>
+  </div>
+
+<script>
+  var STOPS=[
+    {c:'WASHINGTON DC',code:'DC',date:'20–22 DEZ',x:79,y:30,r:-7},
+    {c:'NEW YORK',code:'NYC',date:'23–27 DEZ',x:85,y:22,r:5},
+    {c:'BOSTON',code:'BOS',date:'28–29 DEZ',x:91,y:16,r:-4},
+    {c:'LAS VEGAS',code:'LAS',date:'30 DEZ–2 JAN',x:14,y:33,r:8},
+    {c:'ORLANDO',code:'MCO',date:'3–5 JAN',x:74,y:47,r:-6},
+    {c:'MIAMI',code:'MIA',date:'6 JAN',x:80,y:54,r:6}
+  ];
+
+  /* A — board */
+  function flaps(str){return str.split('').map(function(ch,i){return ch===' '?' ':'<span class="flap" style="animation-delay:'+(i*.04)+'s">'+ch+'</span>';}).join('');}
+  function buildBoard(){
+    var bw=document.getElementById('boardWrap');
+    bw.innerHTML='<div class="board-head"><span>Parada · Cidade</span><span>Datas</span></div>'+
+      STOPS.map(function(s,i){
+        return '<div class="leg">'+
+          '<span class="idx">0'+(i+1)+'</span>'+
+          '<span class="city">'+flaps(s.code)+'</span>'+
+          '<span class="arrow">→</span>'+
+          '<span class="city" style="font-size:.8rem;font-weight:400;color:rgba(255,255,255,.7)">'+flaps(s.c)+'</span>'+
+          '<span class="date">'+s.date+'</span>'+
+        '</div>';
+      }).join('');
+    // re-stagger por linha
+    var f=bw.querySelectorAll('.flap');f.forEach(function(el,i){el.style.animationDelay=(i*.018)+'s';});
+  }
+
+  /* B — voo */
+  function arcPath(stops){
+    var d='M '+stops[0].x+' '+stops[0].y;
+    for(var i=1;i<stops.length;i++){var a=stops[i-1],b=stops[i];var mx=(a.x+b.x)/2,my=(a.y+b.y)/2;var dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy)||1;var off=len*.13;d+=' Q '+(mx-dy/len*off).toFixed(1)+' '+(my+dx/len*off).toFixed(1)+' '+b.x+' '+b.y;}
+    return d;
+  }
+  function buildFly(){
+    var W=100,H=60,grid='';
+    for(var x=12.5;x<W;x+=12.5)grid+='<line class="grid-l" x1="'+x+'" y1="0" x2="'+x+'" y2="'+H+'"/>';
+    for(var y=12.5;y<H;y+=12.5)grid+='<line class="grid-l" x1="0" y1="'+y+'" x2="'+W+'" y2="'+y+'"/>';
+    var stamps=STOPS.map(function(s,i){
+      var ly=s.y>40?s.y+8:s.y-7;
+      return '<g class="stamp" style="--rot:'+s.r+'deg;transform-origin:'+s.x+'px '+s.y+'px;animation-delay:'+(0.5+i*0.62)+'s">'+
+        '<circle class="stamp-ring" cx="'+s.x+'" cy="'+s.y+'" r="3.4"/>'+
+        '<circle class="stamp-dot" cx="'+s.x+'" cy="'+s.y+'" r="1.1"/>'+
+        '<text class="stamp-code" x="'+s.x+'" y="'+ly+'">'+s.code+'</text>'+
+        '<text class="stamp-date" x="'+s.x+'" y="'+(ly+2.6)+'">'+s.date+'</text>'+
+      '</g>';
+    }).join('');
+    document.getElementById('flyWrap').innerHTML=
+      '<svg viewBox="0 0 100 60"><defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">'+
+      '<stop offset="0" stop-color="var(--muted)"/><stop offset="1" stop-color="var(--ink)"/></linearGradient></defs>'+
+      grid+
+      '<path id="rp" class="trail" d="'+arcPath(STOPS)+'" pathLength="1"/>'+
+      stamps+
+      '<g class="plane"><path d="M5 0 L-4 -3 L-1.3 -0.8 L-4.5 -0.8 L-4.5 0.8 L-1.3 0.8 L-4 3 Z"/>'+
+      '<animateMotion id="fly" dur="4.2s" begin="indefinite" fill="freeze" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.5 0 0.2 1"><mpath href="#rp"/></animateMotion></g></svg>';
+  }
+
+  function play(v){
+    if(v==='A'){buildBoard();var c=document.getElementById('boardWrap').closest('.card');c.classList.remove('run');void c.offsetWidth;c.classList.add('run');}
+    else{buildFly();var w=document.getElementById('flyWrap');w.classList.remove('run');void w.offsetWidth;w.classList.add('run');var m=document.getElementById('fly');if(m&&m.beginElement)try{m.beginElement();}catch(e){}}
+  }
+  buildBoard();buildFly();
+  // dispara ao carregar
+  setTimeout(function(){play('A');play('B');},300);
+  document.querySelectorAll('.replay').forEach(function(b){b.addEventListener('click',function(){play(b.dataset.v);});});
+  document.getElementById('toggle').addEventListener('click',function(){document.body.classList.toggle('dark');});
+</script>
+</body>
+</html>
