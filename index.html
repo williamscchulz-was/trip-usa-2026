@@ -1766,6 +1766,37 @@
     padding: 3px 9px; border-radius: 999px; margin-left: 8px;
   }
 
+  /* ——— MAPA DA ROTA (linha que se desenha no scroll) ——— */
+  .route-map { margin: 4px auto 30px; max-width: 720px; }
+  .route-map svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .route-line {
+    fill: none; stroke: var(--ink); stroke-width: 0.7; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 1; stroke-dashoffset: 1;
+  }
+  .route-map.in .route-line { animation: routeDraw 2.2s cubic-bezier(.65,0,.35,1) forwards; }
+  @keyframes routeDraw { to { stroke-dashoffset: 0; } }
+  .route-dot { fill: var(--paper); stroke: var(--ink); stroke-width: 0.7; }
+  .route-dot.hl { fill: var(--ink); }
+  .rm-pin { opacity: 0; }
+  .route-map.in .rm-pin { animation: rmPin .45s cubic-bezier(.2,.8,.2,1) forwards; }
+  .route-map.in .rm-pin:nth-of-type(1) { animation-delay: .5s; }
+  .route-map.in .rm-pin:nth-of-type(2) { animation-delay: .75s; }
+  .route-map.in .rm-pin:nth-of-type(3) { animation-delay: 1s; }
+  .route-map.in .rm-pin:nth-of-type(4) { animation-delay: 1.25s; }
+  .route-map.in .rm-pin:nth-of-type(5) { animation-delay: 1.5s; }
+  .route-map.in .rm-pin:nth-of-type(6) { animation-delay: 1.75s; }
+  @keyframes rmPin { from { opacity: 0; } to { opacity: 1; } }
+  .rm-code { font-family: 'JetBrains Mono', monospace; font-size: 2.7px; font-weight: 600; fill: var(--ink); }
+  .rm-idx { font-family: 'JetBrains Mono', monospace; font-size: 1.9px; fill: var(--ink-muted); }
+  body.dark .route-dot { stroke: var(--paper); }
+  body.dark .route-dot.hl { fill: var(--paper); }
+  body.dark .route-line { stroke: var(--paper); }
+  body.dark .rm-code { fill: var(--paper); }
+  @media (prefers-reduced-motion: reduce) {
+    .route-line { stroke-dashoffset: 0 !important; animation: none !important; }
+    .rm-pin { opacity: 1 !important; animation: none !important; }
+  }
+
   /* ——— CHECKLIST por pessoa ——— */
   .checklist-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .chk-card {
@@ -2407,21 +2438,33 @@
   }
 
   @media print {
-    @page { margin: 16mm 14mm; }
-    body { font-size: 11pt; }
-    .nav, .auth-gate, .scroll-progress { display: none !important; }
-    .city-comments { display: none !important; }
-    .hero { padding-top: 20px; page-break-after: always; }
-    .hero-ctas, .hero-tag::before, .hero-tag::after { display: none; }
-    .hero-title { font-size: 3.5rem; }
-    .hero-photo { aspect-ratio: 16 / 9; max-width: 720px; }
-    .hero-meta { gap: 32px; margin-top: 24px; }
-    section.block, .city, .inverse { padding: 32px 0; page-break-inside: avoid; }
-    .city-visual { aspect-ratio: 16 / 9; max-height: 300px; }
-footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
-    .inverse { background: #26282B !important; color: #fff !important; }
-    .ph img, img { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    @page { margin: 14mm 13mm; }
+    body { font-size: 10.5pt; background: #fff !important; color: #1a1a1a !important; }
+    body.dark { background: #fff !important; color: #1a1a1a !important; }
+    /* Esconde tudo que é interface/interativo */
+    .nav, .auth-gate, .trip-selector, .onboard, .scroll-progress,
+    .city-comments, .hero-ctas, .hero-countdown,
+    .cd-rule, .route-map .rm-pin, .presence-pill, .nav-bell { display: none !important; }
+    /* Só a viagem ativa imprime */
+    body[data-active-trip="usa"] .trip-body[data-trip="mexico-2026"],
+    body[data-active-trip="mexico-2026"] .trip-body[data-trip="usa"] { display: none !important; }
+    .hero { padding: 10px 0 20px; page-break-after: always; }
+    .hero-tag::before, .hero-tag::after { display: none; }
+    .hero-title { font-size: 30pt; }
+    .hero-photo { aspect-ratio: 16 / 9; max-width: 600px; }
+    .route-map { max-width: 480px; margin: 0 auto; }
+    .route-line { stroke-dashoffset: 0 !important; stroke: #1a1a1a !important; }
+    section.block, .city, .inverse { padding: 18px 0 !important; page-break-inside: avoid; }
+    .city-visual { aspect-ratio: 16 / 9; max-height: 240px; }
+    .pipeline { display: grid !important; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .pipe-card { break-inside: avoid; }
+    .checklist-grid, .group-grid, .baby-grid, .family-grid, .decisions-list { break-inside: avoid; }
+    footer { background: #000 !important; color: #fff !important; }
+    .inverse { background: #1f2125 !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .ph img, img { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     a { color: inherit; text-decoration: none; }
+    /* status chips legíveis em P&B */
+    .s-pending, .s-wip, .s-ok, .s-debate { border: 1px solid #999 !important; background: #fff !important; color: #1a1a1a !important; }
   }
 </style>
 </head>
@@ -2474,7 +2517,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <div class="trip-cards">
     <button class="trip-card" type="button" data-choose="usa">
       <div class="trip-card-date">20.12.26 → 07.01.27</div>
-      <div class="trip-card-title">North America</div>
+      <div class="trip-card-title">América do Norte</div>
       <div class="trip-card-meta">Schulz · Horn · Pitz<br>16 noites · 6 paradas</div>
       <div class="trip-card-footer">Natal em NYC · Réveillon em Vegas</div>
     </button>
@@ -2552,11 +2595,11 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <h1 class="hero-title">North America<span class="dot">.</span></h1>
-    <p class="hero-sub">Christmas in New York. New Year's on the Vegas Strip. Sixteen nights, six stops — Schulz · Horn · Pitz.</p>
+    <h1 class="hero-title">América do Norte<span class="dot">.</span></h1>
+    <p class="hero-sub">Natal em Nova York, Réveillon na Vegas Strip. Dezesseis noites, seis paradas — Schulz · Horn · Pitz.</p>
     <div class="hero-countdown" data-start="2026-12-20T20:00:00"></div>
     <div class="hero-ctas">
-      <a class="hero-cta primary" href="#itinerario">See the route →</a>
+      <a class="hero-cta primary" href="#itinerario">Ver roteiro →</a>
     </div>
   </div>
   <div class="hero-photo" id="heroPhoto">
@@ -2578,6 +2621,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <section class="block alt" id="itinerario">
   <div class="container">
     <div class="section-eyebrow">§ 01 · Roteiro <span class="muted">— 16 noites, 6 paradas</span></div>
+    <div class="route-map" data-trip="usa"></div>
     <div class="pipeline">
       <a class="pipe-card" href="#dc">
         <div class="pipe-idx">01 · 21—22 dez</div>
@@ -3217,6 +3261,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <section class="block alt" id="itinerario-mex">
   <div class="container">
     <div class="section-eyebrow">§ 01 · Roteiro <span class="muted">— 9 noites, 4 paradas</span></div>
+    <div class="route-map" data-trip="mexico-2026"></div>
     <div class="pipeline">
       <a class="pipe-card highlight" href="#cdmx">
         <span class="pipe-tag">Dia dos Mortos</span>
@@ -4409,6 +4454,47 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
       navigator.serviceWorker.register('sw.js').catch(function () {});
     });
   }
+
+  // ——— MAPA DA ROTA ———
+  (function () {
+    var ROUTES = {
+      'usa': { vb: '0 0 100 62', stops: [
+        { x: 83, y: 24, c: 'DC', i: '01', dx: 2.5, dy: 0 },
+        { x: 88, y: 19, c: 'NYC', i: '02', dx: 2.5, dy: -0.5, hl: 1 },
+        { x: 93, y: 15, c: 'BOS', i: '03', dx: 2.5, dy: 0 },
+        { x: 17, y: 30, c: 'LAS', i: '04', dx: 2.5, dy: 0, hl: 1 },
+        { x: 75, y: 48, c: 'MCO', i: '05', dx: -12, dy: 0 },
+        { x: 77, y: 55, c: 'MIA', i: '06', dx: 2.5, dy: 3 }
+      ] },
+      'mexico-2026': { vb: '0 0 100 56', stops: [
+        { x: 28, y: 40, c: 'CDMX', i: '01', dx: 2.5, dy: 0, hl: 1 },
+        { x: 74, y: 30, c: 'VALL', i: '02', dx: 2.5, dy: -0.5 },
+        { x: 82, y: 42, c: 'TULUM', i: '03', dx: 2.5, dy: 3 },
+        { x: 88, y: 28, c: 'P.M.', i: '04', dx: 2.5, dy: -0.5, hl: 1 }
+      ] }
+    };
+    document.querySelectorAll('.route-map').forEach(function (el) {
+      var r = ROUTES[el.dataset.trip];
+      if (!r) return;
+      var d = 'M ' + r.stops.map(function (s) { return s.x + ' ' + s.y; }).join(' L ');
+      var pins = r.stops.map(function (s) {
+        return '<circle class="route-dot' + (s.hl ? ' hl' : '') + '" cx="' + s.x + '" cy="' + s.y + '" r="1.5"/>' +
+          '<g class="rm-pin">' +
+          '<text class="rm-code" x="' + (s.x + s.dx) + '" y="' + (s.y + s.dy) + '">' + s.c + '</text>' +
+          '<text class="rm-idx" x="' + (s.x + s.dx) + '" y="' + (s.y + s.dy + 2.5) + '">' + s.i + '</text>' +
+          '</g>';
+      }).join('');
+      el.innerHTML = '<svg viewBox="' + r.vb + '" role="img" aria-label="Mapa da rota"><path class="route-line" d="' + d + '" pathLength="1"/>' + pins + '</svg>';
+    });
+    if ('IntersectionObserver' in window) {
+      var mo = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); mo.unobserve(e.target); } });
+      }, { threshold: 0.3 });
+      document.querySelectorAll('.route-map').forEach(function (el) { mo.observe(el); });
+    } else {
+      document.querySelectorAll('.route-map').forEach(function (el) { el.classList.add('in'); });
+    }
+  })();
 
   // ——— COUNTDOWN PRA VIAGEM (D·H·M·S ao vivo) ———
   (function () {
