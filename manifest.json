@@ -1,0 +1,14 @@
+{
+  "name": "Trip · Schulz · Horn · Pitz",
+  "short_name": "Trip 2026",
+  "description": "Roteiro de viagem em família — EUA & México 2026/27.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#15171C",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
