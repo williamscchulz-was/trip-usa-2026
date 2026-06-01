@@ -3782,39 +3782,8 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         reactions: {},
         createdAt: serverTimestamp()
       });
-      enqueueEmail(cityId, text);   // notifica os outros por e-mail (se a extensão estiver ativa)
     } catch (err) { alert('Erro: ' + err.message); inp.value = text; }
   });
-
-  // Enfileira e-mail pra extensão "Trigger Email" (coleção `mail`).
-  // Falha em silêncio se a extensão/regra ainda não existir.
-  async function enqueueEmail(cityId, text) {
-    try {
-      const trip = TRIPS[currentTripId];
-      if (!trip || !currentUser) return;
-      const myEmail = (currentUser.email || '').toLowerCase();
-      const recipients = trip.members.filter(e => e.toLowerCase() !== myEmail);
-      if (!recipients.length) return;
-      const cityEl = document.getElementById(cityId);
-      const nameEl = cityEl && cityEl.querySelector('.city-name');
-      const cityName = (nameEl ? nameEl.textContent : cityId).replace(/\.$/, '').trim();
-      const author = currentUser.displayName || currentUser.email || 'Alguém';
-      const url = location.origin + location.pathname;
-      await addDoc(collection(db, 'mail'), {
-        to: recipients,
-        message: {
-          subject: `💬 ${author} comentou em ${cityName} · ${trip.label}`,
-          text: `${author} comentou em ${cityName} (${trip.label}):\n\n"${text}"\n\nAbra o roteiro: ${url}`,
-          html: `<div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:520px">
-            <p style="color:#555;font-size:13px;text-transform:uppercase;letter-spacing:.08em">${escapeHtml(trip.label)} · ${escapeHtml(cityName)}</p>
-            <p><strong>${escapeHtml(author)}</strong> comentou:</p>
-            <blockquote style="border-left:3px solid #26282B;margin:0;padding:8px 16px;color:#333">${escapeHtml(text)}</blockquote>
-            <p style="margin-top:20px"><a href="${url}" style="background:#26282B;color:#fff;text-decoration:none;padding:10px 20px;border-radius:999px;display:inline-block">Abrir o roteiro →</a></p>
-          </div>`
-        }
-      });
-    } catch (e) { /* extensão ainda não instalada — silencioso */ }
-  }
 
   // Salvar edição
   document.addEventListener('submit', async (e) => {
