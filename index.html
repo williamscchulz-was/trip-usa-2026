@@ -4430,28 +4430,48 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
           nM = el.querySelector('[data-u=m]'), nS = el.querySelector('[data-u=s]');
       var timer;
       function pad(n) { return n < 10 ? '0' + n : '' + n; }
-      function tick() {
+      function remaining() {
         var diff = target - Date.now();
-        if (diff <= 0) {
-          el.innerHTML = '<div class="cd-done">✈️ É hoje — boa viagem!</div>';
-          if (timer) clearInterval(timer);
-          return;
-        }
+        if (diff <= 0) return null;
         var s = Math.floor(diff / 1000);
         var d = Math.floor(s / 86400); s -= d * 86400;
         var h = Math.floor(s / 3600); s -= h * 3600;
         var m = Math.floor(s / 60); s -= m * 60;
-        nD.textContent = d;
-        nH.textContent = pad(h);
-        nM.textContent = pad(m);
-        var ss = pad(s);
+        return { d: d, h: h, m: m, s: s };
+      }
+      function tick() {
+        var p = remaining();
+        if (!p) {
+          el.innerHTML = '<div class="cd-done">✈️ É hoje — boa viagem!</div>';
+          if (timer) clearInterval(timer);
+          return;
+        }
+        nD.textContent = p.d;
+        nH.textContent = pad(p.h);
+        nM.textContent = pad(p.m);
+        var ss = pad(p.s);
         if (nS.textContent !== ss) {
           nS.textContent = ss;
           nS.classList.remove('pulse'); void nS.offsetWidth; nS.classList.add('pulse');
         }
       }
-      tick();
-      timer = setInterval(tick, 1000);
+      var start = () => { tick(); timer = setInterval(tick, 1000); };
+      var p0 = remaining();
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!p0 || reduced) { start(); return; }
+      // Intro: números "contam" de 0 até o valor (odômetro), junto com o traço se desenhando.
+      var DUR = 1700, t0 = performance.now();
+      (function intro() {
+        requestAnimationFrame(function step(now) {
+          var k = Math.min(1, (now - t0) / DUR);
+          var e = 1 - Math.pow(1 - k, 3); // easeOutCubic
+          nD.textContent = Math.round(p0.d * e);
+          nH.textContent = pad(Math.round(p0.h * e));
+          nM.textContent = pad(Math.round(p0.m * e));
+          nS.textContent = pad(Math.round(p0.s * e));
+          if (k < 1) requestAnimationFrame(step); else start();
+        });
+      })();
     });
   })();
 
