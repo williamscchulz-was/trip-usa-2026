@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup · Countdown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#26282B; --ink-muted:#8E939C; --paper:#fff; --bg:#FAFBFC; --border:#E6E9EE;
+    --stroke:var(--ink);
+  }
+  body.dark{
+    --ink:#E9EBEF; --ink-muted:#7A7F88; --paper:#15171C; --bg:#0F1013; --border:#2A2D33;
+    --stroke:var(--paper);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);
+    min-height:100vh;padding:48px 24px;transition:background .3s,color .3s}
+  .top{display:flex;justify-content:space-between;align-items:center;max-width:900px;margin:0 auto 40px}
+  .top h1{font-size:1.1rem;font-weight:700;letter-spacing:-.02em}
+  .toggle{border:1px solid var(--border);background:var(--paper);color:var(--ink);
+    border-radius:999px;padding:8px 16px;font-family:'JetBrains Mono',monospace;
+    font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .card{max-width:900px;margin:0 auto 28px;background:var(--paper);border:1px solid var(--border);
+    border-radius:20px;padding:56px 32px;text-align:center;position:relative;overflow:hidden}
+  .card .tag{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-muted);margin-bottom:8px}
+  .card h2{font-size:clamp(2rem,6vw,3rem);font-weight:700;letter-spacing:-.04em;margin-bottom:32px}
+  .card h2 .dot{color:var(--ink-muted)}
+  .vlabel{position:absolute;top:16px;left:20px;font-family:'JetBrains Mono',monospace;
+    font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted)}
+  button.replay{position:absolute;top:12px;right:16px;border:1px solid var(--border);background:transparent;
+    color:var(--ink-muted);border-radius:999px;padding:5px 12px;font-family:'JetBrains Mono',monospace;
+    font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+
+  /* ===== VARIANTE A — linha que se desenha ===== */
+  .cdA{--cd-draw:1.8s;--cd-num:clamp(1.8rem,6vw,3rem);display:inline-block}
+  .cdA .grid{display:inline-flex;align-items:flex-start;gap:clamp(12px,3vw,26px)}
+  .cdA .u{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:2.4ch}
+  .cdA .num{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:var(--cd-num);
+    line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .cdA .lab{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--ink-muted)}
+  .cdA .sep{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:var(--cd-num);
+    line-height:1;color:var(--ink-muted);opacity:.45}
+  .cdA .num.pulse{animation:pul .5s cubic-bezier(.2,.8,.2,1)}
+  @keyframes pul{0%{transform:translateY(-3px);opacity:.4}100%{transform:none;opacity:1}}
+  .cdA svg{display:block;width:100%;height:6px;margin-top:16px;overflow:visible}
+  .cdA path{fill:none;stroke:var(--stroke);stroke-width:1.6;stroke-linecap:round;
+    stroke-dasharray:1;stroke-dashoffset:1;animation:draw var(--cd-draw) cubic-bezier(.65,0,.35,1) forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .cdA .u,.cdA .sep{animation:up .6s cubic-bezier(.2,.8,.2,1) both}
+  .cdA .grid>*:nth-child(1){animation-delay:.05s}.cdA .grid>*:nth-child(2){animation-delay:.1s}
+  .cdA .grid>*:nth-child(3){animation-delay:.15s}.cdA .grid>*:nth-child(4){animation-delay:.2s}
+  .cdA .grid>*:nth-child(5){animation-delay:.25s}.cdA .grid>*:nth-child(6){animation-delay:.3s}
+  .cdA .grid>*:nth-child(7){animation-delay:.35s}
+  @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  /* ===== VARIANTE B — anéis que se desenham ===== */
+  .cdB{display:inline-flex;gap:clamp(10px,3vw,20px)}
+  .cdB .ring{position:relative;width:92px;height:92px}
+  .cdB svg{width:100%;height:100%;transform:rotate(-90deg)}
+  .cdB .track{fill:none;stroke:var(--border);stroke-width:4}
+  .cdB .prog{fill:none;stroke:var(--stroke);stroke-width:4;stroke-linecap:round;
+    stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s cubic-bezier(.65,0,.35,1) forwards}
+  .cdB .ring:nth-child(2) .prog{animation-delay:.12s}
+  .cdB .ring:nth-child(3) .prog{animation-delay:.24s}
+  .cdB .ring:nth-child(4) .prog{animation-delay:.36s}
+  .cdB .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+  .cdB .num{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:1.5rem;line-height:1;
+    font-variant-numeric:tabular-nums}
+  .cdB .num.pulse{animation:pul .5s cubic-bezier(.2,.8,.2,1)}
+  .cdB .lab{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-muted)}
+  @media(max-width:560px){.cdB .ring{width:72px;height:72px}.cdB .num{font-size:1.2rem}}
+</style>
+</head>
+<body>
+  <div class="top">
+    <h1>Mockup · Countdown</h1>
+    <button class="toggle" id="toggle">🌙 / ☀️ tema</button>
+  </div>
+
+  <div class="card">
+    <div class="vlabel">Variante A · linha que se desenha</div>
+    <button class="replay" data-replay="a">↻ replay</button>
+    <div class="tag">North America · faltam</div>
+    <h2>Réveillon na Vegas Strip<span class="dot">.</span></h2>
+    <div class="cdA" id="cdA"></div>
+  </div>
+
+  <div class="card">
+    <div class="vlabel">Variante B · anéis que se desenham</div>
+    <button class="replay" data-replay="b">↻ replay</button>
+    <div class="tag">North America · faltam</div>
+    <h2>Réveillon na Vegas Strip<span class="dot">.</span></h2>
+    <div class="cdB" id="cdB"></div>
+  </div>
+
+<script>
+  var TARGET = new Date('2026-12-20T20:00:00').getTime();
+  function pad(n){return n<10?'0'+n:''+n;}
+  function parts(){
+    var diff=Math.max(0,TARGET-Date.now());var s=Math.floor(diff/1000);
+    var d=Math.floor(s/86400);s-=d*86400;var h=Math.floor(s/3600);s-=h*3600;
+    var m=Math.floor(s/60);s-=m*60;return {d:d,h:h,m:m,s:s};
+  }
+
+  // Variante A
+  var cdA=document.getElementById('cdA');
+  cdA.innerHTML='<div class="grid">'+
+    '<div class="u"><span class="num" data-u="d">0</span><span class="lab">dias</span></div><span class="sep">:</span>'+
+    '<div class="u"><span class="num" data-u="h">00</span><span class="lab">horas</span></div><span class="sep">:</span>'+
+    '<div class="u"><span class="num" data-u="m">00</span><span class="lab">min</span></div><span class="sep">:</span>'+
+    '<div class="u"><span class="num" data-u="s">00</span><span class="lab">seg</span></div></div>'+
+    '<svg viewBox="0 0 100 4" preserveAspectRatio="none"><path d="M0 2 H100" pathLength="1"/></svg>';
+
+  // Variante B — anéis
+  var cdB=document.getElementById('cdB');
+  var unitsB=[['d','dias'],['h','horas'],['m','min'],['s','seg']];
+  cdB.innerHTML=unitsB.map(function(u){
+    return '<div class="ring"><svg viewBox="0 0 100 100">'+
+      '<circle class="track" cx="50" cy="50" r="44"/>'+
+      '<circle class="prog" cx="50" cy="50" r="44" pathLength="1"/></svg>'+
+      '<div class="center"><span class="num" data-u="'+u[0]+'">0</span><span class="lab">'+u[1]+'</span></div></div>';
+  }).join('');
+
+  function setNum(el,val){
+    if(el.textContent!==val){el.textContent=val;el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');}
+  }
+  function tick(){
+    var p=parts();
+    [cdA,cdB].forEach(function(root){
+      setNum(root.querySelector('[data-u=d]'),''+p.d);
+      setNum(root.querySelector('[data-u=h]'),pad(p.h));
+      setNum(root.querySelector('[data-u=m]'),pad(p.m));
+      setNum(root.querySelector('[data-u=s]'),pad(p.s));
+    });
+  }
+  tick();setInterval(tick,1000);
+
+  // replay das animações de desenho
+  document.querySelectorAll('[data-replay]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var root=b.dataset.replay==='a'?cdA:cdB;
+      root.querySelectorAll('path.prog,path,.prog,.u,.sep,circle.prog').forEach(function(){});
+      var clone=root.cloneNode(true);root.parentNode.replaceChild(clone,root);
+      if(b.dataset.replay==='a'){cdA=clone;}else{cdB=clone;}
+      tick();
+    });
+  });
+
+  document.getElementById('toggle').addEventListener('click',function(){
+    document.body.classList.toggle('dark');
+  });
+</script>
+</body>
+</html>
