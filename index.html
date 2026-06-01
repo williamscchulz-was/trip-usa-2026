@@ -308,6 +308,24 @@
     line-height: 1.55;
   }
 
+  .hero-countdown {
+    margin: 22px auto 0;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 9px 18px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.66rem;
+    color: var(--ink-muted);
+  }
+  .hero-countdown .num { font-size: 1.15rem; font-weight: 600; color: var(--ink); letter-spacing: 0; }
+  .hero-countdown.soon { border-color: var(--ink); }
+  .hero-countdown.past { display: none; }
+
   .hero-ctas {
     display: flex;
     justify-content: center;
@@ -1555,6 +1573,41 @@
     line-height: 1.8;
   }
 
+  /* ——— ONBOARDING ——— */
+  .onboard {
+    position: fixed; inset: 0; z-index: 160; display: flex;
+    align-items: center; justify-content: center; padding: 24px;
+    background: rgba(0,0,0,.5); backdrop-filter: blur(6px); animation: fadeIn .25s ease;
+  }
+  .onboard[hidden] { display: none; }
+  .onboard-card {
+    background: var(--paper); border: 1px solid var(--border); border-radius: 20px;
+    padding: 36px 32px; max-width: 440px; width: 100%;
+    box-shadow: 0 30px 70px rgba(0,0,0,.3); animation: heroUp .4s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .onboard-eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-muted); margin-bottom: 10px;
+  }
+  .onboard-title {
+    font-family: 'DM Sans', sans-serif; font-size: 2rem; font-weight: 700;
+    letter-spacing: -0.03em; color: var(--ink); margin-bottom: 24px;
+  }
+  .onboard-title em { font-style: normal; color: var(--ink-muted); }
+  .onboard-list { list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 16px; }
+  .onboard-list li { display: flex; gap: 14px; font-size: 0.92rem; color: var(--ink-2); line-height: 1.45; }
+  .onboard-list strong { color: var(--ink); font-weight: 600; }
+  .ob-ic { font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+  .onboard-btn {
+    width: 100%; background: var(--accent-bg); color: var(--accent-fg); border: none;
+    padding: 14px; border-radius: 999px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: background .2s ease, transform .15s ease;
+  }
+  .onboard-btn:hover { background: #000; transform: translateY(-1px); }
+  body.dark .onboard-btn:hover { background: #fff; }
+  .onboard-btn:active { transform: scale(.97); }
+  @media (max-width: 600px) { .onboard-card { padding: 28px 22px; } .onboard-title { font-size: 1.6rem; } }
+
   /* ——— PRESENÇA · pill "N online" + dropdown ——— */
   .presence-pill { position: relative; }
   .presence-pill-btn {
@@ -2391,6 +2444,20 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   </div>
 </nav>
 
+<!-- ONBOARDING (1 tela, primeira visita) -->
+<div class="onboard" id="onboard" hidden>
+  <div class="onboard-card">
+    <div class="onboard-eyebrow">Como funciona</div>
+    <h2 class="onboard-title">Decidam <em>juntos</em>.</h2>
+    <ul class="onboard-list">
+      <li><span class="ob-ic">💬</span><div><strong>Comente em cada cidade</strong><br>Abra "Comentários & decisões" em qualquer parada e proponha ideias.</div></li>
+      <li><span class="ob-ic">👍</span><div><strong>Vote nas propostas</strong><br>👍 👎 ❤️ ✅ em cada comentário. O mais votado vira a <strong>decisão</strong> da cidade.</div></li>
+      <li><span class="ob-ic">🔔</span><div><strong>Acompanhe as novidades</strong><br>O sino e os badges mostram o que mudou desde sua última visita.</div></li>
+    </ul>
+    <button class="onboard-btn" id="onboardBtn">Entendi, bora planejar</button>
+  </div>
+</div>
+
 <!-- TRIP: USA ==================================================== -->
 <div class="trip-body" data-trip="usa">
 
@@ -2399,6 +2466,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <div class="hero-inner">
     <h1 class="hero-title">North America<span class="dot">.</span></h1>
     <p class="hero-sub">Christmas in New York. New Year's on the Vegas Strip. Sixteen nights, six stops — Schulz · Horn · Pitz.</p>
+    <div class="hero-countdown" data-start="2026-12-20"></div>
     <div class="hero-ctas">
       <a class="hero-cta primary" href="#itinerario">See the route →</a>
     </div>
@@ -3023,6 +3091,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <div class="hero-inner">
     <h1 class="hero-title">México<span class="dot">.</span></h1>
     <p class="hero-sub">CDMX e Yucatán. Dez dias no México incluindo o Dia dos Mortos — Schulz · Depiné · Polidoro · Litz.</p>
+    <div class="hero-countdown" data-start="2026-10-30"></div>
     <div class="hero-ctas">
       <a class="hero-cta primary" href="#itinerario-mex">Ver roteiro →</a>
     </div>
@@ -3536,6 +3605,19 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   const tripSwitchBtn = document.getElementById('tripSwitchBtn');
 
   let currentTripId = null;
+
+  // ——— ONBOARDING (1 tela, primeira visita) ———
+  const onboardEl = document.getElementById('onboard');
+  const onboardBtn = document.getElementById('onboardBtn');
+  function maybeOnboard() {
+    if (!onboardEl || localStorage.getItem('seenOnboarding')) return;
+    if (!document.body.dataset.activeTrip) return;
+    onboardEl.hidden = false;
+  }
+  if (onboardBtn) onboardBtn.addEventListener('click', () => {
+    localStorage.setItem('seenOnboarding', '1');
+    onboardEl.hidden = true;
+  });
 
   function renderNavForTrip(tripId) {
     const t = TRIPS[tripId];
@@ -4106,6 +4188,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         startPresence();
       }
       setCityFormsEnabled(true);
+      maybeOnboard();
     } else {
       document.body.classList.remove('authed');
       authBtn.disabled = false;
@@ -4121,6 +4204,26 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 </script>
 
 <script>
+  // ——— COUNTDOWN PRA VIAGEM ———
+  (function () {
+    function plural(n, s, p) { return n + ' ' + (n === 1 ? s : p); }
+    document.querySelectorAll('.hero-countdown').forEach(function (el) {
+      var start = new Date(el.dataset.start + 'T00:00:00');
+      var today = new Date(); today.setHours(0, 0, 0, 0);
+      var days = Math.round((start - today) / 86400000);
+      if (days > 1) {
+        el.innerHTML = 'faltam <span class="num">' + days + '</span> ' + (days === 1 ? 'dia' : 'dias');
+        el.classList.toggle('soon', days <= 30);
+      } else if (days === 1) {
+        el.innerHTML = 'é <span class="num">amanhã</span> 🧳'; el.classList.add('soon');
+      } else if (days === 0) {
+        el.innerHTML = '<span class="num">é hoje!</span> ✈️'; el.classList.add('soon');
+      } else {
+        el.classList.add('past'); // viagem já passou — esconde
+      }
+    });
+  })();
+
   // ——— MICROINTERAÇÕES ———
   (function () {
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
