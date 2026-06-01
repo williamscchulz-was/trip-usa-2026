@@ -1766,6 +1766,40 @@
     padding: 3px 9px; border-radius: 999px; margin-left: 8px;
   }
 
+  /* ——— RESERVAS editáveis (link + PNR) ——— */
+  .city .status-row { cursor: pointer; border-radius: 7px; transition: background .18s ease; }
+  @media (hover: hover) and (pointer: fine) { .city .status-row:hover { background: var(--bg-2); } }
+  .sr-meta { display: inline-flex; align-items: center; gap: 8px; }
+  .sr-link {
+    color: var(--ink-muted); text-decoration: none; font-size: 0.82rem; line-height: 1;
+    transition: color .18s ease;
+  }
+  .sr-link:hover { color: var(--ink); }
+  .sr-editor {
+    padding: 12px; margin: 4px 0 8px; background: var(--bg); border: 1px solid var(--border-soft);
+    border-radius: 10px; display: flex; flex-direction: column; gap: 9px;
+  }
+  .sr-stats { display: flex; gap: 6px; }
+  .sr-stat {
+    flex: 1; border: 1px solid var(--border); background: var(--paper); cursor: pointer;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 7px 4px; border-radius: 999px; color: var(--ink-muted);
+    transition: all .15s ease;
+  }
+  .sr-stat.on { background: var(--accent-bg); color: var(--accent-fg); border-color: var(--accent-bg); }
+  .sr-editor input {
+    border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.84rem; color: var(--ink); background: var(--paper); outline: none;
+  }
+  .sr-editor input:focus { border-color: var(--ink); }
+  .sr-editor-foot { display: flex; justify-content: flex-end; gap: 8px; }
+  .sr-editor-foot button {
+    border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500;
+    padding: 7px 16px; border-radius: 999px; transition: background .2s ease;
+  }
+  .sr-cancel { background: transparent; color: var(--ink-muted); }
+  .sr-save { background: var(--accent-bg); color: var(--accent-fg); }
+
   /* ——— MAPA DA ROTA (linha que se desenha no scroll) ——— */
   .route-map { margin: 4px auto 30px; max-width: 720px; }
   .route-map svg { display: block; width: 100%; height: auto; overflow: visible; }
@@ -3839,6 +3873,7 @@
     navDate.textContent = '';
     if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
     if (unsubscribeChecklist) { unsubscribeChecklist(); unsubscribeChecklist = null; }
+    if (unsubscribeResv) { unsubscribeResv(); unsubscribeResv = null; }
     stopPresence();
   }
 
@@ -3859,10 +3894,12 @@
   function resubscribeAll() {
     if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
     if (unsubscribeChecklist) { unsubscribeChecklist(); unsubscribeChecklist = null; }
+    if (unsubscribeResv) { unsubscribeResv(); unsubscribeResv = null; }
     stopPresence();
     if (currentUser && currentTripId) {
       subscribeCityComments();
       subscribeChecklist();
+      subscribeReservations();
       startPresence();
     }
   }
@@ -4363,6 +4400,114 @@
     } catch (err) { alert('Erro no checklist: ' + err.message); }
   });
 
+  // ——— RESERVAS editáveis (link + PNR, compartilhado) ———
+  var RESV_STATES = [
+    { k: 'pendente', label: 'Pendente', cls: 's-pending' },
+    { k: 'reservado', label: 'Reservado', cls: 's-wip' },
+    { k: 'confirmado', label: 'Confirmado', cls: 's-ok' }
+  ];
+  function slug(s) {
+    return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+  }
+  // marca cada linha de reserva com chave estável (cidade + label)
+  (function tagRows() {
+    document.querySelectorAll('.city[id] .status-row').forEach(function (row) {
+      var cityId = row.closest('.city').id;
+      var labelEl = row.querySelector('span:first-child');
+      if (!labelEl) return;
+      row.dataset.city = cityId;
+      row.dataset.key = cityId + ':' + slug(labelEl.textContent);
+      row.dataset.label = labelEl.textContent;
+    });
+  })();
+
+  let unsubscribeResv = null;
+  let resvCache = {};
+  function resvCol() { return collection(db, 'trips', currentTripId, 'reservations'); }
+
+  function applyReservations() {
+    document.querySelectorAll('.city[id] .status-row').forEach(function (row) {
+      var rec = resvCache[row.dataset.key];
+      var chip = row.querySelector('.s-pending, .s-wip, .s-ok, .s-debate');
+      if (!chip) return;
+      // embrulha o chip num .sr-meta (uma vez) pra caber o link
+      var meta = row.querySelector('.sr-meta');
+      if (!meta) {
+        meta = document.createElement('span'); meta.className = 'sr-meta';
+        chip.parentNode.insertBefore(meta, chip); meta.appendChild(chip);
+      }
+      var oldLink = meta.querySelector('.sr-link');
+      if (oldLink) oldLink.remove();
+      if (rec) {
+        var st = RESV_STATES.find(function (s) { return s.k === rec.status; });
+        if (st) { chip.className = st.cls; chip.textContent = st.label + (rec.pnr ? ' · ' + rec.pnr : ''); }
+        if (rec.link) {
+          var a = document.createElement('a');
+          a.className = 'sr-link'; a.href = rec.link; a.target = '_blank'; a.rel = 'noopener';
+          a.textContent = '↗'; a.title = 'Abrir confirmação';
+          a.addEventListener('click', function (e) { e.stopPropagation(); });
+          meta.insertBefore(a, chip);
+        }
+      }
+    });
+  }
+
+  function subscribeReservations() {
+    if (!currentTripId) return;
+    unsubscribeResv = onSnapshot(resvCol(), function (snap) {
+      resvCache = {};
+      snap.forEach(function (d) { resvCache[d.id] = d.data(); });
+      applyReservations();
+    }, function () {});
+  }
+
+  // abre editor inline ao clicar numa linha de reserva
+  document.addEventListener('click', function (e) {
+    var row = e.target.closest('.city[id] .status-row');
+    if (!row || !currentUser || !currentTripId) return;
+    if (e.target.closest('.sr-editor')) return;
+    // fecha qualquer editor aberto
+    var existing = document.querySelector('.sr-editor');
+    var wasThis = existing && existing._row === row;
+    if (existing) existing.remove();
+    if (wasThis) return;
+
+    var rec = resvCache[row.dataset.key] || {};
+    var ed = document.createElement('div');
+    ed.className = 'sr-editor'; ed._row = row;
+    ed.innerHTML =
+      '<div class="sr-stats">' + RESV_STATES.map(function (s) {
+        return '<button type="button" class="sr-stat' + ((rec.status || 'pendente') === s.k ? ' on' : '') + '" data-k="' + s.k + '">' + s.label + '</button>';
+      }).join('') + '</div>' +
+      '<input class="sr-in-link" type="url" placeholder="Link da confirmação (https://…)" value="' + escapeHtml(rec.link || '') + '">' +
+      '<input class="sr-in-pnr" type="text" placeholder="Código / localizador (ex: OPGKDQ)" maxlength="40" value="' + escapeHtml(rec.pnr || '') + '">' +
+      '<div class="sr-editor-foot"><button type="button" class="sr-cancel">fechar</button><button type="button" class="sr-save">salvar</button></div>';
+    row.parentNode.insertBefore(ed, row.nextSibling);
+
+    var picked = rec.status || 'pendente';
+    ed.querySelectorAll('.sr-stat').forEach(function (b) {
+      b.addEventListener('click', function () {
+        picked = b.dataset.k;
+        ed.querySelectorAll('.sr-stat').forEach(function (x) { x.classList.toggle('on', x === b); });
+      });
+    });
+    ed.querySelector('.sr-cancel').addEventListener('click', function () { ed.remove(); });
+    ed.querySelector('.sr-save').addEventListener('click', async function () {
+      try {
+        await setDoc(fsDoc(resvCol(), row.dataset.key), {
+          city: row.dataset.city, label: row.dataset.label,
+          status: picked,
+          link: ed.querySelector('.sr-in-link').value.trim(),
+          pnr: ed.querySelector('.sr-in-pnr').value.trim(),
+          updatedBy: currentUser.displayName || currentUser.email || '',
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+        ed.remove();
+      } catch (err) { alert('Erro ao salvar reserva: ' + err.message); }
+    });
+  });
+
   // ——— HERO CAROUSEL (per hero-photo) ———
   (function initCarousels() {
     document.querySelectorAll('.hero-photo').forEach(hero => {
@@ -4428,6 +4573,7 @@
       } else if (currentTripId) {
         if (!unsubscribeCityComments) subscribeCityComments();
         if (!unsubscribeChecklist) subscribeChecklist();
+        if (!unsubscribeResv) subscribeReservations();
         startPresence();
       }
       setCityFormsEnabled(true);
@@ -4437,6 +4583,7 @@
       authBtn.disabled = false;
       if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
       if (unsubscribeChecklist) { unsubscribeChecklist(); unsubscribeChecklist = null; }
+      if (unsubscribeResv) { unsubscribeResv(); unsubscribeResv = null; }
       stopPresence();
       setCityFormsEnabled(false);
     }
