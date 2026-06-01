@@ -1800,35 +1800,49 @@
   .sr-cancel { background: transparent; color: var(--ink-muted); }
   .sr-save { background: var(--accent-bg); color: var(--accent-fg); }
 
-  /* ——— MAPA DA ROTA (linha que se desenha no scroll) ——— */
-  .route-map { margin: 4px auto 30px; max-width: 720px; }
+  /* ——— MAPA DA ROTA (arcos + grade, desenha no scroll) ——— */
+  .route-map { margin: 8px auto 34px; max-width: 760px; }
   .route-map svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+  /* grade de fundo tipo mapa */
+  .rm-grid { stroke: var(--border); stroke-width: 0.25; opacity: 0; transition: opacity .8s ease; }
+  .route-map.in .rm-grid { opacity: .7; }
+
+  /* rota (arco que se desenha) */
   .route-line {
-    fill: none; stroke: var(--ink); stroke-width: 0.7; stroke-linecap: round; stroke-linejoin: round;
+    fill: none; stroke: var(--ink); stroke-width: 0.9; stroke-linecap: round; stroke-linejoin: round;
     stroke-dasharray: 1; stroke-dashoffset: 1;
   }
-  .route-map.in .route-line { animation: routeDraw 2.2s cubic-bezier(.65,0,.35,1) forwards; }
+  .route-map.in .route-line { animation: routeDraw 3.4s cubic-bezier(.5,0,.2,1) forwards; }
   @keyframes routeDraw { to { stroke-dashoffset: 0; } }
-  .route-dot { fill: var(--paper); stroke: var(--ink); stroke-width: 0.7; }
+
+  .route-dot { fill: var(--paper); stroke: var(--ink); stroke-width: 0.8; }
   .route-dot.hl { fill: var(--ink); }
+  .route-halo { fill: none; stroke: var(--ink); stroke-width: 0.5; opacity: 0; }
+  .route-map.in .route-halo.on { animation: rmHalo 2s ease-out infinite; }
+  @keyframes rmHalo { 0% { opacity: .4; r: 2; } 100% { opacity: 0; r: 5; } }
+
   .rm-pin { opacity: 0; }
-  .route-map.in .rm-pin { animation: rmPin .45s cubic-bezier(.2,.8,.2,1) forwards; }
-  .route-map.in .rm-pin:nth-of-type(1) { animation-delay: .5s; }
-  .route-map.in .rm-pin:nth-of-type(2) { animation-delay: .75s; }
-  .route-map.in .rm-pin:nth-of-type(3) { animation-delay: 1s; }
-  .route-map.in .rm-pin:nth-of-type(4) { animation-delay: 1.25s; }
-  .route-map.in .rm-pin:nth-of-type(5) { animation-delay: 1.5s; }
-  .route-map.in .rm-pin:nth-of-type(6) { animation-delay: 1.75s; }
-  @keyframes rmPin { from { opacity: 0; } to { opacity: 1; } }
-  .rm-code { font-family: 'JetBrains Mono', monospace; font-size: 2.7px; font-weight: 600; fill: var(--ink); }
-  .rm-idx { font-family: 'JetBrains Mono', monospace; font-size: 1.9px; fill: var(--ink-muted); }
+  .route-map.in .rm-pin { animation: rmPin .5s cubic-bezier(.2,.8,.2,1) forwards; }
+  .route-map.in .rm-pin:nth-of-type(1) { animation-delay: .7s; }
+  .route-map.in .rm-pin:nth-of-type(2) { animation-delay: 1.2s; }
+  .route-map.in .rm-pin:nth-of-type(3) { animation-delay: 1.7s; }
+  .route-map.in .rm-pin:nth-of-type(4) { animation-delay: 2.2s; }
+  .route-map.in .rm-pin:nth-of-type(5) { animation-delay: 2.7s; }
+  .route-map.in .rm-pin:nth-of-type(6) { animation-delay: 3.2s; }
+  @keyframes rmPin { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: none; } }
+  .rm-tick { stroke: var(--ink-muted); stroke-width: 0.3; }
+  .rm-code { font-family: 'JetBrains Mono', monospace; font-size: 3px; font-weight: 600; fill: var(--ink); }
+  .rm-idx { font-family: 'JetBrains Mono', monospace; font-size: 2px; fill: var(--ink-muted); }
+
   body.dark .route-dot { stroke: var(--paper); }
   body.dark .route-dot.hl { fill: var(--paper); }
-  body.dark .route-line { stroke: var(--paper); }
+  body.dark .route-line, body.dark .route-halo { stroke: var(--paper); }
   body.dark .rm-code { fill: var(--paper); }
   @media (prefers-reduced-motion: reduce) {
     .route-line { stroke-dashoffset: 0 !important; animation: none !important; }
-    .rm-pin { opacity: 1 !important; animation: none !important; }
+    .rm-pin, .rm-grid { opacity: 1 !important; animation: none !important; }
+    .route-halo.on { animation: none !important; }
   }
 
   /* ——— CHECKLIST por pessoa ——— */
@@ -4602,41 +4616,65 @@
     });
   }
 
-  // ——— MAPA DA ROTA ———
+  // ——— MAPA DA ROTA (grade + arcos) ———
   (function () {
     var ROUTES = {
-      'usa': { vb: '0 0 100 62', stops: [
-        { x: 83, y: 24, c: 'DC', i: '01', dx: 2.5, dy: 0 },
-        { x: 88, y: 19, c: 'NYC', i: '02', dx: 2.5, dy: -0.5, hl: 1 },
-        { x: 93, y: 15, c: 'BOS', i: '03', dx: 2.5, dy: 0 },
-        { x: 17, y: 30, c: 'LAS', i: '04', dx: 2.5, dy: 0, hl: 1 },
-        { x: 75, y: 48, c: 'MCO', i: '05', dx: -12, dy: 0 },
-        { x: 77, y: 55, c: 'MIA', i: '06', dx: 2.5, dy: 3 }
+      'usa': { w: 100, h: 58, stops: [
+        { x: 79, y: 30, c: 'DC',    i: '01', dx: 4, dy: 1 },
+        { x: 85, y: 23, c: 'NYC',   i: '02', dx: 4, dy: -0.5, hl: 1 },
+        { x: 91, y: 17, c: 'BOS',   i: '03', dx: 4, dy: 0 },
+        { x: 13, y: 33, c: 'LAS',   i: '04', dx: 4, dy: 0, hl: 1 },
+        { x: 75, y: 47, c: 'MCO',   i: '05', dx: -13, dy: 0 },
+        { x: 80, y: 54, c: 'MIA',   i: '06', dx: 4, dy: 2.5 }
       ] },
-      'mexico-2026': { vb: '0 0 100 56', stops: [
-        { x: 28, y: 40, c: 'CDMX', i: '01', dx: 2.5, dy: 0, hl: 1 },
-        { x: 74, y: 30, c: 'VALL', i: '02', dx: 2.5, dy: -0.5 },
-        { x: 82, y: 42, c: 'TULUM', i: '03', dx: 2.5, dy: 3 },
-        { x: 88, y: 28, c: 'P.M.', i: '04', dx: 2.5, dy: -0.5, hl: 1 }
+      'mexico-2026': { w: 100, h: 52, stops: [
+        { x: 26, y: 33, c: 'CDMX',  i: '01', dx: 4, dy: 0, hl: 1 },
+        { x: 74, y: 23, c: 'VALL',  i: '02', dx: 4, dy: -0.5 },
+        { x: 80, y: 36, c: 'TULUM', i: '03', dx: 4, dy: 3 },
+        { x: 87, y: 21, c: 'P.M.',  i: '04', dx: 4, dy: -0.5, hl: 1 }
       ] }
     };
+    function arcPath(stops) {
+      var d = 'M ' + stops[0].x + ' ' + stops[0].y;
+      for (var i = 1; i < stops.length; i++) {
+        var a = stops[i - 1], b = stops[i];
+        var mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+        var dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy) || 1;
+        var off = len * 0.13;
+        var cx = mx + (-dy / len) * off, cy = my + (dx / len) * off;
+        d += ' Q ' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + b.x + ' ' + b.y;
+      }
+      return d;
+    }
+    function grid(w, h) {
+      var g = '', step = 12.5, x, y;
+      for (x = step; x < w; x += step) g += '<line class="rm-grid" x1="' + x + '" y1="0" x2="' + x + '" y2="' + h + '"/>';
+      for (y = step; y < h; y += step) g += '<line class="rm-grid" x1="0" y1="' + y + '" x2="' + w + '" y2="' + y + '"/>';
+      return g;
+    }
     document.querySelectorAll('.route-map').forEach(function (el) {
       var r = ROUTES[el.dataset.trip];
       if (!r) return;
-      var d = 'M ' + r.stops.map(function (s) { return s.x + ' ' + s.y; }).join(' L ');
       var pins = r.stops.map(function (s) {
-        return '<circle class="route-dot' + (s.hl ? ' hl' : '') + '" cx="' + s.x + '" cy="' + s.y + '" r="1.5"/>' +
+        var lx = s.x + s.dx, ly = s.y + s.dy;
+        var tickX = s.dx < 0 ? s.x - 1.4 : s.x + 1.4;
+        return (s.hl ? '<circle class="route-halo on" cx="' + s.x + '" cy="' + s.y + '" r="2"/>' : '') +
+          '<circle class="route-dot' + (s.hl ? ' hl' : '') + '" cx="' + s.x + '" cy="' + s.y + '" r="1.7"/>' +
           '<g class="rm-pin">' +
-          '<text class="rm-code" x="' + (s.x + s.dx) + '" y="' + (s.y + s.dy) + '">' + s.c + '</text>' +
-          '<text class="rm-idx" x="' + (s.x + s.dx) + '" y="' + (s.y + s.dy + 2.5) + '">' + s.i + '</text>' +
+          '<line class="rm-tick" x1="' + tickX + '" y1="' + s.y + '" x2="' + (lx + (s.dx < 0 ? 0.5 : -0.5)) + '" y2="' + (ly - 0.8) + '"/>' +
+          '<text class="rm-code" x="' + lx + '" y="' + ly + '"' + (s.dx < 0 ? ' text-anchor="end"' : '') + '>' + s.c + '</text>' +
+          '<text class="rm-idx" x="' + lx + '" y="' + (ly + 2.8) + '"' + (s.dx < 0 ? ' text-anchor="end"' : '') + '>' + s.i + '</text>' +
           '</g>';
       }).join('');
-      el.innerHTML = '<svg viewBox="' + r.vb + '" role="img" aria-label="Mapa da rota"><path class="route-line" d="' + d + '" pathLength="1"/>' + pins + '</svg>';
+      el.innerHTML = '<svg viewBox="0 0 ' + r.w + ' ' + r.h + '" role="img" aria-label="Mapa da rota">' +
+        grid(r.w, r.h) +
+        '<path class="route-line" d="' + arcPath(r.stops) + '" pathLength="1"/>' +
+        pins + '</svg>';
     });
     if ('IntersectionObserver' in window) {
       var mo = new IntersectionObserver(function (es) {
         es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); mo.unobserve(e.target); } });
-      }, { threshold: 0.3 });
+      }, { threshold: 0.55 });
       document.querySelectorAll('.route-map').forEach(function (el) { mo.observe(el); });
     } else {
       document.querySelectorAll('.route-map').forEach(function (el) { el.classList.add('in'); });
