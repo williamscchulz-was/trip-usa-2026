@@ -315,23 +315,65 @@
     line-height: 1.55;
   }
 
+  /* ——— COUNTDOWN premium (D·H·M·S + linha que se desenha) ——— */
   .hero-countdown {
-    margin: 22px auto 0;
-    display: inline-flex;
-    align-items: baseline;
-    gap: 8px;
-    padding: 9px 18px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-size: 0.66rem;
-    color: var(--ink-muted);
+    /* constantes de ajuste */
+    --cd-draw: 1.8s;        /* velocidade do traço */
+    --cd-num: clamp(1.6rem, 5vw, 2.6rem);
+    --cd-stroke: var(--ink);
+    margin: 28px auto 4px;
+    display: inline-block;
+    text-align: center;
   }
-  .hero-countdown .num { font-size: 1.15rem; font-weight: 600; color: var(--ink); letter-spacing: 0; }
-  .hero-countdown.soon { border-color: var(--ink); }
   .hero-countdown.past { display: none; }
+  .cd-grid {
+    display: inline-flex; align-items: flex-start; gap: clamp(10px, 3vw, 22px);
+  }
+  .cd-unit { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 2.4ch; }
+  .cd-num {
+    font-family: 'JetBrains Mono', monospace; font-weight: 600;
+    font-size: var(--cd-num); line-height: 1; color: var(--ink);
+    font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  }
+  .cd-lab {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.56rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-muted);
+  }
+  .cd-sep {
+    font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: var(--cd-num);
+    line-height: 1; color: var(--ink-muted); opacity: .5;
+  }
+  .cd-num.pulse { animation: cdPulse .5s cubic-bezier(.2,.8,.2,1); }
+  @keyframes cdPulse { 0% { transform: translateY(-3px); opacity: .4; } 100% { transform: none; opacity: 1; } }
+
+  /* linha que se desenha (stroke-dashoffset) */
+  .cd-rule { display: block; width: 100%; height: 6px; margin-top: 14px; overflow: visible; }
+  .cd-rule path {
+    fill: none; stroke: var(--cd-stroke); stroke-width: 2; stroke-linecap: round;
+    stroke-dasharray: 1; stroke-dashoffset: 1;
+    animation: cdDraw var(--cd-draw) cubic-bezier(.65,0,.35,1) forwards;
+  }
+  @keyframes cdDraw { to { stroke-dashoffset: 0; } }
+
+  /* entrada em cascata das unidades */
+  .cd-unit, .cd-sep { animation: cdUp .6s cubic-bezier(.2,.8,.2,1) both; }
+  .cd-grid > *:nth-child(1) { animation-delay: .05s; }
+  .cd-grid > *:nth-child(2) { animation-delay: .10s; }
+  .cd-grid > *:nth-child(3) { animation-delay: .15s; }
+  .cd-grid > *:nth-child(4) { animation-delay: .20s; }
+  .cd-grid > *:nth-child(5) { animation-delay: .25s; }
+  .cd-grid > *:nth-child(6) { animation-delay: .30s; }
+  .cd-grid > *:nth-child(7) { animation-delay: .35s; }
+  @keyframes cdUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .cd-done {
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
+    font-size: 0.9rem; color: var(--ink); font-weight: 600;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cd-rule path { animation: none; stroke-dashoffset: 0; }
+    .cd-unit, .cd-sep, .cd-num.pulse { animation: none; }
+  }
 
   .hero-ctas {
     display: flex;
@@ -2512,7 +2554,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <div class="hero-inner">
     <h1 class="hero-title">North America<span class="dot">.</span></h1>
     <p class="hero-sub">Christmas in New York. New Year's on the Vegas Strip. Sixteen nights, six stops — Schulz · Horn · Pitz.</p>
-    <div class="hero-countdown" data-start="2026-12-20"></div>
+    <div class="hero-countdown" data-start="2026-12-20T20:00:00"></div>
     <div class="hero-ctas">
       <a class="hero-cta primary" href="#itinerario">See the route →</a>
     </div>
@@ -3151,7 +3193,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
   <div class="hero-inner">
     <h1 class="hero-title">México<span class="dot">.</span></h1>
     <p class="hero-sub">CDMX e Yucatán. Dez dias no México incluindo o Dia dos Mortos — Schulz · Depiné · Polidoro · Litz.</p>
-    <div class="hero-countdown" data-start="2026-10-30"></div>
+    <div class="hero-countdown" data-start="2026-10-30T06:00:00"></div>
     <div class="hero-ctas">
       <a class="hero-cta primary" href="#itinerario-mex">Ver roteiro →</a>
     </div>
@@ -4368,23 +4410,48 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     });
   }
 
-  // ——— COUNTDOWN PRA VIAGEM ———
+  // ——— COUNTDOWN PRA VIAGEM (D·H·M·S ao vivo) ———
   (function () {
-    function plural(n, s, p) { return n + ' ' + (n === 1 ? s : p); }
     document.querySelectorAll('.hero-countdown').forEach(function (el) {
-      var start = new Date(el.dataset.start + 'T00:00:00');
-      var today = new Date(); today.setHours(0, 0, 0, 0);
-      var days = Math.round((start - today) / 86400000);
-      if (days > 1) {
-        el.innerHTML = 'faltam <span class="num">' + days + '</span> ' + (days === 1 ? 'dia' : 'dias');
-        el.classList.toggle('soon', days <= 30);
-      } else if (days === 1) {
-        el.innerHTML = 'é <span class="num">amanhã</span> 🧳'; el.classList.add('soon');
-      } else if (days === 0) {
-        el.innerHTML = '<span class="num">é hoje!</span> ✈️'; el.classList.add('soon');
-      } else {
-        el.classList.add('past'); // viagem já passou — esconde
+      var target = new Date(el.dataset.start).getTime();
+      if (isNaN(target)) return;
+      el.innerHTML =
+        '<div class="cd-grid">' +
+          '<div class="cd-unit"><span class="cd-num" data-u="d">0</span><span class="cd-lab">dias</span></div>' +
+          '<span class="cd-sep">:</span>' +
+          '<div class="cd-unit"><span class="cd-num" data-u="h">00</span><span class="cd-lab">horas</span></div>' +
+          '<span class="cd-sep">:</span>' +
+          '<div class="cd-unit"><span class="cd-num" data-u="m">00</span><span class="cd-lab">min</span></div>' +
+          '<span class="cd-sep">:</span>' +
+          '<div class="cd-unit"><span class="cd-num" data-u="s">00</span><span class="cd-lab">seg</span></div>' +
+        '</div>' +
+        '<svg class="cd-rule" viewBox="0 0 100 4" preserveAspectRatio="none"><path d="M0 2 H100" pathLength="1"/></svg>';
+      var nD = el.querySelector('[data-u=d]'), nH = el.querySelector('[data-u=h]'),
+          nM = el.querySelector('[data-u=m]'), nS = el.querySelector('[data-u=s]');
+      var timer;
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+      function tick() {
+        var diff = target - Date.now();
+        if (diff <= 0) {
+          el.innerHTML = '<div class="cd-done">✈️ É hoje — boa viagem!</div>';
+          if (timer) clearInterval(timer);
+          return;
+        }
+        var s = Math.floor(diff / 1000);
+        var d = Math.floor(s / 86400); s -= d * 86400;
+        var h = Math.floor(s / 3600); s -= h * 3600;
+        var m = Math.floor(s / 60); s -= m * 60;
+        nD.textContent = d;
+        nH.textContent = pad(h);
+        nM.textContent = pad(m);
+        var ss = pad(s);
+        if (nS.textContent !== ss) {
+          nS.textContent = ss;
+          nS.classList.remove('pulse'); void nS.offsetWidth; nS.classList.add('pulse');
+        }
       }
+      tick();
+      timer = setInterval(tick, 1000);
     });
   })();
 
