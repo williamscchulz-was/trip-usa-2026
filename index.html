@@ -1555,6 +1555,67 @@
     line-height: 1.8;
   }
 
+  /* ——— PRESENÇA · pill "N online" + dropdown ——— */
+  .presence-pill { position: relative; }
+  .presence-pill-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    border: 1px solid var(--border); background: var(--paper); cursor: pointer;
+    color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;
+    padding: 6px 11px; border-radius: 999px; transition: border-color .2s ease, background .2s ease;
+  }
+  .presence-pill-btn:hover { border-color: var(--ink); }
+  .presence-dot-led {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--ink-muted); flex-shrink: 0;
+  }
+  .presence-pill.online .presence-dot-led {
+    background: #2ecc71; box-shadow: 0 0 0 0 rgba(46,204,113,.6); animation: ledPulse 2.2s infinite;
+  }
+  @keyframes ledPulse { 0%,100%{box-shadow:0 0 0 0 rgba(46,204,113,.5);} 50%{box-shadow:0 0 0 5px rgba(46,204,113,0);} }
+  .presence-caret { font-size: 0.6rem; color: var(--ink-muted); transition: transform .2s ease; }
+  .presence-pill.open .presence-caret { transform: rotate(180deg); }
+
+  .presence-menu {
+    position: absolute; top: calc(100% + 10px); right: 0; width: 268px;
+    background: var(--paper); border: 1px solid var(--border); border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.16); z-index: 120; overflow: hidden;
+    animation: fadeIn .2s ease;
+  }
+  body.dark .presence-menu { box-shadow: 0 16px 40px rgba(0,0,0,.5); }
+  .presence-menu-head {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-muted);
+    padding: 14px 16px 8px;
+  }
+  .presence-menu-list { padding-bottom: 6px; max-height: 60vh; overflow-y: auto; }
+  .presence-row {
+    display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: center;
+    padding: 9px 16px; font-family: 'DM Sans', sans-serif;
+  }
+  .presence-row .pr-avatar {
+    width: 22px; height: 22px; border-radius: 50%; object-fit: cover; background: var(--bg-2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--ink-muted); font-weight: 600;
+    position: relative;
+  }
+  .presence-row .pr-led {
+    position: absolute; bottom: -1px; right: -1px; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ink-muted); border: 2px solid var(--paper);
+  }
+  .presence-row.is-online .pr-led { background: #2ecc71; }
+  .presence-row .pr-name { font-size: 0.9rem; color: var(--ink); font-weight: 500; }
+  .presence-row .pr-seen {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--ink-muted); white-space: nowrap;
+  }
+  .presence-row.is-online .pr-seen { color: #2ecc71; }
+
+  @media (max-width: 600px) {
+    .presence-pill-btn #presencePillLabel { display: none; }
+    .presence-pill-btn { padding: 7px 9px; }
+    .presence-menu { width: 240px; }
+  }
+
   /* ——— SINO DE NOVIDADES ——— */
   .nav-bell {
     position: relative; border: none; background: transparent; cursor: pointer;
@@ -2306,6 +2367,17 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     <div class="nav-cta">
       <button class="trip-switch-btn" id="tripSwitchBtn" title="Trocar de viagem">Trocar viagem</button>
       <span class="nav-date" id="navDate">20.12.26 → 06.01.27</span>
+      <div class="presence-pill" id="presencePill">
+        <button class="presence-pill-btn" id="presencePillBtn" aria-haspopup="true" aria-expanded="false">
+          <span class="presence-dot-led"></span>
+          <span id="presencePillLabel">Membros</span>
+          <span class="presence-caret">▾</span>
+        </button>
+        <div class="presence-menu" id="presenceMenu" hidden>
+          <div class="presence-menu-head">Quem andou por aqui</div>
+          <div class="presence-menu-list" id="presenceMenuList"></div>
+        </div>
+      </div>
       <button class="nav-bell" id="navBell" title="Novidades" aria-label="Novidades">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         <span class="nav-bell-badge" id="navBellBadge">0</span>
@@ -3370,7 +3442,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, doc as fsDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, onSnapshot, query, orderBy, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, doc as fsDoc, setDoc, updateDoc, deleteDoc, arrayUnion, arrayRemove, onSnapshot, query, orderBy, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDJQBeEHuQtDmqdAgeBuky20MoXV7nH4X8",
@@ -3508,6 +3580,7 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
     navLinks.innerHTML = '';
     navDate.textContent = '';
     if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
+    stopPresence();
   }
 
   tripSwitchBtn.addEventListener('click', switchTrip);
@@ -3526,10 +3599,144 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
 
   function resubscribeAll() {
     if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
+    stopPresence();
     if (currentUser && currentTripId) {
       subscribeCityComments();
+      startPresence();
     }
   }
+
+  // ——— PRESENÇA · último acesso de cada membro ———
+  const EMAIL_NAMES = {
+    'williamscchulz@gmail.com': 'William',
+    'abnerthorn@gmail.com': 'Abner',
+    'flavia.vasquez@gmail.com': 'Flávia',
+    'karoline.sza@gmail.com': 'Karoline',
+    'karolynehorn@gmail.com': 'Karolyne',
+    'brunolpitz97@gmail.com': 'Bruno',
+    'amanda.ks98@gmail.com': 'Amanda',
+    'lg.polidoro@gmail.com': 'Luiz',
+    'crislitz69@gmail.com': 'Cristiane',
+    'isoldedepine04@gmail.com': 'Isolde'
+  };
+  const presencePill = document.getElementById('presencePill');
+  const presencePillBtn = document.getElementById('presencePillBtn');
+  const presencePillLabel = document.getElementById('presencePillLabel');
+  const presenceMenu = document.getElementById('presenceMenu');
+  const presenceMenuList = document.getElementById('presenceMenuList');
+  let heartbeatTimer = null;
+  let unsubscribePresence = null;
+  let presenceByEmail = {};   // email -> { lastSeenMs, name, photo }
+  const ONLINE_MS = 120000;   // 2 min = "online"
+
+  function presenceCol() { return collection(db, 'trips', currentTripId, 'presence'); }
+
+  async function beat() {
+    if (!currentUser || !currentTripId) return;
+    try {
+      await setDoc(fsDoc(presenceCol(), currentUser.uid), {
+        email: (currentUser.email || '').toLowerCase(),
+        name: currentUser.displayName || '',
+        photo: currentUser.photoURL || '',
+        lastSeen: serverTimestamp()
+      });
+    } catch (e) { /* silencioso */ }
+  }
+  function onVis() { if (!document.hidden) beat(); }
+  function startPresence() {
+    beat();
+    if (heartbeatTimer) clearInterval(heartbeatTimer);
+    heartbeatTimer = setInterval(beat, 30000);
+    document.addEventListener('visibilitychange', onVis);
+    subscribePresence();
+  }
+  function stopPresence() {
+    if (heartbeatTimer) { clearInterval(heartbeatTimer); heartbeatTimer = null; }
+    document.removeEventListener('visibilitychange', onVis);
+    if (unsubscribePresence) { unsubscribePresence(); unsubscribePresence = null; }
+    presenceByEmail = {};
+    if (presencePill) { presencePill.classList.remove('online'); }
+    if (presencePillLabel) presencePillLabel.textContent = 'Membros';
+  }
+  function subscribePresence() {
+    if (!currentTripId) return;
+    unsubscribePresence = onSnapshot(presenceCol(), snap => {
+      presenceByEmail = {};
+      snap.forEach(d => {
+        const v = d.data();
+        if (!v.email) return;
+        presenceByEmail[v.email.toLowerCase()] = {
+          lastSeenMs: tsMs(v.lastSeen), name: v.name || '', photo: v.photo || ''
+        };
+      });
+      renderPresence();
+    }, () => {});
+  }
+
+  function relTime(ms) {
+    if (!ms) return 'nunca entrou';
+    const diff = Date.now() - ms;
+    if (diff < ONLINE_MS) return 'online agora';
+    const min = Math.floor(diff / 60000);
+    if (min < 60) return `há ${min} min`;
+    const h = Math.floor(min / 60);
+    if (h < 24) return `há ${h} h`;
+    const days = Math.floor(h / 24);
+    if (days === 1) return 'ontem';
+    if (days < 7) return `há ${days} dias`;
+    return new Date(ms).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+  }
+
+  function renderPresence() {
+    if (!currentTripId || !presenceMenuList) return;
+    const trip = TRIPS[currentTripId];
+    if (!trip) return;
+    const rows = trip.members.map(email => {
+      const e = email.toLowerCase();
+      const p = presenceByEmail[e];
+      const name = (p && p.name) ? p.name.split(' ')[0] : (EMAIL_NAMES[e] || e.split('@')[0]);
+      const lastMs = p ? p.lastSeenMs : 0;
+      const online = lastMs && (Date.now() - lastMs < ONLINE_MS);
+      return { email: e, name, photo: p ? p.photo : '', lastMs, online };
+    }).sort((a, b) => b.lastMs - a.lastMs);
+
+    const onlineCount = rows.filter(r => r.online).length;
+    if (presencePill) presencePill.classList.toggle('online', onlineCount > 0);
+    if (presencePillLabel) presencePillLabel.textContent = onlineCount > 0 ? `${onlineCount} online` : 'Membros';
+
+    presenceMenuList.innerHTML = rows.map(r => {
+      const initial = r.name.charAt(0).toUpperCase();
+      const av = r.photo
+        ? `<span class="pr-avatar"><img src="${escapeHtml(r.photo)}" alt="" referrerpolicy="no-referrer" style="width:100%;height:100%;border-radius:50%;object-fit:cover"><span class="pr-led"></span></span>`
+        : `<span class="pr-avatar">${escapeHtml(initial)}<span class="pr-led"></span></span>`;
+      return `<div class="presence-row${r.online ? ' is-online' : ''}">
+        ${av}
+        <span class="pr-name">${escapeHtml(r.name)}</span>
+        <span class="pr-seen">${relTime(r.lastMs)}</span>
+      </div>`;
+    }).join('');
+  }
+
+  // Dropdown da pill
+  if (presencePillBtn) {
+    presencePillBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = !presenceMenu.hidden;
+      presenceMenu.hidden = open;
+      presencePill.classList.toggle('open', !open);
+      presencePillBtn.setAttribute('aria-expanded', String(!open));
+      if (!open) renderPresence();
+    });
+    document.addEventListener('click', (e) => {
+      if (presencePill && !presencePill.contains(e.target)) {
+        presenceMenu.hidden = true;
+        presencePill.classList.remove('open');
+        presencePillBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+  // Atualiza tempos relativos a cada minuto (sem novo snapshot)
+  setInterval(() => { if (!presenceMenu.hidden || presencePill.classList.contains('online')) renderPresence(); }, 60000);
 
   // ——— COMENTÁRIOS POR CIDADE (editar · apagar · reações/votação) ———
   const REACTIONS = ['👍', '👎', '❤️', '✅'];
@@ -3896,12 +4103,14 @@ footer { background: #000 !important; color: rgba(255,255,255,0.8) !important; }
         switchTrip();
       } else if (currentTripId) {
         if (!unsubscribeCityComments) subscribeCityComments();
+        startPresence();
       }
       setCityFormsEnabled(true);
     } else {
       document.body.classList.remove('authed');
       authBtn.disabled = false;
       if (unsubscribeCityComments) { unsubscribeCityComments(); unsubscribeCityComments = null; }
+      stopPresence();
       setCityFormsEnabled(false);
     }
   });
